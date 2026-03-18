@@ -11,35 +11,38 @@ interface FormData {
   message: string;
 }
 
+const inputStyle: React.CSSProperties = {
+  background: "rgba(14,14,26,0.9)",
+  border: "1px solid rgba(124,58,237,0.25)",
+  borderRadius: "8px",
+  padding: "13px 16px",
+  color: "#f1f5f9",
+  fontFamily: "var(--font-body), Space Grotesk, sans-serif",
+  fontSize: "0.95rem",
+  outline: "none",
+  width: "100%",
+  transition: "border-color 0.3s, box-shadow 0.3s",
+};
+
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [sent, setSent] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
+  const [sent, setSent] = useState(false);
+  const [focused, setFocused] = useState<string | null>(null);
 
   useGSAP(() => {
-    gsap.from(".contact-box", {
-      opacity: 0,
-      y: 60,
-      duration: 1,
-      scrollTrigger: {
-        trigger: ".contact-box",
-        start: "top 80%",
-      },
+    gsap.from(".contact-inner", {
+      opacity: 0, y: 60, duration: 1,
+      scrollTrigger: { trigger: ".contact-inner", start: "top 80%" },
     });
   }, { scope: sectionRef });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,144 +52,211 @@ export default function Contact() {
     setTimeout(() => setSent(false), 4000);
   };
 
+  const focusedStyle: React.CSSProperties = {
+    borderColor: "#a855f7",
+    boxShadow: "0 0 0 3px rgba(124,58,237,0.12), 0 0 12px rgba(168,85,247,0.45)",
+  };
+
   return (
     <section
       id="contact"
       ref={sectionRef}
-      className="relative z-10 py-32 px-8 md:px-20"
+      style={{ padding: "110px 0", position: "relative" }}
     >
-      {/* Section Label */}
-      <p className="font-mono text-[#00fafe] text-xs tracking-[0.3em] mb-3">
-        &gt; CONTACT.init()
-      </p>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 28px" }}>
 
-      {/* Heading */}
-      <h2 className="font-[family-name:var(--font-cyber)] font-bold text-4xl text-white mb-12">
-        GET IN{" "}
-        <span
-          className="text-[#b366ff]"
-          style={{ textShadow: "0 0 10px #b366ff, 0 0 30px #b366ff88" }}
-        >
-          TOUCH
-        </span>
-      </h2>
+        {/* Label */}
+        <div style={{
+          display: "flex", alignItems: "center", gap: "10px",
+          fontFamily: "var(--font-mono), JetBrains Mono, monospace",
+          fontSize: "0.78rem", color: "#a855f7",
+          letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "14px",
+        }}>
+          <span style={{ display: "inline-block", width: "28px", height: "1px", background: "#a855f7" }} />
+          Get In Touch
+        </div>
 
-      {/* Form Box */}
-      <div
-        className="contact-box max-w-xl border border-[#b366ff] p-8 bg-[#111111]"
-        style={{ boxShadow: "0 0 10px #b366ff44, inset 0 0 10px #b366ff11" }}
-      >
-        {sent ? (
-          /* Success State */
-          <div className="text-center py-10 flex flex-col items-center gap-3">
-            <p
-              className="font-[family-name:var(--font-cyber)] text-[#00fafe] text-xl"
-              style={{ textShadow: "0 0 10px #00fafe" }}
-            >
-              &gt; MESSAGE SENT ✓
+        {/* Heading */}
+        <h2 style={{
+          fontFamily: "var(--font-cyber), Syne, sans-serif",
+          fontSize: "clamp(2.4rem, 4.5vw, 3.8rem)",
+          fontWeight: 800, lineHeight: 1.1, marginBottom: "60px",
+          background: "linear-gradient(135deg, #fff 30%, #c084fc 100%)",
+          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+        }}>
+          Contact Me
+        </h2>
+
+        <div className="contact-inner" style={{
+          display: "grid", gridTemplateColumns: "1fr 1fr",
+          gap: "60px", alignItems: "start",
+        }}>
+
+          {/* LEFT — Info */}
+          <div>
+            <h3 style={{
+              fontFamily: "var(--font-cyber), Syne, sans-serif",
+              fontSize: "1.5rem", fontWeight: 700,
+              color: "#f1f5f9", marginBottom: "14px",
+            }}>
+              Let&apos;s Build Something Together
+            </h3>
+            <p style={{
+              fontFamily: "var(--font-body), Space Grotesk, sans-serif",
+              fontSize: "1rem", lineHeight: 1.75,
+              color: "#94a3b8", marginBottom: "32px",
+            }}>
+              I&apos;m currently open to new opportunities. Whether you have a project in mind or just want to connect — my inbox is always open!
             </p>
-            <p className="font-mono text-gray-400 text-sm">
-              I&apos;ll get back to you soon!
-            </p>
+
+            {/* Contact Items */}
+            {[
+              { icon: "📧", label: "kardakakshat@gmail.com", href: "mailto:kardakakshat@gmail.com" },
+              { icon: "🐙", label: "github.com/AkshatKardak", href: "https://github.com/AkshatKardak" },
+              { icon: "💼", label: "LinkedIn", href: "#" },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "flex", alignItems: "center", gap: "14px",
+                  padding: "14px 0",
+                  borderBottom: "1px solid rgba(124,58,237,0.1)",
+                  color: "#94a3b8", fontSize: "0.95rem",
+                  textDecoration: "none", transition: "color 0.3s",
+                  fontFamily: "var(--font-body), Space Grotesk, sans-serif",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#c084fc")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#94a3b8")}
+              >
+                <div style={{
+                  width: "40px", height: "40px",
+                  background: "rgba(124,58,237,0.1)",
+                  border: "1px solid rgba(124,58,237,0.25)",
+                  borderRadius: "10px",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: "1.1rem", flexShrink: 0,
+                }}>
+                  {item.icon}
+                </div>
+                {item.label}
+              </a>
+            ))}
           </div>
-        ) : (
-          /* Form */
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-6"
-            noValidate={false}
-          >
-            {/* Name Field */}
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="name"
-                className="font-mono text-[10px] text-[#b366ff] tracking-widest"
-              >
-                NAME
-              </label>
-              <input
-                id="name"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                autoComplete="off"
-                placeholder="Your name"
-                className="w-full bg-transparent border border-white/10 focus:border-[#b366ff] px-4 py-3 font-mono text-sm text-gray-300 outline-none transition-colors duration-300 placeholder:text-gray-600"
-              />
+
+          {/* RIGHT — Form */}
+          {sent ? (
+            <div style={{
+              display: "flex", flexDirection: "column", alignItems: "center",
+              justifyContent: "center", gap: "12px", padding: "60px 0",
+              background: "rgba(14,14,26,0.8)",
+              border: "1px solid rgba(124,58,237,0.25)",
+              borderRadius: "16px", backdropFilter: "blur(16px)",
+            }}>
+              <p style={{
+                fontFamily: "var(--font-cyber), Syne, sans-serif",
+                fontSize: "1.4rem", color: "#22d3ee",
+                textShadow: "0 0 10px #22d3ee",
+              }}>
+                Message Sent ✓
+              </p>
+              <p style={{ color: "#94a3b8", fontFamily: "var(--font-body)", fontSize: "0.9rem" }}>
+                I&apos;ll get back to you soon!
+              </p>
             </div>
+          ) : (
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
 
-            {/* Email Field */}
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="email"
-                className="font-mono text-[10px] text-[#b366ff] tracking-widest"
+              {/* Name */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
+                <label style={{
+                  fontFamily: "var(--font-mono), JetBrains Mono, monospace",
+                  fontSize: "0.78rem", color: "#a855f7",
+                  letterSpacing: "0.1em", textTransform: "uppercase",
+                }}>
+                  Name
+                </label>
+                <input
+                  type="text" name="name" value={formData.name}
+                  onChange={handleInputChange} required autoComplete="off"
+                  placeholder="Your name"
+                  style={{ ...inputStyle, ...(focused === "name" ? focusedStyle : {}) }}
+                  onFocus={() => setFocused("name")}
+                  onBlur={() => setFocused(null)}
+                />
+              </div>
+
+              {/* Email */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
+                <label style={{
+                  fontFamily: "var(--font-mono), JetBrains Mono, monospace",
+                  fontSize: "0.78rem", color: "#a855f7",
+                  letterSpacing: "0.1em", textTransform: "uppercase",
+                }}>
+                  Email
+                </label>
+                <input
+                  type="email" name="email" value={formData.email}
+                  onChange={handleInputChange} required autoComplete="off"
+                  placeholder="your@email.com"
+                  style={{ ...inputStyle, ...(focused === "email" ? focusedStyle : {}) }}
+                  onFocus={() => setFocused("email")}
+                  onBlur={() => setFocused(null)}
+                />
+              </div>
+
+              {/* Message */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
+                <label style={{
+                  fontFamily: "var(--font-mono), JetBrains Mono, monospace",
+                  fontSize: "0.78rem", color: "#a855f7",
+                  letterSpacing: "0.1em", textTransform: "uppercase",
+                }}>
+                  Message
+                </label>
+                <textarea
+                  name="message" value={formData.message}
+                  onChange={handleTextareaChange} required rows={5}
+                  placeholder="Your message..."
+                  style={{
+                    ...inputStyle,
+                    resize: "vertical", minHeight: "130px",
+                    ...(focused === "message" ? focusedStyle : {}),
+                  }}
+                  onFocus={() => setFocused("message")}
+                  onBlur={() => setFocused(null)}
+                />
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                style={{
+                  display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                  padding: "15px 36px", borderRadius: "8px", border: "none",
+                  fontFamily: "var(--font-body), Space Grotesk, sans-serif",
+                  fontSize: "1rem", fontWeight: 600, color: "#fff",
+                  background: "linear-gradient(135deg, #7c3aed, #a855f7)",
+                  boxShadow: "0 0 20px rgba(124,58,237,0.5)",
+                  cursor: "none", transition: "all 0.3s ease",
+                  alignSelf: "flex-start",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 35px rgba(124,58,237,0.8), 0 0 60px rgba(168,85,247,0.4)";
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 20px rgba(124,58,237,0.5)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
               >
-                EMAIL
-              </label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                autoComplete="off"
-                placeholder="your@email.com"
-                className="w-full bg-transparent border border-white/10 focus:border-[#b366ff] px-4 py-3 font-mono text-sm text-gray-300 outline-none transition-colors duration-300 placeholder:text-gray-600"
-              />
-            </div>
-
-            {/* Message Field */}
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="message"
-                className="font-mono text-[10px] text-[#b366ff] tracking-widest"
-              >
-                MESSAGE
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleTextareaChange}
-                required
-                rows={5}
-                placeholder="Your message..."
-                className="w-full bg-transparent border border-white/10 focus:border-[#b366ff] px-4 py-3 font-mono text-sm text-gray-300 outline-none transition-colors duration-300 resize-none placeholder:text-gray-600"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full font-[family-name:var(--font-cyber)] text-xs px-6 py-3 bg-[#b366ff] text-black font-bold tracking-widest hover:bg-[#00fafe] transition-all duration-300"
-              style={{ boxShadow: "0 0 10px #b366ff44" }}
-            >
-              TRANSMIT MESSAGE →
-            </button>
-          </form>
-        )}
-      </div>
-
-      {/* Social Links */}
-      <div className="flex gap-6 mt-10">
-        {[
-          { label: "GITHUB",   href: "https://github.com/AkshatKardak" },
-          { label: "LINKEDIN", href: "#" },
-          { label: "EMAIL",    href: "mailto:kardakakshat@gmail.com" },
-        ].map((s) => (
-          <a
-            key={s.label}
-            href={s.href}
-            target="_blank"
-            rel="noreferrer"
-            className="font-mono text-xs text-gray-500 hover:text-[#00fafe] tracking-widest transition-colors duration-300"
-          >
-            {s.label} ↗
-          </a>
-        ))}
+                Send Message →
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </section>
   );

@@ -5,58 +5,155 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
-const skills = [
-  { name: "React.js",    level: 90, color: "#00fafe" },
-  { name: "Next.js",     level: 85, color: "#b366ff" },
-  { name: "Node.js",     level: 80, color: "#00fafe" },
-  { name: "TypeScript",  level: 75, color: "#b366ff" },
-  { name: "MongoDB",     level: 80, color: "#00fafe" },
-  { name: "Tailwind CSS",level: 90, color: "#b366ff" },
-  { name: "Three.js",    level: 60, color: "#00fafe" },
-  { name: "GSAP",        level: 65, color: "#ff2d6e" },
+const skillCategories = [
+  {
+    title: "Frontend",
+    icon: "🎨",
+    color: "rgba(168,85,247,0.15)",
+    skills: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "GSAP", "Framer Motion"],
+  },
+  {
+    title: "Backend",
+    icon: "⚙️",
+    color: "rgba(34,211,238,0.1)",
+    skills: ["Node.js", "Express.js", "REST APIs", "Socket.io", "JWT Auth"],
+  },
+  {
+    title: "Database & Cloud",
+    icon: "🗄️",
+    color: "rgba(236,72,153,0.1)",
+    skills: ["MongoDB", "PostgreSQL", "Firebase", "Vercel", "AWS S3"],
+  },
+  {
+    title: "Tools & Others",
+    icon: "🛠️",
+    color: "rgba(168,85,247,0.1)",
+    skills: ["Git", "GitHub", "Figma", "Three.js", "Docker"],
+  },
 ];
 
 export default function Skills() {
   const ref = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    gsap.from(".skill-card", {
-      opacity: 0, y: 40, stagger: 0.1, duration: 0.7,
-      scrollTrigger: { trigger: ".skills-grid", start: "top 80%" },
-    });
-    gsap.from(".skill-bar-fill", {
-      scaleX: 0, stagger: 0.1, duration: 1, ease: "power3.out",
-      transformOrigin: "left center",
+    gsap.from(".skill-cat-card", {
+      opacity: 0, y: 50, stagger: 0.15, duration: 0.8, ease: "power3.out",
       scrollTrigger: { trigger: ".skills-grid", start: "top 80%" },
     });
   }, { scope: ref });
 
   return (
-    <section id="skills" ref={ref} className="relative z-10 py-32 px-8 md:px-20">
-      <p className="font-mono text-cyber-cyan text-xs tracking-[0.3em] mb-3">
-        &gt; SKILLS.json
-      </p>
-      <h2 className="font-cyber font-bold text-4xl text-white mb-12">
-        TECH <span className="text-cyber-purple text-neon-purple">STACK</span>
-      </h2>
+    <section
+      id="skills"
+      ref={ref}
+      style={{ padding: "110px 0", position: "relative", zIndex: 10 }}
+    >
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 28px" }}>
 
-      <div className="skills-grid grid md:grid-cols-2 gap-5 max-w-4xl">
-        {skills.map((skill) => (
-          <div key={skill.name} className="skill-card cyber-border p-5 bg-cyber-dark2">
-            <div className="flex justify-between items-center mb-3">
-              <span className="font-mono text-sm text-gray-200">{skill.name}</span>
-              <span className="font-cyber text-xs" style={{ color: skill.color }}>
-                {skill.level}%
-              </span>
+        {/* Label */}
+        <div style={{
+          display: "flex", alignItems: "center", gap: "10px",
+          fontFamily: "var(--font-mono), JetBrains Mono, monospace",
+          fontSize: "0.78rem", color: "#a855f7",
+          letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "14px",
+        }}>
+          <span style={{ width: "28px", height: "1px", background: "#a855f7", display: "inline-block" }} />
+          What I Work With
+        </div>
+
+        {/* Heading */}
+        <h2 style={{
+          fontFamily: "var(--font-cyber), Syne, sans-serif",
+          fontSize: "clamp(2.4rem, 4.5vw, 3.8rem)",
+          fontWeight: 800, lineHeight: 1.1, marginBottom: "60px",
+          background: "linear-gradient(135deg, #fff 30%, #c084fc 100%)",
+          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+        }}>
+          Tech Stack
+        </h2>
+
+        {/* Grid */}
+        <div className="skills-grid" style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "28px",
+        }}>
+          {skillCategories.map((cat) => (
+            <div
+              key={cat.title}
+              className="skill-cat-card"
+              style={{
+                background: "rgba(14,14,26,0.8)",
+                WebkitBackdropFilter: "blur(16px)",
+                backdropFilter: "blur(16px)",
+                border: "1px solid rgba(124,58,237,0.25)",
+                borderRadius: "16px", padding: "28px",
+                transition: "border-color 0.3s, box-shadow 0.3s, transform 0.4s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "rgba(168,85,247,0.6)";
+                e.currentTarget.style.boxShadow = "0 0 25px rgba(168,85,247,0.3)";
+                e.currentTarget.style.transform = "translateY(-6px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(124,58,237,0.25)";
+                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              {/* Card header */}
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "22px" }}>
+                <div style={{
+                  width: "42px", height: "42px", borderRadius: "10px",
+                  background: cat.color,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: "1.2rem",
+                }}>
+                  {cat.icon}
+                </div>
+                <span style={{
+                  fontFamily: "var(--font-cyber), Syne, sans-serif",
+                  fontSize: "1rem", fontWeight: 700, color: "#f1f5f9",
+                }}>
+                  {cat.title}
+                </span>
+              </div>
+
+              {/* Skill tags */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "9px" }}>
+                {cat.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    style={{
+                      padding: "6px 13px",
+                      background: "rgba(124,58,237,0.1)",
+                      border: "1px solid rgba(124,58,237,0.22)",
+                      borderRadius: "100px",
+                      fontFamily: "var(--font-mono), JetBrains Mono, monospace",
+                      fontSize: "0.78rem", color: "#c084fc",
+                      transition: "all 0.25s", cursor: "default",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(168,85,247,0.2)";
+                      e.currentTarget.style.borderColor = "#a855f7";
+                      e.currentTarget.style.boxShadow = "0 0 10px rgba(168,85,247,0.3)";
+                      e.currentTarget.style.transform = "scale(1.05)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(124,58,237,0.1)";
+                      e.currentTarget.style.borderColor = "rgba(124,58,237,0.22)";
+                      e.currentTarget.style.boxShadow = "none";
+                      e.currentTarget.style.transform = "scale(1)";
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-              <div
-                className="skill-bar-fill h-full rounded-full"
-                style={{ width: `${skill.level}%`, backgroundColor: skill.color, boxShadow: `0 0 8px ${skill.color}` }}
-              />
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
