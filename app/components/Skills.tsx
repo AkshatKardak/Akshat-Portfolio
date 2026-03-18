@@ -1,6 +1,5 @@
 "use client";
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -35,12 +34,16 @@ const skillCategories = [
 export default function Skills() {
   const ref = useRef<HTMLElement>(null);
 
-  useGSAP(() => {
-    gsap.from(".skill-cat-card", {
-      opacity: 0, y: 50, stagger: 0.15, duration: 0.8, ease: "power3.out",
-      scrollTrigger: { trigger: ".skills-grid", start: "top 80%" },
-    });
-  }, { scope: ref });
+  useEffect(() => {
+    if (!ref.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".skill-cat-card", {
+        opacity: 0, y: 50, stagger: 0.15, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".skills-grid", start: "top 80%" },
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
@@ -50,7 +53,6 @@ export default function Skills() {
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 28px" }}>
 
-        {/* Label */}
         <div style={{
           display: "flex", alignItems: "center", gap: "10px",
           fontFamily: "var(--font-mono), JetBrains Mono, monospace",
@@ -61,7 +63,6 @@ export default function Skills() {
           What I Work With
         </div>
 
-        {/* Heading */}
         <h2 style={{
           fontFamily: "var(--font-cyber), Syne, sans-serif",
           fontSize: "clamp(2.4rem, 4.5vw, 3.8rem)",
@@ -73,7 +74,6 @@ export default function Skills() {
           Tech Stack
         </h2>
 
-        {/* Grid */}
         <div className="skills-grid" style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -102,7 +102,6 @@ export default function Skills() {
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              {/* Card header */}
               <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "22px" }}>
                 <div style={{
                   width: "42px", height: "42px", borderRadius: "10px",
@@ -120,7 +119,6 @@ export default function Skills() {
                 </span>
               </div>
 
-              {/* Skill tags */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: "9px" }}>
                 {cat.skills.map((skill) => (
                   <span

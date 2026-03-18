@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-    domains: [],
+  turbopack: {
+    root: __dirname,  // ← fixes the lockfile warning too!
   },
 };
 

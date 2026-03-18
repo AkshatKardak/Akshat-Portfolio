@@ -1,6 +1,5 @@
 "use client";
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -23,20 +22,24 @@ const stats = [
 export default function About() {
   const ref = useRef<HTMLElement>(null);
 
-  useGSAP(() => {
-    gsap.from(".about-left", {
-      opacity: 0, x: -60, duration: 1, ease: "power3.out",
-      scrollTrigger: { trigger: ".about-left", start: "top 80%" },
-    });
-    gsap.from(".about-right", {
-      opacity: 0, x: 60, duration: 1, ease: "power3.out",
-      scrollTrigger: { trigger: ".about-right", start: "top 80%" },
-    });
-    gsap.from(".stat-card", {
-      opacity: 0, y: 30, stagger: 0.15, duration: 0.7,
-      scrollTrigger: { trigger: ".about-stats", start: "top 85%" },
-    });
-  }, { scope: ref });
+  useEffect(() => {
+    if (!ref.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".about-left", {
+        opacity: 0, x: -60, duration: 1, ease: "power3.out",
+        scrollTrigger: { trigger: ".about-left", start: "top 80%" },
+      });
+      gsap.from(".about-right", {
+        opacity: 0, x: 60, duration: 1, ease: "power3.out",
+        scrollTrigger: { trigger: ".about-right", start: "top 80%" },
+      });
+      gsap.from(".stat-card", {
+        opacity: 0, y: 30, stagger: 0.15, duration: 0.7,
+        scrollTrigger: { trigger: ".about-stats", start: "top 85%" },
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section

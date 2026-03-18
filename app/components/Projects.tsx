@@ -1,6 +1,5 @@
 "use client";
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -41,12 +40,16 @@ const projects = [
 export default function Projects() {
   const ref = useRef<HTMLElement>(null);
 
-  useGSAP(() => {
-    gsap.from(".proj-card", {
-      opacity: 0, y: 60, stagger: 0.2, duration: 0.9, ease: "power3.out",
-      scrollTrigger: { trigger: ".projects-grid", start: "top 80%" },
-    });
-  }, { scope: ref });
+  useEffect(() => {
+    if (!ref.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".proj-card", {
+        opacity: 0, y: 60, stagger: 0.2, duration: 0.9, ease: "power3.out",
+        scrollTrigger: { trigger: ".projects-grid", start: "top 80%" },
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
@@ -56,7 +59,6 @@ export default function Projects() {
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 28px" }}>
 
-        {/* Label */}
         <div style={{
           display: "flex", alignItems: "center", gap: "10px",
           fontFamily: "var(--font-mono), JetBrains Mono, monospace",
@@ -67,7 +69,6 @@ export default function Projects() {
           What I&apos;ve Built
         </div>
 
-        {/* Heading */}
         <h2 style={{
           fontFamily: "var(--font-cyber), Syne, sans-serif",
           fontSize: "clamp(2.4rem, 4.5vw, 3.8rem)",
@@ -79,7 +80,6 @@ export default function Projects() {
           My Projects
         </h2>
 
-        {/* Grid */}
         <div className="projects-grid" style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
@@ -122,7 +122,6 @@ export default function Projects() {
                 }}>
                   {project.number}
                 </span>
-                {/* Top line glow */}
                 <div style={{
                   position: "absolute", top: 0, left: 0, right: 0, height: "2px",
                   background: `linear-gradient(90deg, transparent, ${project.accent}, transparent)`,
@@ -153,7 +152,6 @@ export default function Projects() {
                   {project.desc}
                 </p>
 
-                {/* Tags */}
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "7px", marginBottom: "20px" }}>
                   {project.tags.map((tag) => (
                     <span key={tag} style={{
@@ -169,7 +167,6 @@ export default function Projects() {
                   ))}
                 </div>
 
-                {/* Links */}
                 <div style={{ display: "flex", gap: "16px" }}>
                   <a href={project.link} target="_blank" rel="noreferrer" style={{
                     fontFamily: "var(--font-body), Space Grotesk, sans-serif",
@@ -179,14 +176,16 @@ export default function Projects() {
                   }}>
                     GitHub ↗
                   </a>
-                  <a href={project.live} target="_blank" rel="noreferrer" style={{
-                    fontFamily: "var(--font-body), Space Grotesk, sans-serif",
-                    fontSize: "0.85rem", fontWeight: 600,
-                    color: "#94a3b8", textDecoration: "none",
-                    transition: "color 0.3s",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#c084fc")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#94a3b8")}
+                  <a
+                    href={project.live} target="_blank" rel="noreferrer"
+                    style={{
+                      fontFamily: "var(--font-body), Space Grotesk, sans-serif",
+                      fontSize: "0.85rem", fontWeight: 600,
+                      color: "#94a3b8", textDecoration: "none",
+                      transition: "color 0.3s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#c084fc")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#94a3b8")}
                   >
                     Live Demo ↗
                   </a>

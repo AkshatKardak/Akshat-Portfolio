@@ -1,6 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
-import { useGSAP } from "@gsap/react";
+import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -30,12 +29,16 @@ export default function Contact() {
   const [sent, setSent] = useState(false);
   const [focused, setFocused] = useState<string | null>(null);
 
-  useGSAP(() => {
-    gsap.from(".contact-inner", {
-      opacity: 0, y: 60, duration: 1,
-      scrollTrigger: { trigger: ".contact-inner", start: "top 80%" },
-    });
-  }, { scope: sectionRef });
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".contact-inner", {
+        opacity: 0, y: 60, duration: 1,
+        scrollTrigger: { trigger: ".contact-inner", start: "top 80%" },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -65,7 +68,6 @@ export default function Contact() {
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 28px" }}>
 
-        {/* Label */}
         <div style={{
           display: "flex", alignItems: "center", gap: "10px",
           fontFamily: "var(--font-mono), JetBrains Mono, monospace",
@@ -76,7 +78,6 @@ export default function Contact() {
           Get In Touch
         </div>
 
-        {/* Heading */}
         <h2 style={{
           fontFamily: "var(--font-cyber), Syne, sans-serif",
           fontSize: "clamp(2.4rem, 4.5vw, 3.8rem)",
@@ -109,7 +110,6 @@ export default function Contact() {
               I&apos;m currently open to new opportunities. Whether you have a project in mind or just want to connect — my inbox is always open!
             </p>
 
-            {/* Contact Items */}
             {[
               { icon: "📧", label: "kardakakshat@gmail.com", href: "mailto:kardakakshat@gmail.com" },
               { icon: "🐙", label: "github.com/AkshatKardak", href: "https://github.com/AkshatKardak" },
@@ -169,15 +169,12 @@ export default function Contact() {
           ) : (
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
 
-              {/* Name */}
               <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
                 <label style={{
                   fontFamily: "var(--font-mono), JetBrains Mono, monospace",
                   fontSize: "0.78rem", color: "#a855f7",
                   letterSpacing: "0.1em", textTransform: "uppercase",
-                }}>
-                  Name
-                </label>
+                }}>Name</label>
                 <input
                   type="text" name="name" value={formData.name}
                   onChange={handleInputChange} required autoComplete="off"
@@ -188,15 +185,12 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Email */}
               <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
                 <label style={{
                   fontFamily: "var(--font-mono), JetBrains Mono, monospace",
                   fontSize: "0.78rem", color: "#a855f7",
                   letterSpacing: "0.1em", textTransform: "uppercase",
-                }}>
-                  Email
-                </label>
+                }}>Email</label>
                 <input
                   type="email" name="email" value={formData.email}
                   onChange={handleInputChange} required autoComplete="off"
@@ -207,15 +201,12 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Message */}
               <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
                 <label style={{
                   fontFamily: "var(--font-mono), JetBrains Mono, monospace",
                   fontSize: "0.78rem", color: "#a855f7",
                   letterSpacing: "0.1em", textTransform: "uppercase",
-                }}>
-                  Message
-                </label>
+                }}>Message</label>
                 <textarea
                   name="message" value={formData.message}
                   onChange={handleTextareaChange} required rows={5}
@@ -230,17 +221,17 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 style={{
-                  display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                  display: "inline-flex", alignItems: "center",
+                  justifyContent: "center", gap: "8px",
                   padding: "15px 36px", borderRadius: "8px", border: "none",
                   fontFamily: "var(--font-body), Space Grotesk, sans-serif",
                   fontSize: "1rem", fontWeight: 600, color: "#fff",
                   background: "linear-gradient(135deg, #7c3aed, #a855f7)",
                   boxShadow: "0 0 20px rgba(124,58,237,0.5)",
-                  cursor: "none", transition: "all 0.3s ease",
+                  cursor: "pointer", transition: "all 0.3s ease",
                   alignSelf: "flex-start",
                 }}
                 onMouseEnter={(e) => {

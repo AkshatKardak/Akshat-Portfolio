@@ -48,7 +48,7 @@ export default function RootLayout({
       lang="en"
       className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-[#050508] text-[#f1f5f9] overflow-x-hidden antialiased">
+      <body className="bg-cyber-dark text-[#f1f5f9] overflow-x-hidden antialiased">
         <CustomCursor />
         <ScanlineOverlay />
         {children}
