@@ -1,22 +1,68 @@
 "use client";
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const dotRef = useRef<HTMLDivElement>(null);
+  const dotRef    = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const dot = dotRef.current;
+    const cursor = cursorRef.current!;
+    const dot    = dotRef.current!;
+
+    let mouseX = 0, mouseY = 0;
+    let outerX = 0, outerY = 0;
 
     const moveCursor = (e: MouseEvent) => {
-      gsap.to(cursor, { x: e.clientX - 16, y: e.clientY - 16, duration: 0.15, ease: "power2.out" });
-      gsap.to(dot, { x: e.clientX - 3, y: e.clientY - 3, duration: 0.05 });
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX - 3}px, ${mouseY - 3}px)`;
+      spawnTrail(mouseX, mouseY);
     };
 
-    const growCursor = () => gsap.to(cursor, { scale: 1.8, duration: 0.2 });
-    const shrinkCursor = () => gsap.to(cursor, { scale: 1, duration: 0.2 });
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+    const animateOuter = () => {
+      outerX = lerp(outerX, mouseX - 16, 0.18);
+      outerY = lerp(outerY, mouseY - 16, 0.18);
+      cursor.style.transform = `translate(${outerX}px, ${outerY}px)`;
+      requestAnimationFrame(animateOuter);
+    };
+    animateOuter();
+
+    const spawnTrail = (x: number, y: number) => {
+      const trail = document.createElement("div");
+      const size = Math.random() * 6 + 3;
+      const colors = ["#f97316", "#ef4444", "#fbbf24", "#fb923c", "#dc2626"];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      Object.assign(trail.style, {
+        position:      "fixed",
+        left:          `${x - size / 2}px`,
+        top:           `${y - size / 2}px`,
+        width:         `${size}px`,
+        height:        `${size}px`,
+        borderRadius:  "50%",
+        background:    color,
+        boxShadow:     `0 0 ${size * 2}px ${color}`,
+        pointerEvents: "none",
+        zIndex:        "9998",
+        opacity:       "0.9",
+        transition:    "opacity 0.4s ease, transform 0.4s ease",
+      });
+      document.body.appendChild(trail);
+      requestAnimationFrame(() => {
+        trail.style.opacity   = "0";
+        trail.style.transform = `translate(${(Math.random() - 0.5) * 20}px, ${-Math.random() * 20 - 5}px) scale(0.3)`;
+      });
+      setTimeout(() => trail.remove(), 420);
+    };
+
+    const growCursor = () => {
+      cursor.style.borderColor = "#fbbf24";
+      cursor.style.boxShadow   = "0 0 20px #fbbf24, 0 0 40px #f97316";
+    };
+    const shrinkCursor = () => {
+      cursor.style.borderColor = "#f97316";
+      cursor.style.boxShadow   = "0 0 10px #f97316, 0 0 20px #ea580c66";
+    };
 
     window.addEventListener("mousemove", moveCursor);
     document.querySelectorAll("a, button").forEach((el) => {
@@ -29,17 +75,36 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Outer ring */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-cyber-purple pointer-events-none z-[9999]"
-        style={{ boxShadow: "0 0 10px #b366ff, 0 0 20px #b366ff44" }}
+        style={{
+          position:      "fixed",
+          top: 0, left: 0,
+          width:         "32px",
+          height:        "32px",
+          borderRadius:  "50%",
+          border:        "1.5px solid #f97316",
+          pointerEvents: "none",
+          zIndex:        9999,
+          boxShadow:     "0 0 10px #f97316, 0 0 20px #ea580c66",
+          transition:    "border-color 0.2s, box-shadow 0.2s",
+          willChange:    "transform",
+        }}
       />
-      {/* Inner dot */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-cyber-cyan pointer-events-none z-[9999]"
-        style={{ boxShadow: "0 0 6px #00fafe" }}
+        style={{
+          position:      "fixed",
+          top: 0, left: 0,
+          width:         "6px",
+          height:        "6px",
+          borderRadius:  "50%",
+          background:    "radial-gradient(circle, #fbbf24, #f97316)",
+          pointerEvents: "none",
+          zIndex:        9999,
+          boxShadow:     "0 0 8px #fbbf24, 0 0 14px #f97316",
+          willChange:    "transform",
+        }}
       />
     </>
   );
