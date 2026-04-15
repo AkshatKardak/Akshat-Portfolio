@@ -58,12 +58,12 @@ export default function Home() {
       )}
       
       {showContent && (
-        <>
+        <div className="flex w-full h-full relative">
           <Sidebar />
           <main 
             ref={mainRef} 
             id="main-content-area" 
-            className="flex-1 overflow-y-auto overflow-x-hidden md:ml-60 no-scrollbar relative scroll-smooth"
+            className="flex-1 h-full overflow-y-auto overflow-x-hidden md:ml-60 no-scrollbar relative scroll-smooth bg-bg"
           >
             {/* Background Gradient Orbs */}
             <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden md:ml-60">
@@ -80,7 +80,7 @@ export default function Home() {
               <section id="contact" className="px-5 md:px-10 min-h-[80vh] my-10"><Contact /></section>
             </div>
           </main>
-        </>
+        </div>
       )}
     </div>
   )

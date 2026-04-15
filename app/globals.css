@@ -16,21 +16,21 @@
 }
 
 :root {
-  --bg: #0b0f19;
-  --surface: rgba(255, 255, 255, 0.05);
-  --border: rgba(255, 255, 255, 0.08);
-  --accent: #4f9cff;
-  --text: #e2e8f0;
-  --text-muted: #64748b;
+  --color-bg: #0b0f19;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-accent: #4f9cff;
+  --color-text: #e2e8f0;
+  --color-text-muted: #64748b;
 }
 
 [data-theme='light'] {
-  --bg: #f8fafc;
-  --surface: rgba(0, 0, 0, 0.03);
-  --border: rgba(0, 0, 0, 0.08);
-  --accent: #2563eb;
-  --text: #0f172a;
-  --text-muted: #475569;
+  --color-bg: #f8fafc;
+  --color-surface: rgba(0, 0, 0, 0.03);
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-accent: #2563eb;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
 }
 
 *, *::before, *::after {
@@ -44,8 +44,8 @@ html {
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: 'Satoshi', sans-serif;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -53,10 +53,10 @@ body {
 
 /* Glassmorphism */
 .glass {
-  background: var(--surface);
+  background: var(--color-surface);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
 }
 
 .glass-hover {
@@ -80,16 +80,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg);
+  background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--color-border);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: var(--color-accent);
 }
 
 /* Hide scrollbar for main content in layout */
@@ -127,7 +127,7 @@ body {
 .typewriter {
   overflow: hidden;
   white-space: nowrap;
-  border-right: 2px solid var(--accent);
+  border-right: 2px solid var(--color-accent);
   animation: 
     typewriter 2s steps(40, end),
     blink 0.75s step-end infinite;

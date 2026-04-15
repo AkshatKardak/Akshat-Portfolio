@@ -52,6 +52,8 @@ export default function Skills() {
     
     progressBars.forEach((bar) => {
       const width = bar.getAttribute('data-width')
+      if (!width) return
+
       gsap.fromTo(bar, 
         { width: 0 },
         {
@@ -60,6 +62,7 @@ export default function Skills() {
           ease: "power3.out",
           scrollTrigger: {
             trigger: bar,
+            scroller: "#main-content-area",
             start: "top 90%",
             toggleActions: "play none none reverse",
           }
