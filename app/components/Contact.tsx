@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Send, CheckCircle2, AlertCircle, Mail, Github, Linkedin } from 'lucide-react'
+import { Send, CheckCircle2, AlertCircle, Mail } from 'lucide-react'
+import { GithubIcon, LinkedinIcon } from './BrandIcons'
 
 export default function Contact() {
   const [form, setForm] = useState({ name:'', email:'', message:'' })
@@ -46,9 +47,9 @@ export default function Contact() {
           </div>
 
           {[
-            { Icon:Mail, label:'Email', value:'akshatkardak@gmail.com', href:'mailto:akshatkardak@gmail.com', color:'var(--accent)' },
-            { Icon:Github, label:'GitHub', value:'AkshatKardak', href:'https://github.com/AkshatKardak', color:'var(--violet)' },
-            { Icon:Linkedin, label:'LinkedIn', value:'akshatkardak-', href:'https://linkedin.com/in/akshatkardak-', color:'var(--success)' },
+            { Icon: Mail,         label:'Email',    value:'akshatkardak@gmail.com',    href:'mailto:akshatkardak@gmail.com',           color:'var(--accent)',  lucide:true },
+            { Icon: GithubIcon,   label:'GitHub',   value:'AkshatKardak',              href:'https://github.com/AkshatKardak',         color:'var(--violet)', lucide:false },
+            { Icon: LinkedinIcon, label:'LinkedIn', value:'akshatkardak-',             href:'https://linkedin.com/in/akshatkardak-',   color:'var(--success)',lucide:false },
           ].map(({ Icon, label, value, href, color }) => (
             <a key={label} href={href} target="_blank" rel="noreferrer"
               style={{
