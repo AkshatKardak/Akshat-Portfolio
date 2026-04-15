@@ -21,15 +21,11 @@ export default function Home() {
     let rafId: number
 
     const initLenis = async () => {
-      // Wait for next tick to ensure 
-      // mainRef is attached to DOM
       await new Promise(resolve => setTimeout(resolve, 0))
-      
       const el = document.getElementById('main-content-area')
       if (!el) return
 
       const { default: Lenis } = await import('@studio-freight/lenis')
-      
       lenis = new Lenis({
         wrapper: el,
         content: el,
@@ -46,7 +42,6 @@ export default function Home() {
     }
 
     initLenis()
-
     return () => {
       if (rafId) cancelAnimationFrame(rafId)
       if (lenis) lenis.destroy()
@@ -54,37 +49,63 @@ export default function Home() {
   }, [showContent])
 
   return (
-    <div className="flex h-screen overflow-hidden bg-bg text-text transition-colors duration-300">
+    <div
+      className="h-screen overflow-hidden"
+      style={{ background: 'var(--color-bg)', color: 'var(--color-text)' }}
+    >
       {showLoader && (
-        <Loader 
+        <Loader
           onComplete={() => {
             setShowLoader(false)
             setShowContent(true)
-          }} 
+          }}
         />
       )}
-      
+
       {showContent && (
-        <div className="flex w-full h-full relative">
-          <Sidebar />
-          <main 
-            ref={mainRef} 
-            id="main-content-area" 
-            className="w-full md:w-[calc(100%-15rem)] h-full overflow-y-auto overflow-x-hidden md:ml-60 no-scrollbar relative scroll-smooth bg-bg"
+        <div className="flex h-full">
+          {/* Sidebar takes fixed 240px, in-flow */}
+          <div className="hidden md:flex w-60 shrink-0">
+            <Sidebar />
+          </div>
+
+          {/* Mobile sidebar (fixed, outside flow) */}
+          <div className="md:hidden">
+            <Sidebar />
+          </div>
+
+          {/* Main scroll area */}
+          <main
+            ref={mainRef}
+            id="main-content-area"
+            className="flex-1 h-full overflow-y-auto overflow-x-hidden no-scrollbar relative"
+            style={{ background: 'var(--color-bg)' }}
           >
             {/* Background Gradient Orbs */}
-            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden md:ml-60">
-              <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-accent/5 blur-[120px]" />
-              <div className="absolute top-[40%] -left-[10%] w-[40%] h-[40%] rounded-full bg-violet/5 blur-[120px]" />
+            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+              <div className="absolute -top-[20%] right-0 w-[50%] h-[50%] rounded-full blur-[120px]"
+                style={{ background: 'rgba(79,156,255,0.05)' }} />
+              <div className="absolute top-[40%] left-0 w-[40%] h-[40%] rounded-full blur-[120px]"
+                style={{ background: 'rgba(167,139,250,0.05)' }} />
             </div>
 
             {/* Sections */}
-            <div className="relative z-10 w-full max-w-[1200px] mx-auto pb-24 md:pb-10">
-              <section id="dashboard" className="px-5 md:px-10 min-h-screen pt-20 md:pt-10 mb-10"><Dashboard /></section>
-              <section id="projects" className="px-5 md:px-10 min-h-screen my-10"><Projects /></section>
-              <section id="skills" className="px-5 md:px-10 min-h-screen my-10"><Skills /></section>
-              <section id="experience" className="px-5 md:px-10 min-h-screen my-10"><Experience /></section>
-              <section id="contact" className="px-5 md:px-10 min-h-[80vh] my-10"><Contact /></section>
+            <div className="relative z-10 w-full max-w-5xl mx-auto pb-24 md:pb-10">
+              <section id="dashboard" className="px-5 md:px-10 min-h-screen pt-20 md:pt-10 mb-10">
+                <Dashboard />
+              </section>
+              <section id="projects" className="px-5 md:px-10 min-h-screen my-10">
+                <Projects />
+              </section>
+              <section id="skills" className="px-5 md:px-10 min-h-screen my-10">
+                <Skills />
+              </section>
+              <section id="experience" className="px-5 md:px-10 min-h-screen my-10">
+                <Experience />
+              </section>
+              <section id="contact" className="px-5 md:px-10 min-h-[80vh] my-10">
+                <Contact />
+              </section>
             </div>
           </main>
         </div>
