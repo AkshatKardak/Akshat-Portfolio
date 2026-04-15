@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, CheckCircle2, AlertCircle } from 'lucide-react'
 
@@ -8,6 +8,13 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [focused, setFocused] = useState<string | null>(null)
+  const scrollRef = useRef<HTMLElement | null>(null)
+  const [rootReady, setRootReady] = useState(false)
+
+  useEffect(() => {
+    scrollRef.current = document.getElementById('main-content-area')
+    setRootReady(true)
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,7 +47,7 @@ export default function Contact() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, root: rootReady ? scrollRef : undefined, margin: "-50px" }}
         transition={{ duration: 0.6 }}
         className="glass w-full max-w-2xl rounded-3xl p-6 md:p-10"
       >

@@ -48,24 +48,31 @@ export default function Skills() {
   useGSAP(() => {
     if (!containerRef.current) return
 
-    const progressBars = gsap.utils.toArray('.skill-progress-bar') as HTMLElement[]
-    
+    // Wait for scroller element to exist
+    const scroller = document.getElementById('main-content-area')
+    if (!scroller) return
+
+    const progressBars = gsap.utils.toArray(
+      '.skill-progress-bar'
+    ) as HTMLElement[]
+
     progressBars.forEach((bar) => {
       const width = bar.getAttribute('data-width')
       if (!width) return
 
-      gsap.fromTo(bar, 
+      gsap.fromTo(
+        bar,
         { width: 0 },
         {
           width: width,
           duration: 1.5,
-          ease: "power3.out",
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: bar,
-            scroller: "#main-content-area",
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-          }
+            scroller: scroller,
+            start: 'top 90%',
+            toggleActions: 'play none none reverse',
+          },
         }
       )
     })

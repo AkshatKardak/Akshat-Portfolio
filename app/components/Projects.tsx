@@ -1,4 +1,5 @@
 'use client'
+import { useEffect, useRef, useState } from 'react'
 
 import { motion } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
@@ -32,6 +33,13 @@ const projects = [
 ]
 
 export default function Projects() {
+  const scrollRef = useRef<HTMLElement | null>(null)
+  const [rootReady, setRootReady] = useState(false)
+  
+  useEffect(() => {
+    scrollRef.current = document.getElementById('main-content-area')
+    setRootReady(true)
+  }, [])
   return (
     <div className="py-20 md:py-32">
       <div className="mb-12 flex items-center gap-4">
@@ -45,7 +53,7 @@ export default function Projects() {
             key={project.title}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, root: rootReady ? scrollRef : undefined, margin: "-50px" }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
             whileHover={{ y: -4, borderColor: 'rgba(79,156,255,0.35)' }}
             className="glass group relative flex flex-col justify-between overflow-hidden rounded-2xl border-border p-6 transition-colors"

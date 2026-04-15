@@ -143,15 +143,20 @@ function StatCard({ label, value, suffix, delay }: { label: string, value: numbe
   const counterRef = useRef<HTMLSpanElement>(null)
 
   useGSAP(() => {
-    if (counterRef.current) {
-      gsap.to(counterRef.current, {
-        innerHTML: value,
-        duration: 2,
-        snap: "innerHTML",
-        ease: "power2.out",
-        delay: delay + 0.5
-      })
-    }
+    if (!counterRef.current) return
+    const obj = { val: 0 }
+    gsap.to(obj, {
+      val: value,
+      duration: 2,
+      ease: "power2.out",
+      delay: delay + 0.5,
+      onUpdate: () => {
+        if (counterRef.current) {
+          counterRef.current.textContent =
+            Math.round(obj.val).toString()
+        }
+      }
+    })
   }, { dependencies: [value, delay] })
 
   return (

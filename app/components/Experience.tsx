@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Briefcase } from 'lucide-react'
 
@@ -29,6 +29,13 @@ const experiences = [
 ]
 
 export default function Experience() {
+  const scrollRef = useRef<HTMLElement | null>(null)
+  const [rootReady, setRootReady] = useState(false)
+
+  useEffect(() => {
+    scrollRef.current = document.getElementById('main-content-area')
+    setRootReady(true)
+  }, [])
   return (
     <div className="py-20 md:py-32">
       <div className="mb-12 flex items-center gap-4">
@@ -38,7 +45,7 @@ export default function Experience() {
 
       <div className="relative border-l border-border pl-6 md:pl-8">
         {experiences.map((exp, index) => (
-          <ExperienceCard key={index} experience={exp} index={index} />
+          <ExperienceCard key={index} experience={exp} index={index} scrollRef={scrollRef} rootReady={rootReady} />
         ))}
       </div>
     </div>
@@ -53,9 +60,9 @@ interface ExperienceData {
   tech: string[]
 }
 
-function ExperienceCard({ experience, index }: { experience: ExperienceData, index: number }) {
+function ExperienceCard({ experience, index, scrollRef, rootReady }: { experience: ExperienceData, index: number, scrollRef: { current: HTMLElement | null }, rootReady: boolean }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, root: rootReady ? scrollRef : undefined, margin: "-50px" })
 
   return (
     <motion.div

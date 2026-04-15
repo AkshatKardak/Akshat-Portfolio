@@ -15,22 +15,29 @@ export default function Home() {
   const mainRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    if (!showContent || !mainRef.current) return
+    if (!showContent) return
 
     let lenis: { destroy: () => void; raf: (time: number) => void } | undefined
     let rafId: number
 
     const initLenis = async () => {
+      // Wait for next tick to ensure 
+      // mainRef is attached to DOM
+      await new Promise(resolve => setTimeout(resolve, 0))
+      
+      const el = document.getElementById('main-content-area')
+      if (!el) return
+
       const { default: Lenis } = await import('@studio-freight/lenis')
       
       lenis = new Lenis({
-        wrapper: mainRef.current!,
-        content: mainRef.current!,
+        wrapper: el,
+        content: el,
         duration: 1.2,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
       })
-      
+
       const raf = (time: number) => {
         lenis?.raf(time)
         rafId = requestAnimationFrame(raf)
@@ -63,7 +70,7 @@ export default function Home() {
           <main 
             ref={mainRef} 
             id="main-content-area" 
-            className="flex-1 h-full overflow-y-auto overflow-x-hidden md:ml-60 no-scrollbar relative scroll-smooth bg-bg"
+            className="w-full md:w-[calc(100%-15rem)] h-full overflow-y-auto overflow-x-hidden md:ml-60 no-scrollbar relative scroll-smooth bg-bg"
           >
             {/* Background Gradient Orbs */}
             <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden md:ml-60">
