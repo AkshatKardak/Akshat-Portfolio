@@ -1,56 +1,87 @@
-"use client";
-import { useEffect } from "react";
-import Navbar        from "./components/Navbar";
-import Hero          from "./components/Hero";
-import About         from "./components/About";
-import Skills        from "./components/Skills";
-import Projects      from "./components/Projects";
-import Contact       from "./components/Contact";
-import ParticleCanvas from "./components/ParticleCanvas";
+'use client'
+
+import { useEffect, useState, useRef } from 'react'
+import Sidebar from './components/Sidebar'
+import Dashboard from './components/Dashboard'
+import Projects from './components/Projects'
+import Skills from './components/Skills'
+import Experience from './components/Experience'
+import Contact from './components/Contact'
+import Loader from './components/Loader'
 
 export default function Home() {
+  const [showLoader, setShowLoader] = useState(true)
+  const [showContent, setShowContent] = useState(false)
+  const mainRef = useRef<HTMLElement>(null)
+
   useEffect(() => {
-    let animId: number;
-    let lenisInstance: { destroy: () => void } | null = null;
+    if (!showContent || !mainRef.current) return
+
+    let lenis: { destroy: () => void; raf: (time: number) => void } | undefined
+    let rafId: number
+
     const initLenis = async () => {
-      const { default: Lenis } = await import("@studio-freight/lenis");
-      const lenis = new Lenis({
-        duration: 0.8,
-        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+      const { default: Lenis } = await import('@studio-freight/lenis')
+      
+      lenis = new Lenis({
+        wrapper: mainRef.current!,
+        content: mainRef.current!,
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        wheelMultiplier: 1.2,
-        touchMultiplier: 1.5,
-      });
-      lenisInstance = lenis;
-      const raf = (time: number) => { lenis.raf(time); animId = requestAnimationFrame(raf); };
-      animId = requestAnimationFrame(raf);
-    };
-    initLenis();
-    return () => { cancelAnimationFrame(animId); lenisInstance?.destroy(); };
-  }, []);
+      })
+      
+      const raf = (time: number) => {
+        lenis?.raf(time)
+        rafId = requestAnimationFrame(raf)
+      }
+      rafId = requestAnimationFrame(raf)
+    }
+
+    initLenis()
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId)
+      if (lenis) lenis.destroy()
+    }
+  }, [showContent])
 
   return (
-    <main style={{ position: "relative", minHeight: "100vh", background: "#050508" }}>
-      <ParticleCanvas />
+    <div className="flex h-screen overflow-hidden bg-bg text-text transition-colors duration-300">
+      {showLoader && (
+        <Loader 
+          onComplete={() => {
+            setShowLoader(false)
+            setShowContent(true)
+          }} 
+        />
+      )}
+      
+      {showContent && (
+        <>
+          <Sidebar />
+          <main 
+            ref={mainRef} 
+            id="main-content-area" 
+            className="flex-1 overflow-y-auto overflow-x-hidden md:ml-60 no-scrollbar relative scroll-smooth"
+          >
+            {/* Background Gradient Orbs */}
+            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden md:ml-60">
+              <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-accent/5 blur-[120px]" />
+              <div className="absolute top-[40%] -left-[10%] w-[40%] h-[40%] rounded-full bg-violet/5 blur-[120px]" />
+            </div>
 
-      {/* Blue + Orange orbs */}
-      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "-150px", right: "-150px", width: "700px", height: "700px", borderRadius: "50%", background: "radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)", filter: "blur(80px)", animation: "float-orb 12s ease-in-out infinite" }} />
-        <div style={{ position: "absolute", bottom: "-100px", left: "-100px", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(249,115,22,0.14) 0%, transparent 70%)", filter: "blur(80px)", animation: "float-orb 14s ease-in-out infinite", animationDelay: "-5s" }} />
-        <div style={{ position: "absolute", top: "40%", left: "35%", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(96,165,250,0.07) 0%, transparent 70%)", filter: "blur(80px)", animation: "float-orb 16s ease-in-out infinite", animationDelay: "-8s" }} />
-      </div>
-
-      {/* Grid */}
-      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none", backgroundImage: `linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)`, backgroundSize: "60px 60px" }} />
-
-      <Navbar />
-      <div style={{ position: "relative", zIndex: 2 }}>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Contact />
-      </div>
-    </main>
-  );
+            {/* Sections */}
+            <div className="relative z-10 w-full max-w-[1200px] mx-auto pb-24 md:pb-10">
+              <section id="dashboard" className="px-5 md:px-10 min-h-screen pt-20 md:pt-10 mb-10"><Dashboard /></section>
+              <section id="projects" className="px-5 md:px-10 min-h-screen my-10"><Projects /></section>
+              <section id="skills" className="px-5 md:px-10 min-h-screen my-10"><Skills /></section>
+              <section id="experience" className="px-5 md:px-10 min-h-screen my-10"><Experience /></section>
+              <section id="contact" className="px-5 md:px-10 min-h-[80vh] my-10"><Contact /></section>
+            </div>
+          </main>
+        </>
+      )}
+    </div>
+  )
 }
