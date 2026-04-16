@@ -1,102 +1,107 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState } from "react";
 
-export default function Loader({ onComplete }: { onComplete: () => void }) {
-  const [progress, setProgress] = useState(0)
-  const [phase, setPhase] = useState<'loading'|'reveal'>('loading')
+export default function Loader() {
+  const [progress, setProgress] = useState(0);
+  const [phase, setPhase] = useState(0);
+
+  const lines = [
+    "> Initializing portfolio...",
+    "> Loading components...",
+    "> Ready.",
+  ];
 
   useEffect(() => {
-    const steps = [10, 25, 40, 55, 68, 80, 90, 100]
-    let i = 0
-    const tick = () => {
-      if (i < steps.length) {
-        setProgress(steps[i])
-        i++
-        setTimeout(tick, i < 4 ? 120 : i < 7 ? 160 : 300)
-      } else {
-        setTimeout(() => setPhase('reveal'), 200)
-        setTimeout(() => onComplete(), 1000)
-      }
-    }
-    tick()
-  }, [onComplete])
+    const interval = setInterval(() => {
+      setProgress((p) => {
+        if (p >= 100) { clearInterval(interval); return 100; }
+        return p + Math.random() * 8 + 2;
+      });
+    }, 60);
+
+    const p1 = setTimeout(() => setPhase(1), 600);
+    const p2 = setTimeout(() => setPhase(2), 1400);
+    const p3 = setTimeout(() => setPhase(3), 2200);
+
+    return () => { clearInterval(interval); clearTimeout(p1); clearTimeout(p2); clearTimeout(p3); };
+  }, []);
 
   return (
-    <AnimatePresence>
-      <motion.div
-        key="loader"
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "var(--bg)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 9999,
+        gap: "var(--space-6)",
+      }}
+    >
+      {/* Logo Mark */}
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-label="AK logo">
+        <rect width="48" height="48" rx="12" fill="var(--accent-dim)" stroke="var(--accent)" strokeWidth="1.5" />
+        <path d="M14 34L22 14H26L34 34" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M17 28H31" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+
+      {/* Terminal Lines */}
+      <div
         style={{
-          position:'fixed', inset:0, zIndex:9999,
-          background:'#080c14',
-          display:'flex', flexDirection:'column',
-          alignItems:'center', justifyContent:'center',
-          gap:32
+          fontFamily: "var(--font-mono)",
+          fontSize: "var(--text-sm)",
+          color: "var(--text-muted)",
+          textAlign: "left",
+          minWidth: "280px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--space-2)",
         }}
-        animate={phase === 'reveal' ? { y: '-100%' } : {}}
-        transition={{ duration:0.6, ease:[0.76,0,0.24,1] }}
       >
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity:0, y:16 }}
-          animate={{ opacity:1, y:0 }}
-          transition={{ duration:0.5 }}
-          style={{ textAlign:'center' }}
-        >
-          <div style={{
-            fontFamily:'Clash Display, sans-serif',
-            fontSize:52, fontWeight:700,
-            color:'#f1f5f9',
-            letterSpacing:'-0.02em',
-            lineHeight:1
-          }}>
-            AK
-            <span style={{ color:'#4f9cff' }}>.</span>
+        {lines.slice(0, phase + 1).map((line, i) => (
+          <div
+            key={i}
+            style={{
+              color: i === phase ? "var(--accent)" : "var(--text-muted)",
+              animation: "fadeUp 0.3s ease forwards",
+            }}
+          >
+            {line}
           </div>
-          <p style={{ fontFamily:'JetBrains Mono, monospace', fontSize:11, color:'#64748b', letterSpacing:'0.15em', textTransform:'uppercase', marginTop:8 }}>
-            Portfolio v2.0
-          </p>
-        </motion.div>
+        ))}
+      </div>
 
-        {/* Progress track */}
-        <motion.div
-          initial={{ opacity:0, scaleX:0 }}
-          animate={{ opacity:1, scaleX:1 }}
-          transition={{ delay:0.2 }}
-          style={{ width:220 }}
-        >
-          <div style={{
-            height:2, background:'rgba(255,255,255,0.06)',
-            borderRadius:2, overflow:'hidden'
-          }}>
-            <motion.div
-              animate={{ width:`${progress}%` }}
-              transition={{ ease:'easeOut', duration:0.3 }}
-              style={{ height:'100%', background:'#4f9cff', borderRadius:2 }}
-            />
-          </div>
-          <div style={{
-            display:'flex', justifyContent:'space-between', marginTop:8,
-            fontFamily:'JetBrains Mono, monospace', fontSize:10, color:'#64748b'
-          }}>
-            <span>Initialising</span>
-            <span>{progress}%</span>
-          </div>
-        </motion.div>
+      {/* Progress Bar */}
+      <div
+        style={{
+          width: 280,
+          height: 2,
+          background: "var(--surface-active)",
+          borderRadius: "var(--radius-full)",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            height: "100%",
+            width: `${Math.min(progress, 100)}%`,
+            background: "linear-gradient(90deg, var(--accent), var(--violet))",
+            borderRadius: "var(--radius-full)",
+            transition: "width 0.1s ease",
+            boxShadow: "0 0 8px var(--accent-glow)",
+          }}
+        />
+      </div>
 
-        {/* Status lines */}
-        <motion.div
-          initial={{ opacity:0 }}
-          animate={{ opacity:1 }}
-          transition={{ delay:0.4 }}
-          style={{ fontFamily:'JetBrains Mono, monospace', fontSize:10, color:'#1e293b', letterSpacing:'0.05em' }}
-        >
-          {progress >= 40 && <motion.p initial={{opacity:0}} animate={{opacity:1}}>✔ Dependencies loaded</motion.p>}
-          {progress >= 75 && <motion.p initial={{opacity:0}} animate={{opacity:1}} style={{marginTop:4}}>✔ Components ready</motion.p>}
-          {progress === 100 && <motion.p initial={{opacity:0}} animate={{opacity:1}} style={{marginTop:4, color:'#4f9cff'}}>✔ Launch sequence complete</motion.p>}
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  )
+      <style>{`
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
 }

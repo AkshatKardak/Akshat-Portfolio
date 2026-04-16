@@ -1,111 +1,198 @@
-'use client'
+"use client";
 
-import { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
-import { ExternalLink } from 'lucide-react'
-import { GithubIcon } from './BrandIcons'
+import { GitHubIcon, ExternalLinkIcon } from "./BrandIcons";
 
 const projects = [
   {
-    number:'01', title:'RentRide',
-    desc:'Full-stack MERN car rental platform with AI-powered recommendations, Razorpay payments, real-time booking management, and a comprehensive admin dashboard.',
-    tags:['React','Node.js','MongoDB','Razorpay','Firebase','JWT'],
-    github:'https://github.com/AkshatKardak/car-rental-mern',
-    live:'https://rentridefrontend.vercel.app/',
-    color:'var(--accent)'
+    title: "RentRide",
+    subtitle: "Car Rental MERN App",
+    description:
+      "Full-stack car rental platform with admin dashboard, AI chat assistant, damage report system, and Razorpay payment integration. Built end-to-end with the MERN stack.",
+    tags: ["MongoDB", "Express", "React", "Node.js", "Razorpay", "AI Chat"],
+    github: "https://github.com/AkshatKardak/car-rental-mern",
+    live: null,
+    badge: "Primary",
+    badgeColor: "var(--accent)",
   },
   {
-    number:'02', title:'UnitedImpact',
-    desc:'MERN NGO platform connecting donors, volunteers & NGOs — Razorpay donations, Firebase auth, real-time Socket.IO messaging, and map-based campaign discovery.',
-    tags:['React','Node.js','MongoDB','Socket.IO','Razorpay','Leaflet'],
-    github:'https://github.com/AkshatKardak/UnitedImpact',
-    live:'https://unitedimpact-app.netlify.app',
-    color:'var(--violet)'
+    title: "UnitedImpact",
+    subtitle: "NGO Donation Platform",
+    description:
+      "Real-time NGO donation platform with Firebase authentication, Razorpay payments, interactive mapping, and a responsive React frontend connecting donors with causes.",
+    tags: ["React", "Node.js", "MongoDB", "Firebase", "Razorpay", "Maps"],
+    github: "https://github.com/AkshatKardak",
+    live: null,
+    badge: "Primary",
+    badgeColor: "var(--accent)",
   },
   {
-    number:'03', title:'RoastHub',
-    desc:'AI-powered savage tweet generator with authentic Indian desi flavour — Bollywood references, cricket banter, and viral rating system.',
-    tags:['React','Node.js','MongoDB','GROQ AI','Framer Motion'],
-    github:'https://github.com/AkshatKardak/RoastHub',
-    live:'https://roasthubfront.vercel.app',
-    color:'var(--success)'
+    title: "RoastHub",
+    subtitle: "AI Tweet Generator",
+    description:
+      "AI-powered tweet generator and roast tool using the MERN stack. Integrates a language model API to generate creative, witty content on demand.",
+    tags: ["MERN Stack", "AI API", "React", "Node.js"],
+    github: "https://github.com/AkshatKardak",
+    live: null,
+    badge: "Experiment",
+    badgeColor: "var(--violet)",
   },
-]
+  {
+    title: "Face Recognition Attendance",
+    subtitle: "Academic Project",
+    description:
+      "Python-based automated attendance system using real-time face recognition. Detects and matches student faces against a database, logging attendance automatically.",
+    tags: ["Python", "OpenCV", "Face Recognition", "SQLite"],
+    github: "https://github.com/AkshatKardak",
+    live: null,
+    badge: "Academic",
+    badgeColor: "var(--success)",
+  },
+  {
+    title: "Game Website",
+    subtitle: "Animated Game Portal",
+    description:
+      "A visually polished game portal website with smooth animations, clean UI, and responsive design. Focus on performance and immersive web experience.",
+    tags: ["HTML", "CSS", "JavaScript", "GSAP"],
+    github: "https://github.com/AkshatKardak",
+    live: null,
+    badge: "Design",
+    badgeColor: "var(--warning)",
+  },
+  {
+    title: "CampusDrop",
+    subtitle: "Campus Marketplace App",
+    description:
+      "Flutter mobile app for campus marketplace with Firebase backend, Cloudinary image hosting, and real-time listings for students to buy and sell items.",
+    tags: ["Flutter", "Firebase", "Cloudinary", "Dart"],
+    github: "https://github.com/AkshatKardak",
+    live: null,
+    badge: "Mobile",
+    badgeColor: "#f97316",
+  },
+];
 
 export default function Projects() {
-  const scrollRef = useRef<HTMLElement|null>(null)
-  const [rdy, setRdy] = useState(false)
-  useEffect(() => { scrollRef.current = document.getElementById('main-scroll'); setRdy(true) }, [])
-
   return (
-    <div>
+    <section className="section" style={{ maxWidth: 1100 }}>
       <div className="section-header">
-        <h2 className="section-title">Projects.</h2>
-        <div className="section-line" />
-        <span className="section-meta">{projects.length} works</span>
+        <h2>Projects</h2>
+        <p>A collection of real-world applications and experiments</p>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))', gap:16 }}>
-        {projects.map((p, i) => (
-          <motion.div
-            key={p.title}
-            initial={{ opacity:0, y:30 }}
-            whileInView={{ opacity:1, y:0 }}
-            viewport={{ once:true, root: rdy ? scrollRef : undefined, margin:'-60px' }}
-            transition={{ duration:0.5, delay: i*0.1 }}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(min(340px, 100%), 1fr))",
+          gap: "var(--space-5)",
+        }}
+      >
+        {projects.map((project, i) => (
+          <div
+            key={project.title}
+            className="glass-card"
             style={{
-              background:'var(--surface)', border:'1px solid var(--border)',
-              borderRadius:16, padding:24, display:'flex', flexDirection:'column',
-              transition:'border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease',
-              cursor:'default'
-            }}
-            whileHover={{ y:-4 }}
-            onHoverStart={e => {
-              const el = e.currentTarget as HTMLElement
-              el.style.borderColor = p.color
-              el.style.boxShadow = `0 20px 60px -12px rgba(0,0,0,0.6)`
-            }}
-            onHoverEnd={e => {
-              const el = e.currentTarget as HTMLElement
-              el.style.borderColor = 'var(--border)'
-              el.style.boxShadow = 'none'
+              padding: "var(--space-6)",
+              display: "flex",
+              flexDirection: "column",
+              gap: "var(--space-4)",
+              animation: `fadeUp 0.5s ${i * 0.07}s ease both`,
             }}
           >
-            {/* Top bar */}
-            <div style={{ height:3, borderRadius:3, marginBottom:20, background:`linear-gradient(to right, ${p.color}, transparent)` }} />
-
-            {/* Number + Links */}
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
-              <span style={{ fontFamily:'var(--font-display)', fontSize:40, fontWeight:700, color:p.color, opacity:0.15, lineHeight:1 }}>
-                {p.number}
-              </span>
-              <div style={{ display:'flex', gap:8 }}>
-                <a href={p.github} target="_blank" rel="noreferrer" className="icon-btn" style={{ width:32, height:32 }}>
-                  <GithubIcon size={14} />
-                </a>
-                <a href={p.live} target="_blank" rel="noreferrer" className="icon-btn" style={{ width:32, height:32 }}>
-                  <ExternalLink size={14} />
-                </a>
+            {/* Header */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+              <div>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "var(--text-lg)",
+                    fontWeight: 700,
+                    color: "var(--text)",
+                    marginBottom: "var(--space-1)",
+                  }}
+                >
+                  {project.title}
+                </h3>
+                <span
+                  style={{
+                    fontSize: "var(--text-xs)",
+                    color: "var(--text-muted)",
+                    fontFamily: "var(--font-mono)",
+                  }}
+                >
+                  {project.subtitle}
+                </span>
               </div>
+              <span
+                style={{
+                  fontSize: "var(--text-xs)",
+                  fontWeight: 600,
+                  color: project.badgeColor,
+                  background: `${project.badgeColor}18`,
+                  border: `1px solid ${project.badgeColor}30`,
+                  borderRadius: "var(--radius-full)",
+                  padding: "2px 10px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {project.badge}
+              </span>
             </div>
 
-            <h3 style={{ fontSize:18, fontWeight:700, color:'var(--text)', marginBottom:10 }}>{p.title}</h3>
-            <p style={{ fontSize:13, lineHeight:1.65, color:'var(--text-muted)', flex:1, marginBottom:16 }}>{p.desc}</p>
+            {/* Description */}
+            <p style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)", lineHeight: 1.65, flex: 1 }}>
+              {project.description}
+            </p>
 
-            <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
-              {p.tags.map(t => (
-                <span key={t} style={{
-                  padding:'3px 9px', borderRadius:999,
-                  fontFamily:'var(--font-mono)', fontSize:10, fontWeight:500,
-                  background: `color-mix(in srgb, ${p.color} 12%, transparent)`,
-                  color: p.color,
-                  border: `1px solid color-mix(in srgb, ${p.color} 25%, transparent)`
-                }}>{t}</span>
+            {/* Tags */}
+            <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
+              {project.tags.map((tag) => (
+                <span key={tag} className="tag">{tag}</span>
               ))}
             </div>
-          </motion.div>
+
+            {/* Actions */}
+            <div style={{ display: "flex", gap: "var(--space-3)", paddingTop: "var(--space-2)", borderTop: "1px solid var(--border)" }}>
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "var(--space-2)",
+                  fontSize: "var(--text-xs)",
+                  color: "var(--text-muted)",
+                  textDecoration: "none",
+                  transition: "color var(--transition-fast)",
+                  fontWeight: 500,
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+              >
+                <GitHubIcon size={14} /> GitHub
+              </a>
+              {project.live && (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "var(--space-2)",
+                    fontSize: "var(--text-xs)",
+                    color: "var(--accent)",
+                    textDecoration: "none",
+                    fontWeight: 500,
+                  }}
+                >
+                  <ExternalLinkIcon size={13} /> Live Demo
+                </a>
+              )}
+            </div>
+          </div>
         ))}
       </div>
-    </div>
-  )
+    </section>
+  );
 }

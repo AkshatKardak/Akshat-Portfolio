@@ -1,183 +1,208 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { LayoutDashboard, Code2, Cpu, Briefcase, Mail, Sun, Moon } from 'lucide-react'
+import { GitHubIcon, LinkedInIcon, MailIcon } from "./BrandIcons";
 
 const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'projects',  label: 'Projects',  icon: Code2 },
-  { id: 'skills',    label: 'Skills',    icon: Cpu },
-  { id: 'experience',label: 'Experience',icon: Briefcase },
-  { id: 'contact',   label: 'Contact',   icon: Mail },
-]
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" />
+        <rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" />
+      </svg>
+    ),
+  },
+  {
+    id: "projects",
+    label: "Projects",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" />
+        <path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" />
+      </svg>
+    ),
+  },
+  {
+    id: "skills",
+    label: "Skills",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z" />
+      </svg>
+    ),
+  },
+  {
+    id: "experience",
+    label: "Experience",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="20" height="14" x="2" y="7" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      </svg>
+    ),
+  },
+  {
+    id: "certifications",
+    label: "Certifications",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="8" r="6" /><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+      </svg>
+    ),
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.72 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.63 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+      </svg>
+    ),
+  },
+];
 
-export default function Sidebar() {
-  const [active, setActive] = useState('dashboard')
-  const [theme, setTheme] = useState<'dark'|'light'>('dark')
-
-  useEffect(() => {
-    const saved = localStorage.getItem('theme') as 'dark'|'light'|null
-    const initial = saved ?? (window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark')
-    setTheme(initial)
-    document.documentElement.setAttribute('data-theme', initial)
-  }, [])
-
-  useEffect(() => {
-    const scroller = document.getElementById('main-scroll')
-    if (!scroller) return
-
-    const observer = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id) }),
-      { root: scroller, rootMargin: '-40% 0px -40% 0px', threshold: 0 }
-    )
-
-    const timer = setTimeout(() => {
-      navItems.forEach(item => {
-        const el = document.getElementById(item.id)
-        if (el) observer.observe(el)
-      })
-    }, 200)
-
-    return () => { clearTimeout(timer); observer.disconnect() }
-  }, [])
-
-  const toggleTheme = () => {
-    const next = theme === 'dark' ? 'light' : 'dark'
-    setTheme(next)
-    document.documentElement.setAttribute('data-theme', next)
-    localStorage.setItem('theme', next)
-  }
-
-  const scrollTo = (id: string) => {
-    const scroller = document.getElementById('main-scroll')
-    const el = document.getElementById(id)
-    if (scroller && el) scroller.scrollTo({ top: el.offsetTop - 32, behavior: 'smooth' })
-  }
-
+export default function Sidebar({
+  active,
+  setActive,
+}: {
+  active: string;
+  setActive: (s: string) => void;
+}) {
   return (
-    <>
-      {/* Desktop */}
-      <motion.aside
-        className="sidebar"
-        initial={{ x: -240, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+    <aside
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "var(--sidebar-width)",
+        height: "100dvh",
+        background: "rgba(11, 15, 25, 0.85)",
+        borderRight: "1px solid var(--border)",
+        backdropFilter: "blur(16px)",
+        display: "flex",
+        flexDirection: "column",
+        padding: "var(--space-6) var(--space-4)",
+        zIndex: 50,
+      }}
+    >
+      {/* Logo */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "var(--space-3)",
+          marginBottom: "var(--space-8)",
+          paddingLeft: "var(--space-2)",
+        }}
       >
-        {/* Brand */}
-        <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:36, padding:'0 4px' }}>
-          <div style={{
-            width:34, height:34, borderRadius:10,
-            background:'var(--accent)',
-            display:'flex', alignItems:'center', justifyContent:'center',
-            fontFamily:'var(--font-display)', fontWeight:700, fontSize:16, color:'#fff'
-          }}>A</div>
-          <span style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, color:'var(--text)' }}>
-            Akshat.
-          </span>
-        </div>
-
-        {/* Nav */}
-        <nav style={{ flex:1, display:'flex', flexDirection:'column', gap:4 }}>
-          {navItems.map((item, i) => {
-            const isActive = active === item.id
-            return (
-              <motion.button
-                key={item.id}
-                className={`nav-item ${isActive ? 'active' : ''}`}
-                onClick={() => scrollTo(item.id)}
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.3 + i * 0.06 }}
-              >
-                {isActive && (
-                  <motion.div className="nav-pill" layoutId="nav-pill"
-                    transition={{ type:'spring', stiffness:300, damping:30 }} />
-                )}
-                <item.icon size={17} />
-                {item.label}
-              </motion.button>
-            )
-          })}
-        </nav>
-
-        {/* Footer */}
-        <div style={{ marginTop:'auto', display:'flex', flexDirection:'column', gap:14 }}>
-          <div style={{ display:'flex', alignItems:'center', gap:10, padding:'0 6px' }}>
-            <span style={{ position:'relative', width:8, height:8 }}>
-              <span style={{
-                position:'absolute', inset:0, borderRadius:'50%',
-                background:'var(--success)', opacity:0.6,
-                animation:'ping 1.5s cubic-bezier(0,0,0.2,1) infinite'
-              }} />
-              <span style={{ position:'relative', display:'block', width:8, height:8, borderRadius:'50%', background:'var(--success)' }} />
-            </span>
-            <span style={{ fontSize:12, color:'var(--text-muted)', fontWeight:500 }}>Available for work</span>
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="AK">
+          <rect width="32" height="32" rx="8" fill="var(--accent-dim)" stroke="var(--accent)" strokeWidth="1" />
+          <path d="M9 22L14 10H18L23 22" stroke="var(--accent)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M11 18H21" stroke="var(--accent)" strokeWidth="1.25" strokeLinecap="round" />
+        </svg>
+        <div>
+          <div style={{ fontSize: "var(--text-sm)", fontWeight: 700, color: "var(--text)", lineHeight: 1.2 }}>
+            Akshat Kardak
           </div>
-
-          <button
-            onClick={toggleTheme}
-            style={{
-              display:'flex', alignItems:'center', justifyContent:'space-between',
-              padding:'10px 14px', borderRadius:12, width:'100%',
-              background:'var(--surface-2)', border:'1px solid var(--border)',
-              cursor:'pointer', transition:'border-color 0.2s'
-            }}
-            onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--border-hi)')}
-            onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
-          >
-            <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-              {theme === 'dark'
-                ? <Moon size={15} color="var(--violet)" />
-                : <Sun size={15} color="#f59e0b" />
-              }
-              <span style={{ fontSize:11, fontFamily:'var(--font-mono)', color:'var(--text-muted)', letterSpacing:'0.08em', textTransform:'uppercase' }}>
-                {theme} mode
-              </span>
-            </div>
-            <motion.div
-              animate={{ rotate: theme === 'dark' ? 0 : 180 }}
-              style={{ padding:4, borderRadius:6, background:'var(--border-hi)', display:'flex' }}
-            >
-              {theme === 'dark' ? <Moon size={12} color="var(--text-muted)" /> : <Sun size={12} color="var(--text-muted)" />}
-            </motion.div>
-          </button>
+          <div style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>
+            Full Stack Dev
+          </div>
         </div>
-      </motion.aside>
+      </div>
 
-      {/* Mobile */}
-      <motion.div
-        className="mobile-bar"
-        initial={{ y: 80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-        style={{ display:'none' }}
+      {/* Nav */}
+      <nav style={{ flex: 1, display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+        {navItems.map((item) => {
+          const isActive = active === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActive(item.id)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "var(--space-3)",
+                padding: "var(--space-3) var(--space-3)",
+                borderRadius: "var(--radius-lg)",
+                fontSize: "var(--text-sm)",
+                fontWeight: isActive ? 600 : 400,
+                color: isActive ? "var(--accent)" : "var(--text-muted)",
+                background: isActive ? "var(--accent-dim)" : "transparent",
+                border: isActive ? "1px solid rgba(79,156,255,0.2)" : "1px solid transparent",
+                transition: "all var(--transition-fast)",
+                textAlign: "left",
+                cursor: "pointer",
+                width: "100%",
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  (e.currentTarget as HTMLButtonElement).style.background = "var(--surface-hover)";
+                  (e.currentTarget as HTMLButtonElement).style.color = "var(--text)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                  (e.currentTarget as HTMLButtonElement).style.color = "var(--text-muted)";
+                }
+              }}
+              aria-current={isActive ? "page" : undefined}
+            >
+              <span style={{ opacity: isActive ? 1 : 0.7 }}>{item.icon}</span>
+              {item.label}
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* Social Links */}
+      <div
+        style={{
+          display: "flex",
+          gap: "var(--space-3)",
+          paddingLeft: "var(--space-2)",
+          paddingTop: "var(--space-6)",
+          borderTop: "1px solid var(--border)",
+        }}
       >
-        {navItems.map(item => (
-          <button
-            key={item.id}
-            className={`mobile-nav-btn ${active === item.id ? 'active' : ''}`}
-            onClick={() => scrollTo(item.id)}
+        {[
+          { href: "https://github.com/AkshatKardak", icon: <GitHubIcon size={18} />, label: "GitHub" },
+          { href: "https://www.linkedin.com/in/akshatkardak", icon: <LinkedInIcon size={18} />, label: "LinkedIn" },
+          { href: "mailto:kardakakshat@gmail.com", icon: <MailIcon size={18} />, label: "Email" },
+        ].map(({ href, icon, label }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 36,
+              height: 36,
+              borderRadius: "var(--radius-lg)",
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              color: "var(--text-muted)",
+              transition: "all var(--transition-fast)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.color = "var(--accent)";
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(79,156,255,0.3)";
+              (e.currentTarget as HTMLAnchorElement).style.background = "var(--accent-dim)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.color = "var(--text-muted)";
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--border)";
+              (e.currentTarget as HTMLAnchorElement).style.background = "var(--surface)";
+            }}
           >
-            <item.icon size={20} />
-            <span>{item.label}</span>
-          </button>
+            {icon}
+          </a>
         ))}
-        <button className="mobile-nav-btn" onClick={toggleTheme}>
-          {theme === 'dark' ? <Moon size={20} /> : <Sun size={20} />}
-          <span>Theme</span>
-        </button>
-      </motion.div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .sidebar { display: none !important; }
-          .mobile-bar { display: flex !important; }
-        }
-        @keyframes ping {
-          75%, 100% { transform: scale(2); opacity: 0; }
-        }
-      `}</style>
-    </>
-  )
+      </div>
+    </aside>
+  );
 }

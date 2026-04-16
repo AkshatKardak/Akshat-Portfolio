@@ -1,102 +1,180 @@
-'use client'
+"use client";
 
-import { useRef } from 'react'
-import { motion } from 'framer-motion'
-import { Layout, Server, Wrench } from 'lucide-react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
+import { useEffect, useRef, useState } from "react";
 
-gsap.registerPlugin(ScrollTrigger)
-
-const cats = [
+const skillGroups = [
   {
-    title:'Frontend', icon:Layout, color:'var(--accent)',
-    skills:[{n:'React / Next.js',l:90},{n:'TypeScript',l:85},{n:'Tailwind CSS',l:95},{n:'GSAP / Framer Motion',l:80}]
+    category: "Frontend",
+    color: "var(--accent)",
+    skills: [
+      { name: "React.js",    level: 88 },
+      { name: "Next.js",     level: 82 },
+      { name: "Tailwind CSS",level: 85 },
+      { name: "JavaScript",  level: 87 },
+      { name: "HTML & CSS",  level: 92 },
+      { name: "Flutter",     level: 68 },
+    ],
   },
   {
-    title:'Backend', icon:Server, color:'var(--violet)',
-    skills:[{n:'Node.js / Express',l:85},{n:'MongoDB',l:80},{n:'REST APIs',l:90},{n:'PostgreSQL',l:75}]
+    category: "Backend",
+    color: "var(--violet)",
+    skills: [
+      { name: "Node.js",     level: 80 },
+      { name: "Express.js",  level: 78 },
+      { name: "FastAPI",     level: 60 },
+      { name: "REST APIs",   level: 82 },
+      { name: "Firebase",    level: 76 },
+      { name: "Socket.io",   level: 62 },
+    ],
   },
   {
-    title:'Tools', icon:Wrench, color:'var(--success)',
-    skills:[{n:'Git / GitHub',l:90},{n:'Vercel / Firebase',l:85},{n:'Figma',l:80},{n:'Docker',l:65}]
+    category: "Database",
+    color: "var(--success)",
+    skills: [
+      { name: "MongoDB",     level: 78 },
+      { name: "Firebase DB", level: 74 },
+      { name: "Supabase",    level: 55 },
+      { name: "Cloudinary",  level: 70 },
+    ],
   },
-]
+  {
+    category: "Languages & Tools",
+    color: "#f97316",
+    skills: [
+      { name: "Python",      level: 78 },
+      { name: "Java",        level: 72 },
+      { name: "TypeScript",  level: 65 },
+      { name: "Git & GitHub",level: 85 },
+      { name: "Vercel",      level: 80 },
+      { name: "Razorpay",    level: 72 },
+    ],
+  },
+];
 
-export default function Skills() {
-  const containerRef = useRef<HTMLDivElement>(null)
+function SkillBar({ name, level, color, delay }: { name: string; level: number; color: string; delay: number }) {
+  const [width, setWidth] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    if (!containerRef.current) return
-    const scroller = document.getElementById('main-scroll')
-    if (!scroller) return
-
-    ;(gsap.utils.toArray('.skill-bar') as HTMLElement[]).forEach(bar => {
-      const w = bar.getAttribute('data-width')
-      if (!w) return
-      gsap.fromTo(bar, { width:0 }, {
-        width:w, duration:1.4, ease:'power3.out',
-        scrollTrigger: { trigger:bar, scroller, start:'top 90%', toggleActions:'play none none reverse' }
-      })
-    })
-  }, { scope:containerRef })
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setWidth(level), delay);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [level, delay]);
 
   return (
-    <div ref={containerRef}>
-      <div className="section-header">
-        <h2 className="section-title">Skills.</h2>
-        <div className="section-line" />
+    <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span style={{ fontSize: "var(--text-sm)", color: "var(--text)", fontWeight: 500 }}>
+          {name}
+        </span>
+        <span
+          style={{
+            fontSize: "var(--text-xs)",
+            fontFamily: "var(--font-mono)",
+            color: "var(--text-muted)",
+          }}
+        >
+          {level}%
+        </span>
       </div>
-
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(260px, 1fr))', gap:16 }}>
-        {cats.map((cat, i) => {
-          const Icon = cat.icon
-          return (
-            <motion.div
-              key={cat.title}
-              initial={{ opacity:0, y:24 }}
-              whileInView={{ opacity:1, y:0 }}
-              viewport={{ once:true, margin:'-60px' }}
-              transition={{ duration:0.5, delay:i*0.1 }}
-              style={{ background:'var(--surface)', border:'1px solid var(--border)', borderRadius:16, padding:24 }}
-            >
-              <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:24 }}>
-                <div style={{
-                  width:40, height:40, borderRadius:10, display:'flex',
-                  alignItems:'center', justifyContent:'center',
-                  background:`color-mix(in srgb, ${cat.color} 12%, transparent)`,
-                  color:cat.color
-                }}>
-                  <Icon size={18} />
-                </div>
-                <div>
-                  <p style={{ fontSize:13, fontWeight:700, color:'var(--text)', textTransform:'uppercase', letterSpacing:'0.06em' }}>{cat.title}</p>
-                  <p style={{ fontSize:11, fontFamily:'var(--font-mono)', color:'var(--text-muted)' }}>{cat.skills.length} technologies</p>
-                </div>
-              </div>
-
-              <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
-                {cat.skills.map(skill => (
-                  <div key={skill.n}>
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6 }}>
-                      <span style={{ fontSize:13, color:'var(--text-muted)' }}>{skill.n}</span>
-                      <span style={{ fontFamily:'var(--font-mono)', fontSize:11, fontWeight:700, color:cat.color }}>{skill.l}%</span>
-                    </div>
-                    <div className="skill-track">
-                      <div
-                        className="skill-bar"
-                        data-width={`${skill.l}%`}
-                        style={{ background:`linear-gradient(to right, color-mix(in srgb, ${cat.color} 60%, transparent), ${cat.color})` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )
-        })}
+      <div
+        style={{
+          height: 4,
+          background: "var(--surface-active)",
+          borderRadius: "var(--radius-full)",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            height: "100%",
+            width: `${width}%`,
+            background: `linear-gradient(90deg, ${color}, ${color}aa)`,
+            borderRadius: "var(--radius-full)",
+            transition: "width 0.9s cubic-bezier(0.16, 1, 0.3, 1)",
+            boxShadow: `0 0 8px ${color}40`,
+          }}
+        />
       </div>
     </div>
-  )
+  );
+}
+
+export default function Skills() {
+  return (
+    <section className="section" style={{ maxWidth: 1100 }}>
+      <div className="section-header">
+        <h2>Skills</h2>
+        <p>Technologies and tools I work with regularly</p>
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
+          gap: "var(--space-6)",
+        }}
+      >
+        {skillGroups.map((group, gi) => (
+          <div
+            key={group.category}
+            className="glass-card"
+            style={{
+              padding: "var(--space-6)",
+              animation: `fadeUp 0.5s ${gi * 0.1}s ease both`,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "var(--space-3)",
+                marginBottom: "var(--space-5)",
+              }}
+            >
+              <div
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: group.color,
+                  boxShadow: `0 0 8px ${group.color}80`,
+                }}
+              />
+              <h3
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "var(--text-base)",
+                  fontWeight: 700,
+                  color: "var(--text)",
+                }}
+              >
+                {group.category}
+              </h3>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
+              {group.skills.map((skill, si) => (
+                <SkillBar
+                  key={skill.name}
+                  name={skill.name}
+                  level={skill.level}
+                  color={group.color}
+                  delay={gi * 100 + si * 60}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
