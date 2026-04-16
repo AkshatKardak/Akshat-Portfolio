@@ -1,90 +1,42 @@
 "use client";
-
 import { useEffect, useState } from "react";
-
-const bootSteps = [
-  { label: "Identity", value: "Akshat Kardak" },
-  { label: "Stack", value: "MERN + Next.js" },
-  { label: "Mode", value: "Portfolio online" },
-];
-
-const bootLines = [
-  "mapping project graph",
-  "warming interface layers",
-  "syncing Mumbai timezone",
-  "launching workspace",
-];
 
 export default function Loader() {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState(0);
+  const lines = ["> Initializing portfolio...", "> Loading components...", "> Ready."];
 
   useEffect(() => {
-    const progressTimer = window.setInterval(() => {
-      setProgress((current) => {
-        if (current >= 100) {
-          window.clearInterval(progressTimer);
-          return 100;
-        }
-
-        return Math.min(current + 4 + Math.random() * 7, 100);
-      });
-    }, 90);
-
-    const phaseTimer = window.setInterval(() => {
-      setPhase((current) => Math.min(current + 1, bootLines.length - 1));
-    }, 620);
-
-    return () => {
-      window.clearInterval(progressTimer);
-      window.clearInterval(phaseTimer);
-    };
+    const interval = setInterval(() => {
+      setProgress((p) => { if (p >= 100) { clearInterval(interval); return 100; } return p + Math.random() * 8 + 2; });
+    }, 60);
+    const p1 = setTimeout(() => setPhase(1), 600);
+    const p2 = setTimeout(() => setPhase(2), 1400);
+    const p3 = setTimeout(() => setPhase(3), 2200);
+    return () => { clearInterval(interval); clearTimeout(p1); clearTimeout(p2); clearTimeout(p3); };
   }, []);
 
   return (
-    <div className="loader-screen" role="status" aria-live="polite" aria-label="Loading portfolio">
-      <div className="loader-grid" />
+    <div style={{ position:"fixed", inset:0, background:"var(--bg)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", zIndex:9999, gap:"var(--space-6)" }}>
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-label="AK logo">
+        <rect width="48" height="48" rx="12" fill="var(--accent-dim)" stroke="var(--accent)" strokeWidth="1.5"/>
+        <path d="M14 34L22 14H26L34 34" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M17 28H31" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
 
-      <div className="loader-shell">
-        <div className="loader-orbit" aria-hidden="true">
-          <span />
-          <span />
-        </div>
-
-        <div className="loader-mark" aria-label="AK">
-          <svg viewBox="0 0 64 64" fill="none">
-            <rect x="6" y="6" width="52" height="52" rx="8" />
-            <path d="M19 45L29 19H35L45 45" />
-            <path d="M23 37H41" />
-            <path d="M42 20L31 33L45 45" />
-          </svg>
-        </div>
-
-        <div className="loader-copy">
-          <span className="loader-eyebrow">Initializing portfolio</span>
-          <h1>Building the workspace</h1>
-          <p>{bootLines[phase]}</p>
-        </div>
-
-        <div className="loader-status-row">
-          {bootSteps.map((step, index) => (
-            <div className="loader-status" key={step.label} style={{ animationDelay: `${index * 90}ms` }}>
-              <span>{step.label}</span>
-              <strong>{step.value}</strong>
-            </div>
-          ))}
-        </div>
-
-        <div className="loader-progress-wrap">
-          <div className="loader-progress-meta">
-            <span>Boot sequence</span>
-            <strong>{Math.round(progress)}%</strong>
+      <div style={{ fontFamily:"var(--font-mono)", fontSize:"var(--text-sm)", color:"var(--text-muted)", textAlign:"left", minWidth:"280px", display:"flex", flexDirection:"column", gap:"var(--space-2)" }}>
+        {lines.slice(0, phase + 1).map((line, i) => (
+          <div key={i} style={{ color: i === phase ? "var(--accent)" : "var(--text-muted)", animation:"fadeUp 0.3s ease forwards" }}>
+            {line}
           </div>
-          <div className="loader-progress">
-            <span style={{ width: `${progress}%` }} />
-          </div>
-        </div>
+        ))}
       </div>
+
+      <div style={{ width:280, height:2, background:"var(--surface-active)", borderRadius:"var(--radius-full)", overflow:"hidden" }}>
+        <div style={{ height:"100%", width:`${Math.min(progress,100)}%`, background:"linear-gradient(90deg, var(--accent), var(--violet))", borderRadius:"var(--radius-full)", transition:"width 0.1s ease", boxShadow:"0 0 8px var(--accent-glow)" }}/>
+      </div>
+
+      <style>{`@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }`}</style>
     </div>
   );
 }

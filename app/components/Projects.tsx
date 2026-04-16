@@ -8,11 +8,12 @@ const projects = [
     subtitle: "Car Rental MERN App",
     description:
       "Full-stack car rental platform with admin dashboard, AI chat assistant, damage report system, and Razorpay payment integration. Built end-to-end with the MERN stack.",
-    tags: ["MongoDB", "Express", "React", "Node.js", "Razorpay", "AI Chat"],
+    tags: ["MongoDB", "Express", "React", "Node.js", "Razorpay", "Firebase"],
     github: "https://github.com/AkshatKardak/car-rental-mern",
-    live: null,
+    live: "https://rentridefrontend.vercel.app/",
+    admin: "https://rentrideadmin.vercel.app/",
     badge: "Primary",
-    badgeColor: "var(--accent)",
+    badgeGrad: "linear-gradient(135deg, #818cf8, #c084fc)",
   },
   {
     title: "UnitedImpact",
@@ -22,8 +23,9 @@ const projects = [
     tags: ["React", "Node.js", "MongoDB", "Firebase", "Razorpay", "Maps"],
     github: "https://github.com/AkshatKardak",
     live: null,
+    admin: null,
     badge: "Primary",
-    badgeColor: "var(--accent)",
+    badgeGrad: "linear-gradient(135deg, #818cf8, #c084fc)",
   },
   {
     title: "RoastHub",
@@ -33,41 +35,45 @@ const projects = [
     tags: ["MERN Stack", "AI API", "React", "Node.js"],
     github: "https://github.com/AkshatKardak",
     live: null,
+    admin: null,
     badge: "Experiment",
-    badgeColor: "var(--violet)",
+    badgeGrad: "linear-gradient(135deg, #c084fc, #fb7185)",
   },
   {
     title: "Face Recognition Attendance",
-    subtitle: "Academic Project",
+    subtitle: "Python + OpenCV",
     description:
-      "Python-based automated attendance system using real-time face recognition. Detects and matches student faces against a database, logging attendance automatically.",
+      "Automated attendance system using real-time face recognition. Detects and matches student faces against a database, logging attendance automatically.",
     tags: ["Python", "OpenCV", "Face Recognition", "SQLite"],
     github: "https://github.com/AkshatKardak",
     live: null,
+    admin: null,
     badge: "Academic",
-    badgeColor: "var(--success)",
+    badgeGrad: "linear-gradient(135deg, #34d399, #38bdf8)",
   },
   {
     title: "Game Website",
     subtitle: "Animated Game Portal",
     description:
-      "A visually polished game portal website with smooth animations, clean UI, and responsive design. Focus on performance and immersive web experience.",
+      "A visually polished game portal with smooth animations, clean UI, and responsive design. Focus on performance and immersive web experience.",
     tags: ["HTML", "CSS", "JavaScript", "GSAP"],
     github: "https://github.com/AkshatKardak",
     live: null,
+    admin: null,
     badge: "Design",
-    badgeColor: "var(--warning)",
+    badgeGrad: "linear-gradient(135deg, #fbbf24, #fb7185)",
   },
   {
     title: "CampusDrop",
-    subtitle: "Campus Marketplace App",
+    subtitle: "Flutter Campus Marketplace",
     description:
       "Flutter mobile app for campus marketplace with Firebase backend, Cloudinary image hosting, and real-time listings for students to buy and sell items.",
     tags: ["Flutter", "Firebase", "Cloudinary", "Dart"],
     github: "https://github.com/AkshatKardak",
     live: null,
+    admin: null,
     badge: "Mobile",
-    badgeColor: "#f97316",
+    badgeGrad: "linear-gradient(135deg, #38bdf8, #818cf8)",
   },
 ];
 
@@ -75,8 +81,17 @@ export default function Projects() {
   return (
     <section className="section" style={{ maxWidth: 1100 }}>
       <div className="section-header">
-        <h2>Projects</h2>
-        <p>A collection of real-world applications and experiments</p>
+        <h2
+          style={{
+            background: "var(--grad-text)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          Projects
+        </h2>
+        <p>Real-world applications and experiments built from scratch</p>
       </div>
 
       <div
@@ -96,8 +111,23 @@ export default function Projects() {
               flexDirection: "column",
               gap: "var(--space-4)",
               animation: `fadeUp 0.5s ${i * 0.07}s ease both`,
+              position: "relative",
+              overflow: "hidden",
             }}
           >
+            {/* Subtle gradient top line */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 2,
+                background: project.badgeGrad,
+                borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
+              }}
+            />
+
             {/* Header */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
               <div>
@@ -126,12 +156,12 @@ export default function Projects() {
                 style={{
                   fontSize: "var(--text-xs)",
                   fontWeight: 600,
-                  color: project.badgeColor,
-                  background: `${project.badgeColor}18`,
-                  border: `1px solid ${project.badgeColor}30`,
+                  color: "#fff",
+                  background: project.badgeGrad,
                   borderRadius: "var(--radius-full)",
-                  padding: "2px 10px",
+                  padding: "3px 10px",
                   whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
                 {project.badge}
@@ -151,7 +181,15 @@ export default function Projects() {
             </div>
 
             {/* Actions */}
-            <div style={{ display: "flex", gap: "var(--space-3)", paddingTop: "var(--space-2)", borderTop: "1px solid var(--border)" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "var(--space-3)",
+                paddingTop: "var(--space-3)",
+                borderTop: "1px solid var(--border)",
+                flexWrap: "wrap",
+              }}
+            >
               <a
                 href={project.github}
                 target="_blank"
@@ -165,13 +203,15 @@ export default function Projects() {
                   textDecoration: "none",
                   transition: "color var(--transition-fast)",
                   fontWeight: 500,
+                  padding: "var(--space-1) 0",
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
               >
                 <GitHubIcon size={14} /> GitHub
               </a>
-              {project.live && (
+
+              {project.live ? (
                 <a
                   href={project.live}
                   target="_blank"
@@ -181,12 +221,65 @@ export default function Projects() {
                     alignItems: "center",
                     gap: "var(--space-2)",
                     fontSize: "var(--text-xs)",
-                    color: "var(--accent)",
+                    fontWeight: 600,
                     textDecoration: "none",
-                    fontWeight: 500,
+                    padding: "var(--space-1) var(--space-3)",
+                    borderRadius: "var(--radius-full)",
+                    background: "var(--accent-dim)",
+                    color: "var(--accent)",
+                    border: "1px solid rgba(129,140,248,0.25)",
+                    transition: "all var(--transition-fast)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = "var(--accent)";
+                    (e.currentTarget as HTMLAnchorElement).style.color = "#fff";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = "var(--accent-dim)";
+                    (e.currentTarget as HTMLAnchorElement).style.color = "var(--accent)";
                   }}
                 >
-                  <ExternalLinkIcon size={13} /> Live Demo
+                  <ExternalLinkIcon size={12} /> Live Demo
+                </a>
+              ) : (
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "var(--space-2)",
+                    fontSize: "var(--text-xs)",
+                    color: "var(--text-faint)",
+                    padding: "var(--space-1) var(--space-3)",
+                    borderRadius: "var(--radius-full)",
+                    background: "var(--surface-active)",
+                    border: "1px solid var(--border)",
+                  }}
+                >
+                  🔒 Private / WIP
+                </span>
+              )}
+
+              {/* Admin link for RentRide */}
+              {project.admin && (
+                <a
+                  href={project.admin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "var(--space-2)",
+                    fontSize: "var(--text-xs)",
+                    fontWeight: 500,
+                    textDecoration: "none",
+                    padding: "var(--space-1) var(--space-3)",
+                    borderRadius: "var(--radius-full)",
+                    background: "rgba(192,132,252,0.1)",
+                    color: "var(--violet)",
+                    border: "1px solid rgba(192,132,252,0.2)",
+                  }}
+                >
+                  <ExternalLinkIcon size={12} /> Admin Panel
                 </a>
               )}
             </div>
