@@ -21,18 +21,18 @@ export default function Experience() {
   };
 
   return (
-    <section className="section max-w-[1000px]">
+    <section className="section w-full">
       <motion.div 
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
+        <h2 className="text-3xl font-black tracking-normal flex items-center gap-3">
           <Briefcase className="text-accent" />
           Pro Journey
         </h2>
-        <p className="text-text-muted mt-2">A timeline of my professional growth, academic milestones, and technical impact.</p>
+        <p className="text-text-muted">A timeline of my professional growth, academic milestones, and technical impact.</p>
       </motion.div>
 
       <div className="relative pl-4 ml-4 md:pl-8 md:ml-6">
@@ -40,28 +40,31 @@ export default function Experience() {
         <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-accent via-violet to-transparent opacity-30" />
 
         <motion.div 
-          className="flex flex-col gap-10"
+          className="flex flex-col gap-6"
           variants={container}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
         >
-          {experiences.map((exp, i) => (
+          {experiences.map((exp) => (
             <motion.div
               key={exp.role}
               variants={item}
               className="relative flex flex-col gap-4"
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              initial={{ opacity: 0, x: -20, scale: 0.98 }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               {/* Dot */}
               <div 
                 className="absolute -left-4 md:-left-8 top-1 w-2.5 h-2.5 rounded-full border-2 border-bg z-10"
-                style={{ backgroundColor: exp.color, boxShadow: `0 0 10px ${exp.color}` }}
+                style={{ backgroundColor: exp.color, boxShadow: `0 0 14px ${exp.color}` }}
               />
 
               <div className="glass-card p-6 border-white/5 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group">
                 {/* Accent Background Glow */}
-                <div 
-                  className="absolute -right-20 -top-20 w-40 h-40 rounded-full blur-[100px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"
+                <div
+                  className="absolute -right-16 -top-16 w-32 h-32 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"
                   style={{ backgroundColor: exp.color }}
                 />
 

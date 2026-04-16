@@ -24,31 +24,44 @@ export default function Home() {
   if (!loaded) return <Loader />;
 
   return (
-    <div className="relative min-h-dvh bg-bg overflow-hidden flex">
-      {/* Background Elements */}
-      <div className="mesh-bg fixed inset-0 pointer-events-none z-0">
-        <div className="mesh-blob-3 opacity-40" />
+    <div
+      className="site-shell"
+      style={{
+        position: "relative",
+        minHeight: "100dvh",
+        overflowX: "hidden",
+        display: "flex",
+      }}
+    >
+      {/* Gradient Mesh Background */}
+      <div className="site-mesh" aria-hidden="true">
+        <div className="mesh-blob one" />
+        <div className="mesh-blob two" />
+        <div className="mesh-blob three" />
       </div>
+
       <CursorGlow />
 
-      {/* Main Layout Container */}
-      <div className="relative z-10 flex w-full h-dvh overflow-hidden">
+      {/* Layout */}
+      <div className="content-shell">
         <Sidebar active={activeSection} setActive={setActiveSection} />
 
-        {/* Main Content Area */}
-        <main 
-          className="flex-1 overflow-y-auto h-full relative"
+        <main
           id="main-content"
-          style={{ scrollPaddingTop: '2rem' }}
+          style={{
+            minWidth: 0,
+            minHeight: "100dvh",
+            position: "relative",
+          }}
         >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 1.02 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="px-6 py-8 md:px-12 md:py-16 mx-auto w-full max-w-[1200px]"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="content-panel"
             >
               {activeSection === "dashboard"      && <Dashboard />}
               {activeSection === "projects"       && <Projects />}
@@ -62,23 +75,42 @@ export default function Home() {
       </div>
 
       {/* Mobile Bottom Nav */}
-      <nav 
-        className="md:hidden fixed bottom-0 left-0 right-0 z-[100] flex border-t border-border"
-        style={{ 
-          backgroundColor: 'rgba(5, 8, 16, 0.85)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)'
+      <nav
+        className="mobile-bottom-nav"
+        style={{
+          display: "none",
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          backgroundColor: "rgba(5,8,16,0.90)",
         }}
       >
         {["dashboard","projects","skills","experience","contact"].map((s) => (
           <button
             key={s}
             onClick={() => setActiveSection(s)}
-            className={`flex-1 flex flex-col items-center gap-1.5 py-3 capitalize transition-colors ${
-              activeSection === s ? "text-accent" : "text-text-muted hover:text-text"
-            }`}
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 4,
+              padding: "10px 0",
+              fontSize: "10px",
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: activeSection === s ? "#3b82f6" : "rgba(240,244,248,0.5)",
+              transition: "color 150ms ease",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+            }}
           >
-            <span className="text-[10px] uppercase font-bold tracking-widest">{s.slice(0, 3)}</span>
+            {s.slice(0, 3)}
           </button>
         ))}
       </nav>

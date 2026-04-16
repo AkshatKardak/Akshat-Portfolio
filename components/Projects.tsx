@@ -21,18 +21,18 @@ export default function Projects() {
   };
 
   return (
-    <section className="section max-w-[1200px]">
+    <section className="section w-full">
       <motion.div 
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
+        <h2 className="text-3xl font-black tracking-normal flex items-center gap-3">
           <Code className="text-accent" />
           Featured Work
         </h2>
-        <p className="text-text-muted mt-2">A collection of real-world applications and experiments built with modern tech stacks.</p>
+        <p className="text-text-muted">A collection of real-world applications and experiments built with modern tech stacks.</p>
       </motion.div>
 
       <motion.div
@@ -42,11 +42,12 @@ export default function Projects() {
         whileInView="show"
         viewport={{ once: true }}
       >
-        {projects.map((project, i) => (
+        {projects.map((project) => (
           <motion.div
             key={project.title}
             variants={item}
             className="glass-card p-6 flex flex-col gap-4 group hover:border-accent/30 transition-all duration-500"
+            whileHover={{ y: -6, scale: 1.02, rotateX: 1.2, rotateY: -1.2 }}
           >
             <div className="flex justify-between items-start">
               <div>

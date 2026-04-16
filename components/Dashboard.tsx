@@ -7,7 +7,6 @@ import {
   Terminal, 
   ExternalLink, 
   FileDown, 
-  Github,
   Star,
   Users,
   Package
@@ -26,7 +25,6 @@ export default function Dashboard() {
   const [typing, setTyping] = useState(true);
   const [visibleLines, setVisibleLines] = useState(0);
   const [ghStats, setGhStats] = useState<GitHubStats | null>(null);
-  const [ghLoading, setGhLoading] = useState(true);
 
   // Fetch real GitHub stats
   useEffect(() => {
@@ -34,9 +32,8 @@ export default function Dashboard() {
       .then((r) => r.json())
       .then((data) => {
         setGhStats(data);
-        setGhLoading(false);
       })
-      .catch(() => setGhLoading(false));
+      .catch(() => null);
   }, []);
 
   // Typewriter
@@ -55,8 +52,11 @@ export default function Dashboard() {
         const t = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 35);
         return () => clearTimeout(t);
       } else {
-        setRoleIndex((i) => (i + 1) % roles.length);
-        setTyping(true);
+        const t = setTimeout(() => {
+          setRoleIndex((i) => (i + 1) % roles.length);
+          setTyping(true);
+        }, 0);
+        return () => clearTimeout(t);
       }
     }
   }, [displayed, typing, roleIndex]);
@@ -103,9 +103,14 @@ export default function Dashboard() {
           )}
 
           <motion.div variants={item}>
-            <h1 className="text-4xl md:text-6xl font-black text-text tracking-tighter leading-[0.9] mb-4">
-              {personal.name.split(' ')[0]}<br/>
-              <span className="text-accent">{personal.name.split(' ')[1]}</span>
+            <h1 className="text-4xl md:text-6xl font-black text-text tracking-normal leading-[1.05] mb-4">
+              {personal.name.split(" ")[0]}<br/>
+              <span
+                className="text-transparent bg-clip-text"
+                style={{ backgroundImage: "linear-gradient(135deg, var(--accent), var(--violet))" }}
+              >
+                {personal.name.split(" ")[1]}
+              </span>
             </h1>
           </motion.div>
 
@@ -139,11 +144,11 @@ export default function Dashboard() {
 
           {/* Actions */}
           <motion.div variants={item} className="flex flex-wrap gap-4 mt-4">
-            <button className="flex items-center gap-2 px-6 py-3 bg-accent hover:bg-accent-hover text-bg font-bold rounded-xl transition-all hover:-translate-y-1 shadow-lg shadow-accent/20">
+            <button className="btn-primary" data-cursor="interactive">
               <ExternalLink size={18} />
               View Projects
             </button>
-            <a href={personal.resumeUrl} download className="flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-border text-text font-bold rounded-xl transition-all hover:-translate-y-1">
+            <a href={personal.resumeUrl} download className="btn-ghost" data-cursor="interactive">
               <FileDown size={18} />
               Resume.pdf
             </a>
@@ -157,9 +162,10 @@ export default function Dashboard() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="absolute inset-0 bg-accent/10 blur-3xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-700 pointer-events-none" />
+          <div className="hero-ambient group-hover:opacity-[0.12] group-hover:scale-100" />
           
-          <div className="relative glass-card overflow-hidden border-white/10 group-hover:border-accent/30 transition-colors">
+          <div className="relative glass-card overflow-hidden border-white/10 group-hover:border-accent/30 transition-all duration-500">
+            <div className="code-editor-ambient" />
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-border">
               <div className="flex gap-1.5">
@@ -169,16 +175,16 @@ export default function Dashboard() {
               </div>
               <div className="flex items-center gap-2 text-[10px] font-mono text-text-faint">
                 <Terminal size={12} />
-                akshat.ts
+                akshat.tsx
               </div>
             </div>
 
             {/* Editor Content */}
             <div className="p-6 font-mono text-[13px] leading-relaxed overflow-x-hidden">
               {codePreview.slice(0, visibleLines).map((line) => (
-                <div key={line.num} className="flex gap-4">
+                <div key={line.num} className="flex gap-4 min-w-0">
                   <span className="w-5 text-right text-text-faint/50 select-none text-[10px]">{line.num}</span>
-                  <span style={{ color: line.color || "var(--color-text)" }} className="whitespace-pre">
+                  <span style={{ color: line.color || "var(--color-text)" }} className="whitespace-pre-wrap break-words min-w-0">
                     {line.text}
                   </span>
                 </div>
@@ -202,19 +208,19 @@ export default function Dashboard() {
         whileInView="show"
         viewport={{ once: true }}
       >
-        {stats.map((stat, i) => {
-          const isGH = stat.label === "GitHub Repos";
-          const val = (isGH && ghStats) ? ghStats.publicRepos : stat.value;
-          
+        {stats.map((stat) => {
           return (
             <motion.div 
               key={stat.label}
               variants={item}
-              className="glass-card p-6 flex flex-col gap-2 hover:border-accent/20"
+              className="glass-card stats-card p-6 flex flex-col gap-2 hover:border-accent/20"
+              whileHover={{ y: -4, scale: 1.02 }}
             >
-              <span className="text-2xl mb-2">{stat.icon}</span>
-              <div className="text-3xl font-black text-accent tracking-tighter">
-                {ghLoading && isGH ? "..." : val}
+              <span className="text-xs font-mono inline-flex h-9 w-9 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent mb-2">
+                {stat.icon}
+              </span>
+              <div className="text-3xl font-black text-accent tracking-normal">
+                {stat.value}
               </div>
               <div className="text-[10px] uppercase tracking-widest font-bold text-text-muted">
                 {stat.label}

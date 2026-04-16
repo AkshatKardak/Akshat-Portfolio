@@ -21,18 +21,18 @@ export default function Certifications() {
   };
 
   return (
-    <section className="section max-w-[1200px]">
+    <section className="section w-full">
       <motion.div 
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
+        <h2 className="text-3xl font-black tracking-normal flex items-center gap-3">
           <Award className="text-accent" />
           Certifications
         </h2>
-        <p className="text-text-muted mt-2">Validated expertise through professional certifications and academic achievements.</p>
+        <p className="text-text-muted">Validated expertise through professional certifications and academic achievements.</p>
       </motion.div>
 
       <motion.div
@@ -42,11 +42,12 @@ export default function Certifications() {
         whileInView="show"
         viewport={{ once: true }}
       >
-        {certifications.map((cert) => (
+        {certifications.map((cert, index) => (
           <motion.div
             key={cert.title}
             variants={item}
-            className="glass-card p-6 flex flex-col gap-5 group hover:border-accent/20 transition-all duration-500"
+            className={`glass-card p-6 flex flex-col gap-5 group hover:border-accent/20 transition-all duration-500 ${index === 0 ? "featured-cert md:col-span-2 xl:col-span-1" : ""}`}
+            whileHover={{ y: -4, scale: 1.01 }}
           >
             <div className="flex items-start gap-4">
               <div
@@ -65,7 +66,7 @@ export default function Certifications() {
                 </div>
                 <div className="flex items-center gap-1.5 mt-1">
                   <CheckCircle2 size={12} className="text-success" />
-                  <span className="text-[10px] font-bold text-text-faint uppercase tracking-tighter">Verified Credential</span>
+                  <span className="text-[10px] font-bold text-text-faint uppercase tracking-normal">Verified Credential</span>
                 </div>
               </div>
             </div>

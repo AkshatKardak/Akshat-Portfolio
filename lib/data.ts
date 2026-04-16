@@ -1,7 +1,3 @@
-// ============================================
-// SINGLE SOURCE OF TRUTH — Edit only this file
-// ============================================
-
 export const personal = {
   name: "Akshat Kardak",
   role: "Full Stack Developer",
@@ -12,47 +8,43 @@ export const personal = {
   github: "https://github.com/AkshatKardak",
   githubUsername: "AkshatKardak",
   linkedin: "https://www.linkedin.com/in/akshatkardak",
-  resumeUrl: "/resume.pdf", // Put your resume PDF in /public/resume.pdf
+  resumeUrl: "/resume.pdf",
   available: true,
 };
 
 export const roles = [
-  "Full Stack Developer",
-  "React Developer",
-  "Node.js Engineer",
-  "Problem Solver",
+  "Node.js Developer",
+  "Full Stack Engineer",
+  "Building Scalable Apps",
+  "Premium Web Interfaces",
 ];
 
 export const stats = [
-  { label: "Projects Built",  value: "8+",  icon: "📦" },
-  { label: "Certifications",  value: "5",   icon: "🏅" },
-  { label: "Internship",      value: "1",   icon: "💼" },
-  { label: "GitHub Repos",    value: "15+", icon: "⭐" },
+  { label: "Projects Built", value: "6", icon: "PK" },
+  { label: "Technologies Used", value: "12+", icon: "TS" },
+  { label: "Internship Experience", value: "1", icon: "IN" },
+  { label: "Certifications", value: "5", icon: "CR" },
 ];
 
 export const codePreview = [
-  { num: 1,  text: `const developer = {`,                              color: "var(--text)" },
-  { num: 2,  text: `  name: "Akshat Kardak",`,                         color: "var(--accent)" },
-  { num: 3,  text: `  role: "Full Stack Developer",`,                  color: "var(--accent)" },
-  { num: 4,  text: `  location: "Mumbai, India",`,                     color: "var(--success)" },
-  { num: 5,  text: `  projects: {`,                                     color: "var(--text)" },
-  { num: 6,  text: `    featured: ["RentRide", "UnitedImpact"],`,      color: "var(--violet)" },
-  { num: 7,  text: `    experiments: ["RoastHub"],`,                   color: "var(--violet)" },
-  { num: 8,  text: `  },`,                                              color: "var(--text)" },
-  { num: 9,  text: `  stack: {`,                                        color: "var(--text)" },
-  { num: 10, text: `    frontend: ["React", "Next.js", "Tailwind"],`,  color: "#f97316" },
-  { num: 11, text: `    backend:  ["Node.js", "Express"],`,            color: "#f97316" },
-  { num: 12, text: `    database: ["MongoDB", "Firebase"],`,           color: "#f97316" },
-  { num: 13, text: `  },`,                                              color: "var(--text)" },
-  { num: 14, text: `  focus: "Scalable real-world apps"`,             color: "var(--success)" },
-  { num: 15, text: `};`,                                                color: "var(--text)" },
-  { num: 16, text: ``,                                                  color: "" },
-  { num: 17, text: `export default developer;`,                         color: "var(--accent)" },
+  { num: 1, text: "const developer = {", color: "var(--text)" },
+  { num: 2, text: '  name: "Akshat Kardak",', color: "var(--accent)" },
+  { num: 3, text: '  role: "Full Stack Developer",', color: "var(--accent)" },
+  { num: 4, text: '  location: "Mumbai, India",', color: "var(--success)" },
+  { num: 5, text: "  projects: {", color: "var(--text)" },
+  { num: 6, text: '    featured: ["RentRide", "UnitedImpact"],', color: "var(--violet)" },
+  { num: 7, text: '    product: ["CampusDrop"],', color: "var(--violet)" },
+  { num: 8, text: "  },", color: "var(--text)" },
+  { num: 9, text: "  stack: {", color: "var(--text)" },
+  { num: 10, text: '    frontend: ["React", "Next.js", "Tailwind"],', color: "#ff9d57" },
+  { num: 11, text: '    backend: ["Node.js", "Express"],', color: "#ff9d57" },
+  { num: 12, text: '    database: ["MongoDB", "Firebase"],', color: "#ff9d57" },
+  { num: 13, text: "  },", color: "var(--text)" },
+  { num: 14, text: '  focus: "Scalable real-world apps",', color: "var(--success)" },
+  { num: 15, text: "};", color: "var(--text)" },
+  { num: 16, text: "", color: "" },
+  { num: 17, text: "export default developer;", color: "var(--accent)" },
 ];
-
-// ============================================
-// PROJECTS
-// ============================================
 
 export type Project = {
   title: string;
@@ -114,7 +106,7 @@ export const projects: Project[] = [
     title: "Game Website",
     subtitle: "Animated Game Portal",
     description:
-      "A visually polished game portal website with smooth animations, clean UI, and responsive design. Focus on performance and immersive web experience.",
+      "A visually polished game portal website with smooth animations, clean UI, and responsive design focused on performance and immersive browsing.",
     tags: ["HTML", "CSS", "JavaScript", "GSAP"],
     github: "https://github.com/AkshatKardak",
     live: null,
@@ -130,13 +122,9 @@ export const projects: Project[] = [
     github: "https://github.com/AkshatKardak",
     live: null,
     badge: "Mobile",
-    badgeColor: "#f97316",
+    badgeColor: "#ff9d57",
   },
 ];
-
-// ============================================
-// SKILLS
-// ============================================
 
 export type Skill = { name: string; level: number };
 export type SkillGroup = {
@@ -150,53 +138,49 @@ export const skillGroups: SkillGroup[] = [
     category: "Frontend",
     color: "var(--accent)",
     skills: [
-      { name: "React.js",     level: 88 },
-      { name: "Next.js",      level: 82 },
+      { name: "React.js", level: 88 },
+      { name: "Next.js", level: 82 },
       { name: "Tailwind CSS", level: 85 },
-      { name: "JavaScript",   level: 87 },
-      { name: "HTML & CSS",   level: 92 },
-      { name: "Flutter",      level: 68 },
+      { name: "JavaScript", level: 87 },
+      { name: "HTML & CSS", level: 92 },
+      { name: "Flutter", level: 68 },
     ],
   },
   {
     category: "Backend",
     color: "var(--violet)",
     skills: [
-      { name: "Node.js",     level: 80 },
-      { name: "Express.js",  level: 78 },
-      { name: "FastAPI",     level: 60 },
-      { name: "REST APIs",   level: 82 },
-      { name: "Firebase",    level: 76 },
-      { name: "Socket.io",   level: 62 },
+      { name: "Node.js", level: 80 },
+      { name: "Express.js", level: 78 },
+      { name: "FastAPI", level: 60 },
+      { name: "REST APIs", level: 82 },
+      { name: "Firebase", level: 76 },
+      { name: "Socket.io", level: 62 },
     ],
   },
   {
     category: "Database",
     color: "var(--success)",
     skills: [
-      { name: "MongoDB",     level: 78 },
+      { name: "MongoDB", level: 78 },
       { name: "Firebase DB", level: 74 },
-      { name: "Supabase",    level: 55 },
-      { name: "Cloudinary",  level: 70 },
+      { name: "Supabase", level: 55 },
+      { name: "Cloudinary", level: 70 },
     ],
   },
   {
     category: "Languages & Tools",
-    color: "#f97316",
+    color: "#ff9d57",
     skills: [
-      { name: "Python",       level: 78 },
-      { name: "Java",         level: 72 },
-      { name: "TypeScript",   level: 65 },
+      { name: "Python", level: 78 },
+      { name: "Java", level: 72 },
+      { name: "TypeScript", level: 65 },
       { name: "Git & GitHub", level: 85 },
-      { name: "Vercel",       level: 80 },
-      { name: "Razorpay",     level: 72 },
+      { name: "Vercel", level: 80 },
+      { name: "Razorpay", level: 72 },
     ],
   },
 ];
-
-// ============================================
-// EXPERIENCE
-// ============================================
 
 export type Experience = {
   role: string;
@@ -215,25 +199,25 @@ export const experiences: Experience[] = [
     role: "Web Development Intern",
     org: "Employment Express Verband LLP",
     type: "Internship",
-    period: "Aug 2025 – Oct 2025",
+    period: "Aug 2025 - Oct 2025",
     duration: "3 months",
     description:
-      "Completed a 3-month web development internship (InternBoot program). Built and shipped frontend and backend features, gaining hands-on experience in real-world development workflows.",
+      "Completed a 3-month web development internship. Built and shipped frontend and backend features while working with real-world product workflows.",
     tags: ["Web Development", "HTML", "CSS", "JavaScript"],
     color: "var(--accent)",
-    icon: "💼",
+    icon: "WEB",
   },
   {
     role: "Publicity Team Member",
     org: "Computer Society of India (CSI)",
     type: "Organization",
-    period: "Aug 2024 – Apr 2025",
+    period: "Aug 2024 - Apr 2025",
     duration: "9 months",
     description:
-      "Active member of the Datta Meghe College CSI chapter. Participated in tech events, workshops, and managed social media and promotional materials for the chapter's activities.",
+      "Managed promotion for technical events, workshops, and campus outreach while contributing to the Datta Meghe College CSI chapter.",
     tags: ["Event Management", "Publicity", "Leadership"],
     color: "var(--violet)",
-    icon: "🏛️",
+    icon: "CSI",
   },
   {
     role: "Quantum Hacks Participant",
@@ -242,28 +226,24 @@ export const experiences: Experience[] = [
     period: "2025",
     duration: "",
     description:
-      "Participated in Quantum Hacks hackathon, designing and building a functional project under time constraints, focusing on problem-solving and rapid prototyping.",
+      "Participated in Quantum Hacks, designing and shipping a functional product under time constraints with a strong focus on rapid prototyping.",
     tags: ["Hackathon", "Problem Solving", "Team Collaboration"],
     color: "var(--success)",
-    icon: "⚡",
+    icon: "QH",
   },
   {
     role: "B.E. Computer Engineering",
-    org: "Datta Meghe College of Engineering, Mumbai",
+    org: "Datta Meghe College of Engineering, University of Mumbai",
     type: "Education",
-    period: "2023 – 2027",
+    period: "2023 - 2027",
     duration: "4 years",
     description:
-      "Pursuing Bachelor of Engineering in Computer Science at DMCE, University of Mumbai. Coursework spans algorithms, databases, operating systems, and software engineering.",
+      "Pursuing a Bachelor of Engineering in Computer Science with coursework across algorithms, databases, operating systems, and software engineering.",
     tags: ["Computer Science", "University of Mumbai", "B.E."],
-    color: "#f97316",
-    icon: "🎓",
+    color: "#ff9d57",
+    icon: "BE",
   },
 ];
-
-// ============================================
-// CERTIFICATIONS
-// ============================================
 
 export type Certification = {
   title: string;
@@ -279,53 +259,44 @@ export const certifications: Certification[] = [
   {
     title: "Full Stack Developer",
     issuer: "Certification Authority",
-    description:
-      "Comprehensive full-stack development certification covering frontend, backend, and database technologies.",
+    description: "Comprehensive full-stack development certification covering frontend, backend, and database technologies.",
     color: "var(--accent)",
-    icon: "🖥️",
+    icon: "FS",
     tags: ["Full Stack", "Web Dev"],
   },
   {
     title: "Software Engineering Job Simulation",
     issuer: "Forage",
-    description:
-      "Completed a software engineering job simulation, working on real-world engineering tasks and workflows.",
+    description: "Completed a software engineering job simulation focused on real engineering tasks and workflows.",
     color: "var(--violet)",
-    icon: "⚙️",
+    icon: "SE",
     tags: ["Software Engineering", "Simulation"],
   },
   {
     title: "Data Analytics Job Simulation",
     issuer: "Deloitte Australia",
-    description:
-      "Hands-on data analytics simulation with Deloitte Australia covering data analysis, visualization, and business insights.",
-    color: "#f97316",
-    icon: "📊",
+    description: "Hands-on analytics simulation covering data analysis, visualization, and business insight generation.",
+    color: "#ff9d57",
+    icon: "DA",
     tags: ["Data Analytics", "Deloitte"],
   },
   {
     title: "ReactJS for Beginners",
     issuer: "Simplilearn",
-    description:
-      "ReactJS fundamentals certification covering components, hooks, state management, and building modern UIs.",
+    description: "ReactJS fundamentals certification covering components, hooks, state management, and UI development.",
     color: "var(--success)",
-    icon: "⚛️",
+    icon: "RJ",
     tags: ["React.js", "Frontend"],
   },
   {
     title: "Front-End Software Engineering Simulation",
     issuer: "Skyscanner",
-    description:
-      "Front-end engineering simulation with Skyscanner covering component design, accessibility, and modern UI engineering.",
-    color: "#a78bfa",
-    icon: "✈️",
+    description: "Front-end engineering simulation covering component design, accessibility, and modern UI engineering.",
+    color: "var(--violet)",
+    icon: "FE",
     tags: ["Frontend", "Skyscanner"],
   },
 ];
-
-// ============================================
-// NAV
-// ============================================
 
 export type NavItem = {
   id: string;
@@ -333,10 +304,10 @@ export type NavItem = {
 };
 
 export const navItems: NavItem[] = [
-  { id: "dashboard",      label: "Dashboard" },
-  { id: "projects",       label: "Projects" },
-  { id: "skills",         label: "Skills" },
-  { id: "experience",     label: "Experience" },
+  { id: "dashboard", label: "Dashboard" },
+  { id: "projects", label: "Projects" },
+  { id: "skills", label: "Skills" },
+  { id: "experience", label: "Experience" },
   { id: "certifications", label: "Certifications" },
-  { id: "contact",        label: "Contact" },
+  { id: "contact", label: "Contact" },
 ];
