@@ -28,15 +28,27 @@ export default function Home() {
         <div className="mesh-blob-3" />
       </div>
       <CursorGlow />
-      <div style={{ display: "flex", minHeight: "100dvh", position: "relative", zIndex: 1 }}>
+      <div
+        style={{
+          display: "flex",
+          minHeight: "100dvh",
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          overflow: "hidden",
+        }}
+      >
         <Sidebar active={activeSection} setActive={setActiveSection} />
         <main
           style={{
             flex: 1,
-            marginLeft: "var(--sidebar-width)",
+            marginLeft: "240px",
             overflowY: "auto",
             height: "100dvh",
+            width: "calc(100% - 240px)",
+            position: "relative",
           }}
+          id="main-content"
         >
           {activeSection === "dashboard"      && <Dashboard />}
           {activeSection === "projects"       && <Projects />}
