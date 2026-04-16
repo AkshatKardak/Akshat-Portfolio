@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { GitHubIcon, LinkedInIcon, MailIcon } from "./BrandIcons";
+import { motion } from "framer-motion";
+import { personal } from "@/lib/data";
+import { Mail, Github, Linkedin, Send, User, AtSign, MessageSquare } from "lucide-react";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -9,172 +11,136 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
-    const body = encodeURIComponent(`${form.message}\n\nFrom: ${form.name} <${form.email}>`);
-    window.open(`mailto:kardakakshat@gmail.com?subject=${subject}&body=${body}`, "_blank");
+    const mailto = `mailto:${personal.email}?subject=Portfolio Contact from ${form.name}&body=${encodeURIComponent(form.message)}`;
+    window.open(mailto, "_blank");
     setStatus("sent");
-    window.setTimeout(() => setStatus("idle"), 3000);
+    setTimeout(() => setStatus("idle"), 3000);
     setForm({ name: "", email: "", message: "" });
   };
 
-  return (
-    <section className="section" style={{ maxWidth: 800 }}>
-      <div className="section-header">
-        <h2>Get In Touch</h2>
-        <p>Open to internships, collaborations, and interesting opportunities</p>
-      </div>
+  const contacts = [
+    { icon: Mail, label: "Email", value: personal.email, href: `mailto:${personal.email}`, color: "#3b82f6" },
+    { icon: Github, label: "GitHub", value: "AkshatKardak", href: personal.github, color: "#f0f4f8" },
+    { icon: Linkedin, label: "LinkedIn", value: "akshatkardak", href: personal.linkedin, color: "#0a66c2" },
+  ];
 
-      <div
-        className="contact-grid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1.4fr",
-          gap: "var(--space-8)",
-          alignItems: "start",
-        }}
+  return (
+    <section className="section max-w-[1000px]">
+      <motion.div 
+        className="section-header"
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
-          {[
-            {
-              icon: <MailIcon size={20} />,
-              label: "Email",
-              value: "kardakakshat@gmail.com",
-              href: "mailto:kardakakshat@gmail.com",
-              color: "var(--accent)",
-            },
-            {
-              icon: <GitHubIcon size={20} />,
-              label: "GitHub",
-              value: "AkshatKardak",
-              href: "https://github.com/AkshatKardak",
-              color: "var(--text)",
-            },
-            {
-              icon: <LinkedInIcon size={20} />,
-              label: "LinkedIn",
-              value: "akshatkardak",
-              href: "https://www.linkedin.com/in/akshatkardak",
-              color: "#0a66c2",
-            },
-          ].map(({ icon, label, value, href, color }) => (
-            <a
+        <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
+          <Mail className="text-accent" />
+          Get In Touch
+        </h2>
+        <p className="text-text-muted mt-2">Interested in working together or just want to say hi? My inbox is always open.</p>
+      </motion.div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
+        {/* Contact Links */}
+        <div className="lg:col-span-2 flex flex-col gap-4">
+          {contacts.map(({ icon: Icon, label, value, href, color }, i) => (
+            <motion.a
               key={label}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-card"
-              style={{
-                padding: "var(--space-4) var(--space-5)",
-                display: "flex",
-                alignItems: "center",
-                gap: "var(--space-4)",
-                textDecoration: "none",
-                color: "var(--text)",
-              }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              viewport={{ once: true }}
+              className="glass-card p-4 flex items-center gap-4 group hover:border-accent/40 transition-all duration-300"
             >
               <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: "var(--radius-lg)",
-                  background: "var(--surface-active)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color,
-                  flexShrink: 0,
-                }}
+                className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center transition-transform group-hover:scale-110"
+                style={{ color }}
               >
-                {icon}
+                <Icon size={20} />
               </div>
               <div>
-                <div style={{ fontSize: "var(--text-xs)", color: "var(--text-faint)" }}>{label}</div>
-                <div style={{ fontSize: "var(--text-sm)", fontWeight: 500 }}>{value}</div>
+                <div className="text-[10px] uppercase font-bold tracking-widest text-text-faint">{label}</div>
+                <div className="text-sm font-bold text-text truncate max-w-[180px]">{value}</div>
               </div>
-            </a>
+            </motion.a>
           ))}
         </div>
 
-        <form
+        {/* Form */}
+        <motion.form
           onSubmit={handleSubmit}
-          className="glass-card"
-          style={{
-            padding: "var(--space-6)",
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-4)",
-          }}
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="lg:col-span-3 glass-card p-6 md:p-8 flex flex-col gap-6"
         >
-          {["name", "email"].map((field) => (
-            <div key={field} style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
-              <label
-                htmlFor={field}
-                style={{ fontSize: "var(--text-sm)", fontWeight: 500, color: "var(--text-muted)", textTransform: "capitalize" }}
-              >
-                {field}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="name" className="text-[11px] font-bold uppercase tracking-widest text-text-muted flex items-center gap-2">
+                <User size={12} /> Name
               </label>
               <input
-                id={field}
-                type={field === "email" ? "email" : "text"}
+                id="name"
+                type="text"
                 required
-                value={form[field as "name" | "email"]}
-                onChange={(e) => setForm((current) => ({ ...current, [field]: e.target.value }))}
-                placeholder={field === "name" ? "Your name" : "your@email.com"}
-                style={{
-                  background: "var(--surface-active)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "var(--radius-lg)",
-                  padding: "var(--space-3) var(--space-4)",
-                  fontSize: "var(--text-sm)",
-                  color: "var(--text)",
-                  outline: "none",
-                  transition: "border-color var(--transition-fast)",
-                }}
-                onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
-                onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                value={form.name}
+                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                placeholder="John Doe"
+                className="bg-white/5 border border-border rounded-xl px-4 py-3 text-sm text-text outline-none focus:border-accent transition-colors"
               />
             </div>
-          ))}
+            <div className="flex flex-col gap-2">
+              <label htmlFor="email" className="text-[11px] font-bold uppercase tracking-widest text-text-muted flex items-center gap-2">
+                <AtSign size={12} /> Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                value={form.email}
+                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                placeholder="john@example.com"
+                className="bg-white/5 border border-border rounded-xl px-4 py-3 text-sm text-text outline-none focus:border-accent transition-colors"
+              />
+            </div>
+          </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
-            <label htmlFor="message" style={{ fontSize: "var(--text-sm)", fontWeight: 500, color: "var(--text-muted)" }}>
-              Message
+          <div className="flex flex-col gap-2">
+            <label htmlFor="message" className="text-[11px] font-bold uppercase tracking-widest text-text-muted flex items-center gap-2">
+              <MessageSquare size={12} /> Message
             </label>
             <textarea
               id="message"
               required
               rows={4}
               value={form.message}
-              onChange={(e) => setForm((current) => ({ ...current, message: e.target.value }))}
-              placeholder="What would you like to say?"
-              style={{
-                background: "var(--surface-active)",
-                border: "1px solid var(--border)",
-                borderRadius: "var(--radius-lg)",
-                padding: "var(--space-3) var(--space-4)",
-                fontSize: "var(--text-sm)",
-                color: "var(--text)",
-                resize: "vertical",
-                outline: "none",
-                transition: "border-color var(--transition-fast)",
-                fontFamily: "var(--font-body)",
-                minHeight: 100,
-              }}
-              onFocus={(e) => (e.target.style.borderColor = "var(--accent)")}
-              onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+              onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+              placeholder="How can I help you?"
+              className="bg-white/5 border border-border rounded-xl px-4 py-3 text-sm text-text outline-none focus:border-accent transition-colors resize-none min-h-[120px]"
             />
           </div>
 
-          <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+          <button 
+            type="submit" 
+            disabled={status === "sent"}
+            className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:-translate-y-1 ${
+              status === "sent" 
+                ? "bg-success text-bg" 
+                : "bg-accent hover:bg-accent-hover text-bg shadow-lg shadow-accent/20"
+            }`}
+          >
             {status === "sent" ? (
-              <>Message ready in your email app</>
+              <>Success!</>
             ) : (
               <>
-                <MailIcon size={16} /> Send Message
+                <Send size={18} />
+                Launch Message
               </>
             )}
           </button>
-        </form>
+        </motion.form>
       </div>
     </section>
   );

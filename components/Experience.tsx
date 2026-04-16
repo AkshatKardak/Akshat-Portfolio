@@ -1,43 +1,106 @@
 "use client";
 
-const experiences = [
-  { role:"Web Development Intern", org:"Employment Express Verband LLP", type:"Internship", period:"Aug 2025 – Oct 2025", duration:"3 months", description:"Completed a 3-month web development internship (InternBoot program). Built and shipped frontend and backend features, gaining hands-on experience in real-world workflows.", tags:["Web Development","HTML","CSS","JavaScript"], color:"var(--accent)", icon:"💼" },
-  { role:"Publicity Team Member", org:"Computer Society of India (CSI)", type:"Organization", period:"Aug 2024 – Apr 2025", duration:"9 months", description:"Active member of DMCE CSI chapter. Participated in tech events, workshops, and managed promotional materials for the chapter.", tags:["Event Management","Publicity","Leadership"], color:"var(--violet)", icon:"🏛️" },
-  { role:"Quantum Hacks Participant", org:"Hackathon", type:"Hackathon", period:"2025", duration:"", description:"Participated in Quantum Hacks, designing and building a functional project under time constraints, focusing on problem-solving and rapid prototyping.", tags:["Hackathon","Problem Solving","Team Collaboration"], color:"var(--success)", icon:"⚡" },
-  { role:"B.E. Computer Engineering", org:"Datta Meghe College of Engineering, Mumbai", type:"Education", period:"2023 – 2027", duration:"4 years", description:"Pursuing Bachelor of Engineering in Computer Science at DMCE, University of Mumbai. Coursework spans algorithms, databases, OS, and software engineering.", tags:["Computer Science","University of Mumbai","B.E."], color:"#f97316", icon:"🎓" },
-];
+import { motion } from "framer-motion";
+import { experiences } from "@/lib/data";
+import { Briefcase } from "lucide-react";
 
 export default function Experience() {
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0 }
+  };
+
   return (
-    <section className="section" style={{ maxWidth:900 }}>
-      <div className="section-header"><h2>Experience</h2><p>My professional journey and academic background</p></div>
-      <div style={{ position:"relative" }}>
-        <div style={{ position:"absolute", left:23, top:0, bottom:0, width:1, background:"linear-gradient(to bottom,var(--accent),var(--violet),transparent)", opacity:0.3 }}/>
-        <div style={{ display:"flex", flexDirection:"column", gap:"var(--space-6)" }}>
+    <section className="section max-w-[1000px]">
+      <motion.div 
+        className="section-header"
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
+          <Briefcase className="text-accent" />
+          Pro Journey
+        </h2>
+        <p className="text-text-muted mt-2">A timeline of my professional growth, academic milestones, and technical impact.</p>
+      </motion.div>
+
+      <div className="relative pl-4 ml-4 md:pl-8 md:ml-6">
+        {/* Timeline Line */}
+        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-accent via-violet to-transparent opacity-30" />
+
+        <motion.div 
+          className="flex flex-col gap-10"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+        >
           {experiences.map((exp, i) => (
-            <div key={exp.role} style={{ display:"flex", gap:"var(--space-6)", position:"relative", animation:`fadeUp 0.5s ${i*0.1}s ease both` }}>
-              <div style={{ flexShrink:0, width:48, height:48, borderRadius:"var(--radius-xl)", background:`${exp.color}18`, border:`1px solid ${exp.color}35`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.2rem", position:"relative", zIndex:1, boxShadow:`0 0 16px ${exp.color}20` }}>
-                {exp.icon}
-              </div>
-              <div className="glass-card" style={{ flex:1, padding:"var(--space-5)", display:"flex", flexDirection:"column", gap:"var(--space-3)" }}>
-                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:"var(--space-2)" }}>
+            <motion.div
+              key={exp.role}
+              variants={item}
+              className="relative flex flex-col gap-4"
+            >
+              {/* Dot */}
+              <div 
+                className="absolute -left-4 md:-left-8 top-1 w-2.5 h-2.5 rounded-full border-2 border-bg z-10"
+                style={{ backgroundColor: exp.color, boxShadow: `0 0 10px ${exp.color}` }}
+              />
+
+              <div className="glass-card p-6 border-white/5 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group">
+                {/* Accent Background Glow */}
+                <div 
+                  className="absolute -right-20 -top-20 w-40 h-40 rounded-full blur-[100px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"
+                  style={{ backgroundColor: exp.color }}
+                />
+
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
                   <div>
-                    <h3 style={{ fontFamily:"var(--font-display)", fontSize:"var(--text-base)", fontWeight:700, color:"var(--text)", marginBottom:"var(--space-1)" }}>{exp.role}</h3>
-                    <div style={{ fontSize:"var(--text-sm)", color:exp.color, fontWeight:500 }}>{exp.org}</div>
+                    <h3 className="text-lg font-bold text-text mb-0.5 group-hover:text-accent transition-colors">
+                      {exp.role}
+                    </h3>
+                    <div className="text-sm font-semibold tracking-wide" style={{ color: exp.color }}>
+                      {exp.org}
+                    </div>
                   </div>
-                  <div style={{ textAlign:"right" }}>
-                    <div style={{ fontSize:"var(--text-xs)", color:"var(--text-muted)", fontFamily:"var(--font-mono)" }}>{exp.period}</div>
-                    {exp.duration && <div style={{ fontSize:"var(--text-xs)", color:"var(--text-faint)" }}>{exp.duration}</div>}
+                  <div className="flex flex-col md:items-end">
+                    <span className="text-[11px] font-mono font-bold text-text-muted bg-white/5 px-2 py-0.5 rounded border border-white/5 whitespace-nowrap">
+                      {exp.period}
+                    </span>
+                    {exp.duration && (
+                      <span className="text-[10px] text-text-faint mt-1 uppercase tracking-widest font-bold">
+                        {exp.duration}
+                      </span>
+                    )}
                   </div>
                 </div>
-                <p style={{ fontSize:"var(--text-sm)", color:"var(--text-muted)", lineHeight:1.65 }}>{exp.description}</p>
-                <div style={{ display:"flex", gap:"var(--space-2)", flexWrap:"wrap" }}>
-                  {exp.tags.map((tag) => <span key={tag} className="tag">{tag}</span>)}
+
+                <p className="text-sm text-text-muted leading-relaxed mb-6 max-w-2xl">
+                  {exp.description}
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  {exp.tags.map((tag) => (
+                    <span key={tag} className="tag group-hover:bg-white/10 transition-colors">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

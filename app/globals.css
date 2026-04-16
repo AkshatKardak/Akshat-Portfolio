@@ -47,26 +47,26 @@
   --radius-2xl:  1.25rem;
   --radius-full: 9999px;
 
-  /* --- Color Palette — Obsidian Glass --- */
-  --color-bg:              #0b0f19;
-  --color-surface:         rgba(255, 255, 255, 0.04);
-  --color-surface-hover:   rgba(255, 255, 255, 0.07);
-  --color-surface-active:  rgba(255, 255, 255, 0.10);
-  --color-border:          rgba(255, 255, 255, 0.08);
-  --color-border-hover:    rgba(255, 255, 255, 0.16);
+  /* --- Color Palette — Obsidian Night --- */
+  --color-bg:              #050810;
+  --color-surface:         rgba(255, 255, 255, 0.03);
+  --color-surface-hover:   rgba(255, 255, 255, 0.06);
+  --color-surface-active:  rgba(255, 255, 255, 0.09);
+  --color-border:          rgba(255, 255, 255, 0.06);
+  --color-border-hover:    rgba(255, 255, 255, 0.12);
 
-  --color-text:            #e6edf3;
-  --color-text-muted:      rgba(230, 237, 243, 0.60);
-  --color-text-faint:      rgba(230, 237, 243, 0.35);
+  --color-text:            #f0f4f8;
+  --color-text-muted:      rgba(240, 244, 248, 0.65);
+  --color-text-faint:      rgba(240, 244, 248, 0.35);
 
-  --color-accent:          #4f9cff;
-  --color-accent-hover:    #6aaeff;
-  --color-accent-dim:      rgba(79, 156, 255, 0.15);
-  --color-accent-glow:     rgba(79, 156, 255, 0.25);
-  --color-violet:          #a78bfa;
-  --color-violet-dim:      rgba(167, 139, 250, 0.15);
-  --color-success:         #34d399;
-  --color-warning:         #fbbf24;
+  --color-accent:          #3b82f6; /* Electric Blue */
+  --color-accent-hover:    #60a5fa;
+  --color-accent-dim:      rgba(59, 130, 246, 0.12);
+  --color-accent-glow:     rgba(59, 130, 246, 0.25);
+  --color-violet:          #8b5cf6;
+  --color-violet-dim:      rgba(139, 92, 246, 0.12);
+  --color-success:         #10b981;
+  --color-warning:         #f59e0b;
   --color-orange:          #f97316;
 
   /* --- Transitions --- */
@@ -90,23 +90,17 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  /* ✅ Both prefixes — Safari + Chrome WebKit support */
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
-  backdrop-filter: blur(14px) saturate(180%);
-  transition:
-    transform var(--transition-base),
-    border-color var(--transition-base),
-    box-shadow var(--transition-base),
-    background var(--transition-base);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  transition: all var(--transition-base);
 
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px) scale(1.01);
     border-color: var(--color-border-hover);
     background: var(--color-surface-hover);
-    box-shadow:
-      0 0 0 1px var(--color-border-hover),
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(79, 156, 255, 0.06);
+    box-shadow: 
+      0 20px 40px -10px rgba(0, 0, 0, 0.5),
+      0 0 20px rgba(59, 130, 246, 0.08);
   }
 }
 
