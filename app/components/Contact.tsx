@@ -9,11 +9,11 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Open mailto as fallback
-    const mailto = `mailto:kardakakshat@gmail.com?subject=Portfolio Contact from ${form.name}&body=${encodeURIComponent(form.message)}`;
-    window.open(mailto, "_blank");
+    const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
+    const body = encodeURIComponent(`${form.message}\n\nFrom: ${form.name} <${form.email}>`);
+    window.open(`mailto:kardakakshat@gmail.com?subject=${subject}&body=${body}`, "_blank");
     setStatus("sent");
-    setTimeout(() => setStatus("idle"), 3000);
+    window.setTimeout(() => setStatus("idle"), 3000);
     setForm({ name: "", email: "", message: "" });
   };
 
@@ -25,6 +25,7 @@ export default function Contact() {
       </div>
 
       <div
+        className="contact-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1.4fr",
@@ -32,7 +33,6 @@ export default function Contact() {
           alignItems: "start",
         }}
       >
-        {/* Left: Social Links */}
         <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
           {[
             {
@@ -81,7 +81,7 @@ export default function Contact() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: color,
+                  color,
                   flexShrink: 0,
                 }}
               >
@@ -95,7 +95,6 @@ export default function Contact() {
           ))}
         </div>
 
-        {/* Right: Contact Form */}
         <form
           onSubmit={handleSubmit}
           className="glass-card"
@@ -119,7 +118,7 @@ export default function Contact() {
                 type={field === "email" ? "email" : "text"}
                 required
                 value={form[field as "name" | "email"]}
-                onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))}
+                onChange={(e) => setForm((current) => ({ ...current, [field]: e.target.value }))}
                 placeholder={field === "name" ? "Your name" : "your@email.com"}
                 style={{
                   background: "var(--surface-active)",
@@ -146,7 +145,7 @@ export default function Contact() {
               required
               rows={4}
               value={form.message}
-              onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+              onChange={(e) => setForm((current) => ({ ...current, message: e.target.value }))}
               placeholder="What would you like to say?"
               style={{
                 background: "var(--surface-active)",
@@ -166,13 +165,9 @@ export default function Contact() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="btn-primary"
-            style={{ width: "100%", justifyContent: "center" }}
-          >
+          <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center" }}>
             {status === "sent" ? (
-              <>✅ Message Sent!</>
+              <>Message ready in your email app</>
             ) : (
               <>
                 <MailIcon size={16} /> Send Message
@@ -181,12 +176,6 @@ export default function Contact() {
           </button>
         </form>
       </div>
-
-      <style>{`
-        @media (max-width: 700px) {
-          .contact-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </section>
   );
-} 
+}

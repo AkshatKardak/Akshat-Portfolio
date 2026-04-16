@@ -5,25 +5,25 @@ const experiences = [
     role: "Web Development Intern",
     org: "Employment Express Verband LLP",
     type: "Internship",
-    period: "Aug 2025 – Oct 2025",
+    period: "Aug 2025 - Oct 2025",
     duration: "3 months",
     description:
-      "Completed a 3-month web development internship (InternBoot program). Built and shipped frontend and backend features, gaining hands-on experience in real-world development workflows.",
+      "Completed a 3-month web development internship. Built and shipped frontend and backend features, gaining hands-on experience in real-world development workflows.",
     tags: ["Web Development", "HTML", "CSS", "JavaScript"],
     color: "var(--accent)",
-    icon: "💼",
+    icon: "WEB",
   },
   {
     role: "Publicity Team Member",
     org: "Computer Society of India (CSI)",
     type: "Organization",
-    period: "Aug 2024 – Apr 2025",
+    period: "Aug 2024 - Apr 2025",
     duration: "9 months",
     description:
       "Active member of the Datta Meghe College CSI chapter. Participated in tech events, workshops, and managed social media and promotional materials for the chapter's activities.",
     tags: ["Event Management", "Publicity", "Leadership"],
     color: "var(--violet)",
-    icon: "🏛️",
+    icon: "CSI",
   },
   {
     role: "Quantum Hacks Participant",
@@ -32,22 +32,22 @@ const experiences = [
     period: "2025",
     duration: "",
     description:
-      "Participated in Quantum Hacks hackathon, designing and building a functional project under time constraints, focusing on problem-solving and rapid prototyping.",
+      "Participated in Quantum Hacks hackathon, designing and building a functional project under time constraints with a focus on problem-solving and rapid prototyping.",
     tags: ["Hackathon", "Problem Solving", "Team Collaboration"],
     color: "var(--success)",
-    icon: "⚡",
+    icon: "QH",
   },
   {
-    role: "B.E. Computer Engineering",
-    org: "Datta Meghe College of Engineering, Mumbai",
+    role: "B.E. Computer Science Engineering",
+    org: "Datta Meghe College of Engineering, University of Mumbai",
     type: "Education",
-    period: "2023 – 2027",
+    period: "2023 - 2027",
     duration: "4 years",
     description:
-      "Pursuing Bachelor of Engineering in Computer Science at DMCE, University of Mumbai. Coursework spans algorithms, databases, operating systems, and software engineering.",
+      "Pursuing Bachelor of Engineering in Computer Science. Coursework spans algorithms, databases, operating systems, and software engineering.",
     tags: ["Computer Science", "University of Mumbai", "B.E."],
     color: "#f97316",
-    icon: "🎓",
+    icon: "BE",
   },
 ];
 
@@ -56,11 +56,10 @@ export default function Experience() {
     <section className="section" style={{ maxWidth: 900 }}>
       <div className="section-header">
         <h2>Experience</h2>
-        <p>My professional journey and academic background</p>
+        <p>Professional journey, campus leadership, and academic background</p>
       </div>
 
       <div style={{ position: "relative" }}>
-        {/* Timeline Line */}
         <div
           style={{
             position: "absolute",
@@ -84,7 +83,6 @@ export default function Experience() {
                 animation: `fadeUp 0.5s ${i * 0.1}s ease both`,
               }}
             >
-              {/* Node */}
               <div
                 style={{
                   flexShrink: 0,
@@ -96,7 +94,10 @@ export default function Experience() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "1.2rem",
+                  color: exp.color,
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "var(--text-xs)",
+                  fontWeight: 700,
                   position: "relative",
                   zIndex: 1,
                   boxShadow: `0 0 16px ${exp.color}20`,
@@ -105,11 +106,7 @@ export default function Experience() {
                 {exp.icon}
               </div>
 
-              {/* Content */}
-              <div
-                className="glass-card"
-                style={{ flex: 1, padding: "var(--space-5)", display: "flex", flexDirection: "column", gap: "var(--space-3)" }}
-              >
+              <div className="glass-card" style={{ flex: 1, padding: "var(--space-5)", display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "var(--space-2)" }}>
                   <div>
                     <h3

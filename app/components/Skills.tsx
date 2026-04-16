@@ -9,7 +9,7 @@ const skillGroups = [
     skills: [
       { name: "React.js",    level: 88 },
       { name: "Next.js",     level: 82 },
-      { name: "Tailwind CSS",level: 85 },
+      { name: "Custom CSS",  level: 85 },
       { name: "JavaScript",  level: 87 },
       { name: "HTML & CSS",  level: 92 },
       { name: "Flutter",     level: 68 },

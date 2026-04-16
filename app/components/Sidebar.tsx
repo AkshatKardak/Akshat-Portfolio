@@ -70,15 +70,15 @@ export default function Sidebar({
 }) {
   return (
     <aside
+      className="site-sidebar glass-panel"
       style={{
         position: "fixed",
         top: 0,
         left: 0,
         width: "var(--sidebar-width)",
         height: "100dvh",
-        background: "rgba(11, 15, 25, 0.85)",
+        background: "rgba(9, 12, 18, 0.85)",
         borderRight: "1px solid var(--border)",
-        backdropFilter: "blur(16px)",
         display: "flex",
         flexDirection: "column",
         padding: "var(--space-6) var(--space-4)",

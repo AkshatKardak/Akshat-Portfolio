@@ -6,7 +6,7 @@ const certs = [
     issuer: "Certification Authority",
     description: "Comprehensive full-stack development certification covering frontend, backend, and database technologies.",
     color: "var(--accent)",
-    icon: "🖥️",
+    icon: "FS",
     tags: ["Full Stack", "Web Dev"],
   },
   {
@@ -14,7 +14,7 @@ const certs = [
     issuer: "Forage",
     description: "Completed a software engineering job simulation, working on real-world engineering tasks and workflows.",
     color: "var(--violet)",
-    icon: "⚙️",
+    icon: "SE",
     tags: ["Software Engineering", "Simulation"],
   },
   {
@@ -22,7 +22,7 @@ const certs = [
     issuer: "Deloitte Australia",
     description: "Hands-on data analytics simulation with Deloitte Australia covering data analysis, visualization, and business insights.",
     color: "#f97316",
-    icon: "📊",
+    icon: "DA",
     tags: ["Data Analytics", "Deloitte"],
   },
   {
@@ -30,7 +30,7 @@ const certs = [
     issuer: "Simplilearn",
     description: "ReactJS fundamentals certification covering components, hooks, state management, and building modern UIs.",
     color: "var(--success)",
-    icon: "⚛️",
+    icon: "RX",
     tags: ["React.js", "Frontend"],
   },
   {
@@ -38,7 +38,7 @@ const certs = [
     issuer: "Skyscanner",
     description: "Front-end engineering simulation with Skyscanner covering component design, accessibility, and modern UI engineering.",
     color: "#a78bfa",
-    icon: "✈️",
+    icon: "FE",
     tags: ["Frontend", "Skyscanner"],
   },
 ];
@@ -70,7 +70,6 @@ export default function Certifications() {
               animation: `fadeUp 0.5s ${i * 0.08}s ease both`,
             }}
           >
-            {/* Icon + Badge line */}
             <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
               <div
                 style={{
@@ -79,10 +78,13 @@ export default function Certifications() {
                   borderRadius: "var(--radius-xl)",
                   background: `${cert.color}15`,
                   border: `1px solid ${cert.color}30`,
+                  color: cert.color,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "1.25rem",
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "var(--text-xs)",
+                  fontWeight: 700,
                   flexShrink: 0,
                 }}
               >
@@ -101,7 +103,6 @@ export default function Certifications() {
               </div>
             </div>
 
-            {/* Title */}
             <h3
               style={{
                 fontFamily: "var(--font-display)",
@@ -114,12 +115,10 @@ export default function Certifications() {
               {cert.title}
             </h3>
 
-            {/* Description */}
             <p style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)", lineHeight: 1.6, flex: 1 }}>
               {cert.description}
             </p>
 
-            {/* Tags */}
             <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
               {cert.tags.map((tag) => (
                 <span key={tag} className="tag">{tag}</span>
