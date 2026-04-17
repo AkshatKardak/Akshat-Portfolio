@@ -2,49 +2,7 @@
 
 import { motion } from "framer-motion";
 import { skillGroups } from "@/lib/data";
-import { Zap } from "lucide-react";
-
-function getSkillLabel(level: number) {
-  if (level >= 84) return "Advanced";
-  if (level >= 68) return "Intermediate";
-  return "Working";
-}
-
-function SkillBar({
-  name,
-  level,
-  color,
-  index,
-}: {
-  name: string;
-  level: number;
-  color: string;
-  index: number;
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex justify-between items-center gap-4 px-1">
-        <span className="text-sm font-medium text-text">{name}</span>
-        <span className="skill-pill" style={{ color }}>
-          {getSkillLabel(level)}
-        </span>
-      </div>
-      <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${level}%` }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 1, delay: 0.1 + index * 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="h-full rounded-full"
-          style={{
-            background: `linear-gradient(90deg, ${color}, ${color}88)`,
-            boxShadow: `0 0 12px ${color}25`,
-          }}
-        />
-      </div>
-    </div>
-  );
-}
+import { Zap, Sparkles } from "lucide-react";
 
 export default function Skills() {
   const container = {
@@ -74,50 +32,74 @@ export default function Skills() {
           <Zap className="text-accent" />
           Technical Stack
         </h2>
-        <p className="text-text-muted">
-          A curated view of the tools and frameworks I use to ship polished products.
+        <p className="text-text-muted max-w-2xl">
+          The tools I reach for to design, build, ship, and scale polished digital products.
         </p>
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-7 xl:gap-8"
         variants={container}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
       >
         {skillGroups.map((group) => (
-          <motion.div
+          <motion.article
             key={group.category}
             variants={item}
-            className="glass-card accent-card accent-card-skills p-6 border-white/5 transition-all duration-300"
-            whileHover={{ y: -4, scale: 1.02 }}
+            className="glass-card accent-card accent-card-skills p-7 md:p-8 border-white/5 transition-all duration-300 group min-h-[250px]"
+            whileHover={{ y: -4, scale: 1.01 }}
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-2 h-2 rounded-full"
+            <div className="flex items-start justify-between gap-4 mb-7">
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{
+                    background: group.color,
+                    boxShadow: `0 0 10px ${group.color}`,
+                  }}
+                />
+                <h3 className="font-display text-lg font-bold text-text tracking-wide">
+                  {group.category}
+                </h3>
+              </div>
+
+              <span
+                className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] font-mono px-2.5 py-1 rounded-full border"
                 style={{
-                  background: group.color,
-                  boxShadow: `0 0 8px ${group.color}`,
+                  color: group.color,
+                  borderColor: `${group.color}33`,
+                  background: `${group.color}12`,
                 }}
-              />
-              <h3 className="font-display text-base font-bold text-text uppercase tracking-widest">
-                {group.category}
-              </h3>
+              >
+                <Sparkles size={12} />
+                Core
+              </span>
             </div>
 
-            <div className="flex flex-col gap-5">
-              {group.skills.map((skill, index) => (
-                <SkillBar
+            <div className="flex flex-wrap gap-2.5">
+              {group.skills.map((skill) => (
+                <span
                   key={skill.name}
-                  name={skill.name}
-                  level={skill.level}
-                  color={group.color}
-                  index={index}
-                />
+                  className="inline-flex items-center rounded-full px-3 py-2 text-sm font-medium border transition-all duration-300 group-hover:border-white/15"
+                  style={{
+                    background: "rgba(255,255,255,0.035)",
+                    borderColor: "rgba(255,255,255,0.08)",
+                    color: "var(--text)",
+                  }}
+                >
+                  {skill.name}
+                </span>
               ))}
             </div>
-          </motion.div>
+
+            <div className="mt-7 pt-5 border-t border-white/6">
+              <p className="text-sm text-text-faint leading-relaxed">
+                Strong working depth across this area, used in real product builds and iterative shipping workflows.
+              </p>
+            </div>
+          </motion.article>
         ))}
       </motion.div>
     </section>

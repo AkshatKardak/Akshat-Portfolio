@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const lines = [
-  "booting developer shell",
-  "mapping projects and certifications",
-  "warming technical stack interface",
+  "loading akshat.kardak — full stack developer, mumbai",
+  "mounting projects: rentride · unitedimpact · campusdrop",
+  "stack ready: react · next.js · node · flutter · python",
 ];
 
 export default function Loader() {
@@ -21,13 +21,13 @@ export default function Loader() {
           return 100;
         }
 
-        return Math.min(current + 4 + Math.random() * 6, 100);
+        return Math.min(current + 5 + Math.random() * 7, 100);
       });
-    }, 90);
+    }, 80);
 
     const phaseTimer = window.setInterval(() => {
       setPhase((current) => Math.min(current + 1, lines.length - 1));
-    }, 720);
+    }, 420);
 
     return () => {
       window.clearInterval(progressTimer);
@@ -49,7 +49,7 @@ export default function Loader() {
                 className="loader-logo-image"
               />
             </span>
-            <span>secure session</span>
+            <span>midnight gold session</span>
           </div>
           <span>{Math.round(progress)}% online</span>
         </div>

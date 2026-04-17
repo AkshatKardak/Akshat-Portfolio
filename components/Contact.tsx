@@ -22,7 +22,7 @@ export default function Contact() {
   const contacts = [
     { icon: Mail, label: "Email", value: personal.email, href: `mailto:${personal.email}`, color: "var(--accent)" },
     { icon: Github, label: "GitHub", value: "AkshatKardak", href: personal.github, color: "var(--text)" },
-    { icon: Linkedin, label: "LinkedIn", value: "akshatkardak", href: personal.linkedin, color: "#0a66c2" },
+    { icon: Linkedin, label: "LinkedIn", value: "akshatkardak", href: personal.linkedin, color: "#f59e0b" },
   ];
 
   return (
@@ -118,12 +118,13 @@ export default function Contact() {
           <button
             type="submit"
             disabled={status === "sent"}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 text-sm font-bold text-[#08111d] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 text-sm font-bold transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
             style={{
-              background: status === "sent"
-                ? "linear-gradient(135deg, var(--success), #7be0bf)"
-                : "linear-gradient(135deg, var(--accent), var(--violet))",
-              boxShadow: "0 12px 28px rgba(79, 156, 255, 0.22)",
+              background: status === "sent" ? "var(--success)" : "var(--accent)",
+              color: "#130d04",
+              boxShadow: status === "sent"
+                ? "0 12px 28px rgba(34, 197, 94, 0.18)"
+                : "0 12px 28px rgba(245, 158, 11, 0.22)",
             }}
           >
             {status === "sent" ? (
@@ -131,7 +132,7 @@ export default function Contact() {
             ) : (
               <>
                 <Send size={18} />
-                Launch Message
+                Send Message
               </>
             )}
           </button>

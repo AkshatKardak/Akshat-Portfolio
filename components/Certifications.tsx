@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { certifications } from "@/lib/data";
-import { Award, CheckCircle2, ArrowUpRight, Eye } from "lucide-react";
+import { Award, CheckCircle2, Eye } from "lucide-react";
 
 export default function Certifications() {
   const [activeCert, setActiveCert] = useState<(typeof certifications)[number] | null>(null);
@@ -40,7 +40,7 @@ export default function Certifications() {
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 xl:gap-8"
         variants={container}
         initial="hidden"
         whileInView="show"
@@ -50,7 +50,7 @@ export default function Certifications() {
           <motion.div
             key={cert.title}
             variants={item}
-            className={`glass-card accent-card accent-card-certs p-6 flex flex-col gap-5 group transition-all duration-300 ${index === 0 ? "featured-cert md:col-span-2 xl:col-span-1" : ""}`}
+            className={`glass-card accent-card accent-card-certs p-7 md:p-8 min-h-[270px] flex flex-col gap-5 group transition-all duration-300 ${index === 0 ? "featured-cert md:col-span-2 xl:col-span-1" : ""}`}
             whileHover={{ y: -4, scale: 1.02 }}
           >
             <div className="flex items-start gap-4">
@@ -92,22 +92,10 @@ export default function Certifications() {
               ))}
             </div>
 
-            {cert.credentialUrl && (
-              <a
-                href={cert.credentialUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider mt-2 transition-all hover:gap-2"
-                style={{ color: cert.color }}
-              >
-                View Certificate <ArrowUpRight size={14} />
-              </a>
-            )}
-
             <button
               type="button"
               onClick={() => setActiveCert(cert)}
-              className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider mt-2 transition-all hover:gap-2"
+              className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider mt-auto transition-all hover:gap-2"
               style={{ color: cert.color }}
             >
               <Eye size={14} />
@@ -127,7 +115,7 @@ export default function Certifications() {
                 <p className="text-sm text-text-muted">{activeCert.issuer}</p>
               </div>
               <button type="button" className="certificate-modal-close" onClick={() => setActiveCert(null)} aria-label="Close preview">
-                ×
+                Close
               </button>
             </div>
 

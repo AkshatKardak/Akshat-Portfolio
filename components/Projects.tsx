@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { projects } from "@/lib/data";
-import { Github, ExternalLink, Code } from "lucide-react";
+import { Github, ExternalLink, Code, Lock } from "lucide-react";
 
 export default function Projects() {
   const container = {
@@ -22,7 +22,7 @@ export default function Projects() {
 
   return (
     <section className="section w-full">
-      <motion.div 
+      <motion.div
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -36,7 +36,7 @@ export default function Projects() {
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-7 xl:gap-8"
         variants={container}
         initial="hidden"
         whileInView="show"
@@ -46,10 +46,10 @@ export default function Projects() {
           <motion.div
             key={project.title}
             variants={item}
-            className="glass-card p-6 flex flex-col gap-4 group hover:border-accent/30 transition-all duration-500"
+            className="glass-card p-7 md:p-8 min-h-[330px] flex flex-col gap-5 group hover:border-accent/30 transition-all duration-500"
             whileHover={{ y: -6, scale: 1.02, rotateX: 1.2, rotateY: -1.2 }}
           >
-            <div className="flex justify-between items-start">
+            <div className="flex justify-between items-start gap-4">
               <div>
                 <h3 className="font-display text-xl font-bold text-text group-hover:text-accent transition-colors">
                   {project.title}
@@ -60,8 +60,8 @@ export default function Projects() {
               </div>
               <span
                 className="text-[10px] font-bold tracking-wider px-3 py-1 rounded-full whitespace-nowrap border"
-                style={{ 
-                  color: project.badgeColor, 
+                style={{
+                  color: project.badgeColor,
                   backgroundColor: `${project.badgeColor}15`,
                   borderColor: `${project.badgeColor}30`
                 }}
@@ -80,7 +80,7 @@ export default function Projects() {
               ))}
             </div>
 
-            <div className="flex gap-4 pt-4 border-t border-border">
+            <div className="flex gap-4 pt-5 border-t border-border flex-wrap mt-auto">
               <a
                 href={project.github}
                 target="_blank"
@@ -89,19 +89,19 @@ export default function Projects() {
               >
                 <Github size={14} /> Source
               </a>
-              {project.live && (
+
+              {project.live ? (
                 <a
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-xs font-bold text-accent hover:text-accent-hover transition-colors"
                 >
-                  <ExternalLink size={14} /> Deployment
+                  <ExternalLink size={14} /> Live Demo
                 </a>
-              )}
-              {!project.live && (
-                <span className="flex items-center gap-2 text-xs font-bold text-text-faint">
-                  <ExternalLink size={14} /> Deployment link pending
+              ) : (
+                <span className="inline-flex items-center gap-2 text-xs font-bold text-text-faint px-2.5 py-1 rounded-full border border-white/10 bg-white/5">
+                  <Lock size={13} /> Private / WIP
                 </span>
               )}
             </div>
