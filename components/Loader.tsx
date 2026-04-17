@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const lines = [
@@ -39,7 +40,15 @@ export default function Loader() {
       <div className="loader-card">
         <div className="loader-top">
           <div className="loader-logo">
-            <span className="loader-logo-mark">AK</span>
+            <span className="loader-logo-mark">
+              <Image
+                src="/images/AK.png"
+                alt="AK logo"
+                width={32}
+                height={32}
+                className="loader-logo-image"
+              />
+            </span>
             <span>secure session</span>
           </div>
           <span>{Math.round(progress)}% online</span>

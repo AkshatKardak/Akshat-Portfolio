@@ -1,7 +1,7 @@
 export const personal = {
   name: "Akshat Kardak",
   role: "Full Stack Developer",
-  tagline: "Building scalable and impactful digital solutions",
+  tagline: "Building with precision",
   location: "Mumbai, India",
   college: "Datta Meghe College of Engineering, Mumbai",
   email: "kardakakshat@gmail.com",
@@ -13,10 +13,10 @@ export const personal = {
 };
 
 export const roles = [
-  "Node.js Developer",
-  "Full Stack Engineer",
-  "Building Scalable Apps",
-  "Premium Web Interfaces",
+  "Building with precision",
+  "Focused on scalable systems",
+  "Engineered for performance",
+  "High-level product thinking",
 ];
 
 export const stats = [

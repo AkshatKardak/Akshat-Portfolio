@@ -61,7 +61,7 @@ export default function Experience() {
                 style={{ backgroundColor: exp.color, boxShadow: `0 0 14px ${exp.color}` }}
               />
 
-              <div className="glass-card p-6 border-white/5 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group">
+              <div className="glass-card accent-card accent-card-experience p-6 border-white/5 transition-all duration-300 overflow-hidden relative group">
                 {/* Accent Background Glow */}
                 <div
                   className="absolute -right-16 -top-16 w-32 h-32 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"

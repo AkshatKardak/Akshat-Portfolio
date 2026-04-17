@@ -28,23 +28,23 @@ export default function CursorGlow() {
       mode = nextMode;
 
       if (mode === "interactive") {
-        dot.style.width = "18px";
-        dot.style.height = "18px";
-        dot.style.background = "rgba(79, 156, 255, 0.9)";
+        dot.style.width = "12px";
+        dot.style.height = "12px";
+        dot.style.background = "rgba(245, 158, 11, 0.95)";
         glow.style.background =
-          "radial-gradient(circle, rgba(79, 156, 255, 0.18) 0%, rgba(79, 156, 255, 0.1) 36%, transparent 72%)";
+          "radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.03) 42%, transparent 72%)";
       } else if (mode === "text") {
-        dot.style.width = "6px";
-        dot.style.height = "18px";
+        dot.style.width = "5px";
+        dot.style.height = "16px";
         dot.style.background = "rgba(230, 237, 243, 0.9)";
         glow.style.background =
-          "radial-gradient(circle, rgba(79, 156, 255, 0.12) 0%, rgba(79, 156, 255, 0.06) 36%, transparent 72%)";
+          "radial-gradient(circle, rgba(79, 156, 255, 0.06) 0%, rgba(79, 156, 255, 0.02) 40%, transparent 72%)";
       } else {
-        dot.style.width = "10px";
-        dot.style.height = "10px";
+        dot.style.width = "8px";
+        dot.style.height = "8px";
         dot.style.background = "rgba(79, 156, 255, 1)";
         glow.style.background =
-          "radial-gradient(circle, rgba(79, 156, 255, 0.14) 0%, rgba(79, 156, 255, 0.08) 36%, transparent 72%)";
+          "radial-gradient(circle, rgba(79, 156, 255, 0.08) 0%, rgba(79, 156, 255, 0.03) 40%, transparent 72%)";
       }
     };
 
@@ -72,6 +72,11 @@ export default function CursorGlow() {
       targetY = event.clientY;
       document.body.classList.add("cursor-active");
       detectMode(event.target);
+      if ((event.target as Element | null)?.closest("button, a, input, textarea, select, .glass-card")) {
+        document.body.classList.add("focus-mode");
+      } else {
+        document.body.classList.remove("focus-mode");
+      }
     };
 
     const handleOver = (event: MouseEvent) => {
@@ -80,6 +85,7 @@ export default function CursorGlow() {
 
     const handleLeave = () => {
       document.body.classList.remove("cursor-active");
+      document.body.classList.remove("focus-mode");
     };
 
     const animate = () => {
@@ -109,6 +115,7 @@ export default function CursorGlow() {
       window.removeEventListener("mouseover", handleOver);
       document.removeEventListener("mouseleave", handleLeave);
       window.cancelAnimationFrame(raf);
+      document.body.classList.remove("focus-mode");
     };
   }, []);
 

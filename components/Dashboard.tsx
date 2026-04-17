@@ -1,10 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { personal, roles, stats, codePreview } from "@/lib/data";
+import { personal, roles, stats } from "@/lib/data";
 import { 
-  Terminal, 
   ExternalLink, 
   FileDown, 
   Star,
@@ -23,7 +23,6 @@ export default function Dashboard() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [typing, setTyping] = useState(true);
-  const [visibleLines, setVisibleLines] = useState(0);
   const [ghStats, setGhStats] = useState<GitHubStats | null>(null);
 
   // Fetch real GitHub stats
@@ -61,14 +60,6 @@ export default function Dashboard() {
     }
   }, [displayed, typing, roleIndex]);
 
-  // Stagger code lines
-  useEffect(() => {
-    if (visibleLines < codePreview.length) {
-      const t = setTimeout(() => setVisibleLines((v) => v + 1), 80);
-      return () => clearTimeout(t);
-    }
-  }, [visibleLines]);
-
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -96,9 +87,9 @@ export default function Dashboard() {
           animate="show"
         >
           {personal.available && (
-            <motion.div variants={item} className="inline-flex items-center gap-2 bg-success/10 border border-success/20 rounded-full px-3 py-1 text-[10px] uppercase tracking-widest font-bold text-success w-fit">
-              <span className="w-1.5 h-1.5 rounded-full bg-success shadow-[0_0_8px_var(--color-success)] animate-pulse" />
-              Available for Hire
+            <motion.div variants={item} className="inline-flex items-center gap-2 bg-warning/10 border border-warning/20 rounded-full px-3 py-1 text-[10px] uppercase tracking-widest font-bold text-warning w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-warning shadow-[0_0_8px_var(--color-warning)] animate-pulse" />
+              Precision Mode
             </motion.div>
           )}
 
@@ -121,8 +112,9 @@ export default function Dashboard() {
           </motion.div>
 
           <motion.p variants={item} className="text-base text-text-muted leading-relaxed max-w-lg">
-            Forward-thinking developer at <span className="text-text font-medium">{personal.college}</span>. 
-            I architect <span className="text-accent font-medium">high-performance</span> digital experiences with a focus on clean code and user-centric design.
+            Developer at <span className="text-text font-medium">{personal.college}</span>.
+            I build focused interfaces and scalable systems with an emphasis on
+            <span className="text-warning font-medium"> precision</span>, performance, and clarity.
           </motion.p>
 
           {/* GitHub Quick Stats */}
@@ -134,7 +126,7 @@ export default function Dashboard() {
                 { label: "Network", value: ghStats.followers, Icon: Users },
               ].map(({ label, value, Icon }) => (
                 <div key={label} className="flex items-center gap-2 px-3 py-2 bg-white/5 border border-border rounded-xl">
-                  <Icon size={14} className="text-accent" />
+                  <Icon size={14} className="text-warning" />
                   <span className="font-mono font-bold text-text">{value}</span>
                   <span className="text-[10px] uppercase tracking-wider text-text-faint">{label}</span>
                 </div>
@@ -155,7 +147,7 @@ export default function Dashboard() {
           </motion.div>
         </motion.div>
 
-        {/* Right: Code Environment */}
+        {/* Right: Portrait */}
         <motion.div 
           className="xl:col-span-2 relative group"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -163,38 +155,27 @@ export default function Dashboard() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="hero-ambient group-hover:opacity-[0.12] group-hover:scale-100" />
-          
-          <div className="relative glass-card overflow-hidden border-white/10 group-hover:border-accent/30 transition-all duration-500">
-            <div className="code-editor-ambient" />
-            {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-border">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                <div className="w-3 h-3 rounded-full bg-green-500/50" />
-              </div>
-              <div className="flex items-center gap-2 text-[10px] font-mono text-text-faint">
-                <Terminal size={12} />
-                akshat.tsx
-              </div>
-            </div>
 
-            {/* Editor Content */}
-            <div className="p-6 font-mono text-[13px] leading-relaxed overflow-x-hidden">
-              {codePreview.slice(0, visibleLines).map((line) => (
-                <div key={line.num} className="flex gap-4 min-w-0">
-                  <span className="w-5 text-right text-text-faint/50 select-none text-[10px]">{line.num}</span>
-                  <span style={{ color: line.color || "var(--color-text)" }} className="whitespace-pre-wrap break-words min-w-0">
-                    {line.text}
-                  </span>
-                </div>
-              ))}
-              {visibleLines < codePreview.length && (
-                <div className="flex gap-4">
-                  <span className="w-5 text-right text-text-faint/50 text-[10px]">{visibleLines + 1}</span>
-                  <span className="w-1.5 h-4 bg-accent/50 animate-blink" />
-                </div>
-              )}
+          <div className="relative overflow-hidden glass-card hero-portrait-card">
+            <div className="hero-portrait-overlay" />
+            <Image
+              src="/images/Akshat.png"
+              alt="Akshat Kardak portrait"
+              width={960}
+              height={1200}
+              priority
+              className="hero-portrait-image"
+            />
+            <div className="hero-portrait-copy">
+              <span className="tag">Mumbai, India</span>
+              <div>
+                <p className="text-[0.72rem] font-mono uppercase tracking-[0.28em] text-text-faint">
+                  Eagle Vision
+                </p>
+                <p className="mt-2 text-base font-semibold text-text">
+                  Building with precision and high-level system thinking.
+                </p>
+              </div>
             </div>
           </div>
         </motion.div>

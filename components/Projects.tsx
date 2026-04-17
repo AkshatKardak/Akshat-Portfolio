@@ -87,7 +87,7 @@ export default function Projects() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-xs font-bold text-text-muted hover:text-text transition-colors"
               >
-                <Github size={14} /> GitHub
+                <Github size={14} /> Source
               </a>
               {project.live && (
                 <a
@@ -96,8 +96,13 @@ export default function Projects() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-xs font-bold text-accent hover:text-accent-hover transition-colors"
                 >
-                  <ExternalLink size={14} /> Live Demo
+                  <ExternalLink size={14} /> Deployment
                 </a>
+              )}
+              {!project.live && (
+                <span className="flex items-center gap-2 text-xs font-bold text-text-faint">
+                  <ExternalLink size={14} /> Deployment link pending
+                </span>
               )}
             </div>
           </motion.div>

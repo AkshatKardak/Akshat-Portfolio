@@ -1,10 +1,14 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { certifications } from "@/lib/data";
-import { Award, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { Award, CheckCircle2, ArrowUpRight, Eye } from "lucide-react";
 
 export default function Certifications() {
+  const [activeCert, setActiveCert] = useState<(typeof certifications)[number] | null>(null);
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -46,8 +50,8 @@ export default function Certifications() {
           <motion.div
             key={cert.title}
             variants={item}
-            className={`glass-card p-6 flex flex-col gap-5 group hover:border-accent/20 transition-all duration-500 ${index === 0 ? "featured-cert md:col-span-2 xl:col-span-1" : ""}`}
-            whileHover={{ y: -4, scale: 1.01 }}
+            className={`glass-card accent-card accent-card-certs p-6 flex flex-col gap-5 group transition-all duration-300 ${index === 0 ? "featured-cert md:col-span-2 xl:col-span-1" : ""}`}
+            whileHover={{ y: -4, scale: 1.02 }}
           >
             <div className="flex items-start gap-4">
               <div
@@ -99,9 +103,52 @@ export default function Certifications() {
                 View Certificate <ArrowUpRight size={14} />
               </a>
             )}
+
+            <button
+              type="button"
+              onClick={() => setActiveCert(cert)}
+              className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider mt-2 transition-all hover:gap-2"
+              style={{ color: cert.color }}
+            >
+              <Eye size={14} />
+              Click to View
+            </button>
           </motion.div>
         ))}
       </motion.div>
+
+      {activeCert && (
+        <div className="certificate-modal" role="dialog" aria-modal="true" aria-label={`${activeCert.title} preview`} onClick={() => setActiveCert(null)}>
+          <div className="certificate-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="certificate-modal-head">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.3em] text-text-faint">Certificate Preview</p>
+                <h3 className="mt-2 text-xl font-bold text-text">{activeCert.title}</h3>
+                <p className="text-sm text-text-muted">{activeCert.issuer}</p>
+              </div>
+              <button type="button" className="certificate-modal-close" onClick={() => setActiveCert(null)} aria-label="Close preview">
+                ×
+              </button>
+            </div>
+
+            {activeCert.credentialUrl ? (
+              <div className="certificate-modal-frame">
+                {activeCert.credentialUrl.match(/\.(png|jpg|jpeg|webp|gif)$/i) ? (
+                  <img src={activeCert.credentialUrl} alt={activeCert.title} />
+                ) : (
+                  <iframe title={activeCert.title} src={activeCert.credentialUrl} />
+                )}
+              </div>
+            ) : (
+              <div className="certificate-modal-empty">
+                <p className="text-sm text-text-muted">
+                  Certificate file not linked yet. Drop the PDF or image into the project and connect it here, and this viewer will open it directly.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

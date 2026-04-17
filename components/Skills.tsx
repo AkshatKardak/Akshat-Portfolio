@@ -90,8 +90,8 @@ export default function Skills() {
           <motion.div
             key={group.category}
             variants={item}
-            className="glass-card p-6 border-white/5 hover:border-accent/20 transition-all duration-500"
-            whileHover={{ y: -4, scale: 1.01 }}
+            className="glass-card accent-card accent-card-skills p-6 border-white/5 transition-all duration-300"
+            whileHover={{ y: -4, scale: 1.02 }}
           >
             <div className="flex items-center gap-3 mb-6">
               <div
