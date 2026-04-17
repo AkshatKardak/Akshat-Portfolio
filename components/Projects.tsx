@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { projects } from "@/lib/data";
-import { Github, ExternalLink, Code, Lock } from "lucide-react";
+import { Github, ExternalLink, Code } from "lucide-react";
 
 export default function Projects() {
   const container = {
@@ -36,7 +36,7 @@ export default function Projects() {
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 gap-7 xl:gap-8"
+        className="grid grid-cols-1 md:grid-cols-2 gap-8 xl:gap-10 items-start"
         variants={container}
         initial="hidden"
         whileInView="show"
@@ -46,20 +46,20 @@ export default function Projects() {
           <motion.div
             key={project.title}
             variants={item}
-            className="glass-card p-7 md:p-8 min-h-[330px] flex flex-col gap-5 group hover:border-accent/30 transition-all duration-500"
-            whileHover={{ y: -6, scale: 1.02, rotateX: 1.2, rotateY: -1.2 }}
+            className="glass-card stack-card min-w-0 group hover:border-accent/30 transition-all duration-500"
+            whileHover={{ y: -6 }}
           >
-            <div className="flex justify-between items-start gap-4">
-              <div>
-                <h3 className="font-display text-xl font-bold text-text group-hover:text-accent transition-colors">
+            <div className="stack-card-head">
+              <div className="stack-card-title-wrap">
+                <h3 className="stack-card-title break-words group-hover:text-accent transition-colors">
                   {project.title}
                 </h3>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-text-faint font-mono">
+                <span className="stack-card-meta">
                   {project.subtitle}
                 </span>
               </div>
               <span
-                className="text-[10px] font-bold tracking-wider px-3 py-1 rounded-full whitespace-nowrap border"
+                className="text-[10px] font-bold tracking-wider px-3 py-1 rounded-full whitespace-nowrap border shrink-0"
                 style={{
                   color: project.badgeColor,
                   backgroundColor: `${project.badgeColor}15`,
@@ -69,25 +69,23 @@ export default function Projects() {
                 {project.badge}
               </span>
             </div>
-
-            <p className="text-sm text-text-muted leading-relaxed flex-1">
+            <p className="stack-card-body break-words">
               {project.description}
             </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="stack-card-tags">
               {project.tags.map((tag) => (
                 <span key={tag} className="tag group-hover:bg-white/10 transition-colors">{tag}</span>
               ))}
             </div>
-
-            <div className="flex gap-4 pt-5 border-t border-border flex-wrap mt-auto">
+            <div className="stack-card-footer">
               <a
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-xs font-bold text-text-muted hover:text-text transition-colors"
               >
-                <Github size={14} /> Source
+                <Github size={14} /> GitHub
               </a>
 
               {project.live ? (
@@ -100,8 +98,8 @@ export default function Projects() {
                   <ExternalLink size={14} /> Live Demo
                 </a>
               ) : (
-                <span className="inline-flex items-center gap-2 text-xs font-bold text-text-faint px-2.5 py-1 rounded-full border border-white/10 bg-white/5">
-                  <Lock size={13} /> Private / WIP
+                <span className="inline-flex items-center text-xs font-bold text-text-faint">
+                  Deployment coming soon
                 </span>
               )}
             </div>

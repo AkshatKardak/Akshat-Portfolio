@@ -110,7 +110,7 @@
   --space-20: 5rem;
   --space-24: 6rem;
 
-  /* Radius tokens — hierarchy from dense to large */
+  /* Radius tokens */
   --radius-sm:   0.25rem;
   --radius-md:   0.5rem;
   --radius-lg:   0.75rem;
@@ -125,7 +125,7 @@
   --shadow-lg: 0 12px 36px rgba(3, 2, 1, 0.40);
   --shadow-xl: 0 24px 64px rgba(3, 2, 1, 0.48);
 
-  /* Glow shadows — for accent elements */
+  /* Glow shadows */
   --glow-accent:  0 0 24px rgba(245, 158, 11, 0.22);
   --glow-crimson: 0 0 24px rgba(225, 29, 72, 0.20);
 
@@ -185,7 +185,7 @@ body::before {
     linear-gradient(158deg, #080605 0%, #050403 46%, #0a0705 100%);
 }
 
-/* Forge chromatic band — very subtle warm-to-cool horizontal blush */
+/* Forge chromatic band */
 body::after {
   content: "";
   position: fixed;
@@ -267,15 +267,9 @@ p, li, figcaption {
 
 /* ════════════════════════════════════════════════════════════════
    BACKGROUND FX OVERLAYS
-   BackgroundFX canvas sits at z-index 0.
-   Grain + vignette sit just above it at z-index 1.
-   Everything else at z-index 2+.
 ════════════════════════════════════════════════════════════════ */
-
-/* Disable old mesh markup — BackgroundFX canvas owns this layer */
 .site-mesh { display: none !important; }
 
-/* Grain — ultra-subtle noise texture breaks flat surfaces */
 .bg-grain {
   position: fixed;
   inset: 0;
@@ -286,7 +280,6 @@ p, li, figcaption {
   background-size: 160px 160px;
 }
 
-/* Vignette — darkens corners, frames the content */
 .bg-vignette {
   position: fixed;
   inset: 0;
@@ -297,6 +290,59 @@ p, li, figcaption {
     transparent 46%,
     rgba(3, 2, 1, 0.46) 100%
   );
+}
+
+/* ════════════════════════════════════════════════════════════════
+   EMBER SCAN STREAKS — site-wide background layer
+   CSS-only diagonal light streaks. Very subtle.
+   Sits at z-index 1, behind all content (z-index 2+).
+════════════════════════════════════════════════════════════════ */
+.bg-ember-streaks {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-ember-streaks::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -30%;
+  width: 3px;
+  height: 220%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(245, 158, 11, 0.06) 30%,
+    rgba(249, 115, 22, 0.10) 50%,
+    rgba(245, 158, 11, 0.06) 70%,
+    transparent 100%
+  );
+  transform: rotate(22deg);
+  animation: emberScan1 18s linear infinite;
+  filter: blur(1px);
+}
+
+.bg-ember-streaks::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: 10%;
+  width: 2px;
+  height: 220%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(225, 29, 72, 0.04) 35%,
+    rgba(245, 158, 11, 0.07) 50%,
+    rgba(225, 29, 72, 0.04) 65%,
+    transparent 100%
+  );
+  transform: rotate(22deg);
+  animation: emberScan2 26s linear infinite;
+  filter: blur(1.5px);
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -546,8 +592,6 @@ p, li, figcaption {
 /* ════════════════════════════════════════════════════════════════
    CARDS
 ════════════════════════════════════════════════════════════════ */
-
-/* Base glass card */
 .glass-card {
   background: var(--surface);
   border: 1px solid var(--border-muted);
@@ -559,6 +603,7 @@ p, li, figcaption {
     box-shadow      var(--t-base),
     background      var(--t-base);
   will-change: transform;
+  min-width: 0;
 }
 .glass-card:hover {
   transform: translateY(-3px);
@@ -566,12 +611,6 @@ p, li, figcaption {
   box-shadow: var(--shadow-lg), 0 0 0 1px rgba(245, 158, 11, 0.06);
 }
 
-.section {
-  width: 100%;
-  min-width: 0;
-}
-
-/* Accent variant — coloured inner shimmer on hover */
 .accent-card {
   position: relative;
   overflow: hidden;
@@ -588,7 +627,6 @@ p, li, figcaption {
 .accent-card > * { position: relative; z-index: 1; }
 .accent-card:hover::before { opacity: 1; }
 
-/* Per-domain accent flavours */
 .accent-card-skills::before {
   background: linear-gradient(132deg,
     rgba(245, 158, 11, 0.07) 0%,
@@ -629,7 +667,6 @@ p, li, figcaption {
   box-shadow: var(--shadow-lg), 0 0 0 1px rgba(249, 115, 22, 0.06);
 }
 
-/* Stat cards */
 .stats-card {
   background: var(--surface);
   border: 1px solid var(--border-muted);
@@ -639,6 +676,7 @@ p, li, figcaption {
     transform     var(--t-base),
     border-color  var(--t-base),
     box-shadow    var(--t-base);
+  min-width: 0;
 }
 .stats-card:hover {
   transform: translateY(-3px);
@@ -646,11 +684,78 @@ p, li, figcaption {
   box-shadow: var(--shadow-md), 0 0 0 1px rgba(245, 158, 11, 0.06);
 }
 
+.glass-card h2,
+.glass-card h3,
+.glass-card p {
+  overflow-wrap: anywhere;
+}
+
+.stack-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.85rem, 1.8vw, 1.15rem);
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+}
+
+.stack-card-head {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.9rem;
+}
+
+.stack-card-title-wrap {
+  min-width: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.stack-card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.stack-card-meta {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.stack-card-body {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.72;
+  color: var(--text-muted);
+}
+
+.stack-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.stack-card-footer {
+  margin-top: auto;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border-muted);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
 /* ════════════════════════════════════════════════════════════════
    BUTTONS
 ════════════════════════════════════════════════════════════════ */
-
-/* Primary — amber fill */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -683,7 +788,6 @@ p, li, figcaption {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.24);
 }
 
-/* Ghost — neutral glass */
 .btn-ghost {
   display: inline-flex;
   align-items: center;
@@ -713,7 +817,6 @@ p, li, figcaption {
 }
 .btn-ghost:active { transform: scale(0.98); }
 
-/* Crimson — tension accent */
 .btn-crimson {
   display: inline-flex;
   align-items: center;
@@ -742,7 +845,6 @@ p, li, figcaption {
 }
 .btn-crimson:active { transform: scale(0.98); }
 
-/* Icon-only button */
 .btn-icon {
   display: inline-flex;
   align-items: center;
@@ -792,7 +894,6 @@ p, li, figcaption {
   color: var(--accent);
 }
 
-/* Forge badge — monochrome label chip */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -869,7 +970,6 @@ p, li, figcaption {
   opacity: 1;
 }
 
-/* Cursor state: hovering a link/button */
 .cursor-hover .cursor-dot {
   width: 14px;
   height: 14px;
@@ -877,7 +977,6 @@ p, li, figcaption {
   box-shadow: 0 0 16px rgba(245, 158, 11, 0.60);
 }
 
-/* Cursor state: pressing */
 .cursor-click .cursor-dot {
   width: 6px;
   height: 6px;
@@ -1030,26 +1129,38 @@ p, li, figcaption {
    HERO / DASHBOARD
 ════════════════════════════════════════════════════════════════ */
 
-/* Ambient glow behind hero portrait — pulses slowly */
+/*
+  HERO AMBIENT — static warm glow only, NO animation.
+  The ambientPulse animation caused a distracting hovering light
+  effect over the portrait / name area. Removed entirely.
+  Kept as a dead-still radial atmosphere at 0.06 opacity.
+*/
 .hero-ambient {
   position: absolute;
   inset: -20% -14%;
   border-radius: 9999px;
   background: radial-gradient(
     ellipse at 50% 52%,
-    rgba(245, 158, 11, 0.12) 0%,
-    rgba(225, 29, 72,  0.06) 46%,
+    rgba(245, 158, 11, 0.08) 0%,
+    rgba(225, 29, 72,  0.04) 46%,
     transparent 72%
   );
   filter: blur(56px);
   pointer-events: none;
-  animation: ambientPulse 9s ease-in-out infinite alternate;
+  opacity: 0.06;
+  /* animation: ambientPulse — REMOVED */
 }
 
 .hero-portrait-card {
   min-height: 280px;
   padding: 0;
   border-radius: var(--radius-2xl) !important;
+}
+
+.hero-portrait-card:hover {
+  transform: none !important;
+  border-color: var(--border-muted) !important;
+  box-shadow: var(--shadow-md) !important;
 }
 
 .hero-portrait-overlay {
@@ -1204,10 +1315,8 @@ p, li, figcaption {
   50%       { opacity: 0; }
 }
 
-@keyframes ambientPulse {
-  0%   { opacity: 0.08; transform: scale(0.95); }
-  100% { opacity: 0.18; transform: scale(1.05); }
-}
+/* ambientPulse is intentionally removed — it caused the hovering
+   light glow animation over the portrait/name area in Dashboard.tsx */
 
 @keyframes ringPulse {
   0%   { transform: translate(-50%, -50%) scale(0.91); opacity: 0.14; }
@@ -1237,11 +1346,42 @@ p, li, figcaption {
   to   { opacity: 1; }
 }
 
+/* ── Ember scan streaks ─────────────────────────────────────────── */
+@keyframes emberScan1 {
+  0%   { transform: rotate(22deg) translateX(-120vw); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: rotate(22deg) translateX(120vw); opacity: 0; }
+}
+
+@keyframes emberScan2 {
+  0%   { transform: rotate(22deg) translateX(-140vw); opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.7; }
+  100% { transform: rotate(22deg) translateX(140vw); opacity: 0; }
+}
+
+/* ── Forge ember float — used by BackgroundFX canvas particles ──── */
+@keyframes emberFloat {
+  0%   { transform: translateY(0px)   scale(1);    opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 0.8; }
+  100% { transform: translateY(-80px) scale(0.5);  opacity: 0; }
+}
+
+/* ── Pulse ring — used by HeroEnergyPulse.tsx ───────────────────── */
+@keyframes pulseRingOut {
+  0%   { transform: scale(0.85); opacity: 0.5; }
+  100% { transform: scale(1.6);  opacity: 0; }
+}
+
 /* Utility animation classes */
-.animate-blink    { animation: blink       1s   step-end   infinite; }
-.forge-flicker    { animation: forgeFlicker 7s  ease-in-out infinite; }
-.animate-slide-up { animation: slideUp     0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.animate-fade-in  { animation: fadeIn      0.5s ease both; }
+.animate-blink      { animation: blink          1s   step-end   infinite; }
+.forge-flicker      { animation: forgeFlicker   7s   ease-in-out infinite; }
+.animate-slide-up   { animation: slideUp        0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-fade-in    { animation: fadeIn         0.5s ease both; }
+.animate-ember-float { animation: emberFloat    3.5s ease-in-out infinite; }
+.animate-pulse-ring { animation: pulseRingOut   2.4s cubic-bezier(0.2, 0, 0.8, 1) infinite; }
 
 /* Skeleton loader */
 .skeleton {
@@ -1262,6 +1402,7 @@ p, li, figcaption {
 @media (max-width: 768px) {
   body, button, a { cursor: auto; }
   .cursor-dot, .cursor-glow { display: none; }
+  .bg-ember-streaks { display: none; }
 
   .top-navbar { padding: 0.75rem 0.75rem 0; }
   .top-navbar-inner {
@@ -1293,7 +1434,6 @@ p, li, figcaption {
 
 /* ════════════════════════════════════════════════════════════════
    FORGE HIGHLIGHT UTILITY CLASSES
-   Use sparingly — max 2 accent hues visible per viewport section
 ════════════════════════════════════════════════════════════════ */
 .text-accent   { color: var(--accent);  }
 .text-crimson  { color: var(--crimson); }

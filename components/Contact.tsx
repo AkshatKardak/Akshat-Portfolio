@@ -42,7 +42,7 @@ export default function Contact() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
         <div className="lg:col-span-2 flex flex-col gap-4">
           {contacts.map(({ icon: Icon, label, value, href, color }, index) => (
             <motion.a
@@ -54,19 +54,19 @@ export default function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="glass-card p-4 flex items-center gap-4 group hover:border-accent/35 transition-all duration-300"
-              whileHover={{ y: -4, scale: 1.01 }}
+              className="glass-card stack-card min-w-0 group hover:border-accent/35 transition-all duration-300"
+              whileHover={{ y: -4 }}
             >
-              <div
-                className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center transition-transform group-hover:scale-110"
-                style={{ color }}
-              >
-                <Icon size={20} />
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center transition-transform group-hover:scale-110"
+                  style={{ color }}
+                >
+                  <Icon size={20} />
+                </div>
+                <div className="stack-card-meta">{label}</div>
               </div>
-              <div>
-                <div className="text-[10px] uppercase font-bold tracking-widest text-text-faint">{label}</div>
-                <div className="text-sm font-bold text-text truncate max-w-[180px]">{value}</div>
-              </div>
+              <p className="stack-card-body break-all sm:break-normal">{value}</p>
             </motion.a>
           ))}
         </div>
@@ -76,7 +76,7 @@ export default function Contact() {
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="lg:col-span-3 glass-card p-6 md:p-8 flex flex-col gap-5"
+          className="lg:col-span-3 glass-card stack-card min-w-0"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="floating-field">

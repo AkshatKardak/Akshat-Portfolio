@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FileDown, Github, Layers, Mail, MapPin, Star, Users, Zap } from "lucide-react";
-import HeroEnergyPulse from "./HeroEnergyPulse";
 import { personal, roles, stats } from "@/lib/data";
 
 type GitHubStats = {
@@ -117,8 +116,8 @@ export default function Dashboard() {
   }, [displayed, typing, roleIndex]);
 
   return (
-    <div className="w-full">
-      <div className="grid grid-cols-1 xl:grid-cols-5 gap-12 xl:gap-16 items-start mb-16 min-h-[72vh]">
+    <div className="section w-full">
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-12 xl:gap-20 items-start mb-20">
         <motion.div
           className="xl:col-span-3 flex flex-col gap-7 xl:pr-6"
           variants={container}
@@ -166,7 +165,7 @@ export default function Dashboard() {
               {personal.firstName}{" "}
               <span
                 style={{
-                  background: "linear-gradient(118deg, var(--accent) 0%, var(--violet) 100%)",
+                  background: "linear-gradient(118deg, var(--accent) 0%, var(--crimson) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -242,10 +241,24 @@ export default function Dashboard() {
               GitHub
             </a>
           </motion.div>
+
+          <motion.div variants={item} className="glass-card stack-card border-white/5">
+            <p className="stack-card-meta" style={{ color: "var(--text-faint)" }}>
+              <span style={{ color: "var(--accent)" }}>• </span>
+              Core Stack
+            </p>
+            <div className="stack-card-tags">
+              {(personal.techStack ?? []).map((tech) => (
+                <span key={tech} className="tag">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
 
         <motion.div
-          className="xl:col-span-2 flex flex-col gap-5 xl:max-w-[520px] xl:ml-auto"
+          className="xl:col-span-2 w-full min-w-0 flex flex-col gap-5 xl:max-w-[520px] xl:ml-auto"
           variants={container}
           initial="hidden"
           animate="show"
@@ -255,8 +268,6 @@ export default function Dashboard() {
             className="hero-portrait-card glass-card relative overflow-hidden"
             style={{ borderRadius: "var(--radius-2xl)" }}
           >
-            <HeroEnergyPulse />
-            <div className="hero-ambient" />
             <div className="hero-portrait-overlay" />
             <Image
               src={personal.avatar}
@@ -288,15 +299,15 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          <motion.div variants={item} className="grid grid-cols-3 gap-4">
+          <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {[
               { icon: <Github size={14} />, label: "Repos", value: count.repos, color: "var(--accent)" },
-              { icon: <Users size={14} />, label: "Followers", value: count.followers, color: "var(--violet)" },
-              { icon: <Star size={14} />, label: "Stars", value: count.stars, color: "var(--warning)" },
+              { icon: <Users size={14} />, label: "Followers", value: count.followers, color: "var(--crimson)" },
+              { icon: <Star size={14} />, label: "Stars", value: count.stars, color: "var(--orange)" },
             ].map(({ icon, label, value, color }) => (
               <div
                 key={label}
-                className="stats-card flex flex-col items-center justify-center gap-1.5 py-4 px-2 text-center"
+                className="stats-card stack-card min-w-0 items-center text-center"
                 style={{
                   borderRadius: "0.75rem",
                   border: "1px solid rgba(255,255,255,0.06)",
@@ -312,34 +323,21 @@ export default function Dashboard() {
                 >
                   {icon}
                 </div>
-                <div className="text-2xl font-black tracking-normal" style={{ color }}>
+                <div className="text-xl sm:text-2xl font-black tracking-normal" style={{ color }}>
                   {value}
                 </div>
-                <div className="text-[10px] uppercase tracking-[0.18em] font-bold text-text-faint">
+                <div className="text-[10px] uppercase tracking-[0.18em] leading-tight break-words font-bold text-text-faint">
                   {label}
                 </div>
               </div>
             ))}
           </motion.div>
 
-          <motion.div variants={item} className="glass-card p-4 border-white/5">
-            <p className="text-[10px] uppercase tracking-[0.20em] font-bold font-mono mb-3" style={{ color: "var(--text-faint)" }}>
-              <span style={{ color: "var(--accent)" }}>• </span>
-              Core Stack
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {(personal.techStack ?? []).map((tech) => (
-                <span key={tech} className="tag">
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </motion.div>
         </motion.div>
       </div>
 
       <motion.div
-        className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-16"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16"
         variants={container}
         initial="hidden"
         whileInView="show"
@@ -349,17 +347,17 @@ export default function Dashboard() {
           <motion.div
             key={stat.label}
             variants={item}
-            className="glass-card stats-card p-6 flex flex-col gap-2 hover:border-accent/20"
-            whileHover={{ y: -4, scale: 1.02 }}
+            className="glass-card stats-card stack-card min-w-0 h-full hover:border-accent/20"
+            whileHover={{ y: -4 }}
           >
             <span className="text-xs font-mono inline-flex h-9 w-9 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent mb-2">
               {stat.icon}
             </span>
-            <div className="text-3xl font-black text-accent tracking-normal">{stat.value}</div>
-            <div className="text-[10px] uppercase tracking-widest font-bold text-text-muted">
+            <div className="text-3xl font-black text-accent tracking-normal break-words">{stat.value}</div>
+            <div className="text-[10px] uppercase tracking-widest leading-tight break-words font-bold text-text-muted">
               {stat.label}
             </div>
-            {stat.sub && <div className="text-[11px] text-text-faint">{stat.sub}</div>}
+            {stat.sub && <div className="text-[11px] text-text-faint break-words">{stat.sub}</div>}
           </motion.div>
         ))}
       </motion.div>

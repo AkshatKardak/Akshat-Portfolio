@@ -1,19 +1,6 @@
-// lib/data.ts
-// ─────────────────────────────────────────────────────────────────────────────
-// FORGE PALETTE TOKENS (mirrors globals.css :root)
-// --accent   #f59e0b  amber
-// --crimson  #e11d48  crimson
-// --orange   #f97316  orange
-// --gold     #fcd34d  gold
-// --success  #22c55e  green
-// ─────────────────────────────────────────────────────────────────────────────
 
-// ════════════════════════════════════════════════════════════
 // PERSONAL
-// ════════════════════════════════════════════════════════════
-
 export const personal = {
-  // Display
   name:       "Akshat Kardak",
   firstName:  "Akshat",
   lastName:   "Kardak",
@@ -22,24 +9,19 @@ export const personal = {
   bio:
     "Full-stack developer from Mumbai building production-grade web and mobile apps with Next.js, Node.js, Flutter, and Python. I ship real products — from NGO donation platforms to AI-powered tools — with clean architecture and strong UX instincts.",
 
-  // Contact
   location:  "Mumbai, India",
   college:   "Datta Meghe College of Engineering, Mumbai",
   email:     "kardakakshat@gmail.com",
 
-  // Social
   github:         "https://github.com/AkshatKardak",
   githubUsername: "AkshatKardak",
   linkedin:       "https://www.linkedin.com/in/akshatkardak",
 
-  // Assets
   resumeUrl: "/resume.pdf",
   avatar:    "/images/Akshat.png",
 
-  // Status
   available: true,
 
-  // Hero tech stack pills (shown in Dashboard quick-view card)
   techStack: [
     "Next.js", "React", "TypeScript",
     "Node.js", "Flutter", "Python",
@@ -47,9 +29,7 @@ export const personal = {
   ],
 };
 
-// ════════════════════════════════════════════════════════════
 // TYPEWRITER ROLES
-// ════════════════════════════════════════════════════════════
 
 export const roles: string[] = [
   "Full Stack Developer",
@@ -60,14 +40,14 @@ export const roles: string[] = [
 ];
 
 // ════════════════════════════════════════════════════════════
-// HERO STATS (shown on Dashboard stat cards)
+// HERO STATS
 // ════════════════════════════════════════════════════════════
 
 export type Stat = {
   label: string;
   value: string;
-  sub?: string;
-  icon: string;
+  sub?:  string;
+  icon:  string;
 };
 
 export const stats: Stat[] = [
@@ -99,7 +79,6 @@ export const stats: Stat[] = [
 
 // ════════════════════════════════════════════════════════════
 // CODE PREVIEW (terminal snippet in hero)
-// Forge tokens replace old --violet with --crimson
 // ════════════════════════════════════════════════════════════
 
 export type CodeLine = {
@@ -111,21 +90,21 @@ export type CodeLine = {
 export const codePreview: CodeLine[] = [
   { num: 1,  text: "const developer = {",                                   color: "var(--text)"     },
   { num: 2,  text: '  name: "Akshat Kardak",',                              color: "var(--accent)"   },
-  { num: 3,  text: '  role: "Full Stack Developer",',                        color: "var(--accent)"   },
-  { num: 4,  text: '  location: "Mumbai, India",',                           color: "var(--success)"  },
-  { num: 5,  text: "  projects: {",                                          color: "var(--text)"     },
-  { num: 6,  text: '    featured: ["RentRide", "UnitedImpact"],',             color: "var(--crimson)"  },
-  { num: 7,  text: '    product:  ["CampusDrop"],',                           color: "var(--crimson)"  },
-  { num: 8,  text: "  },",                                                   color: "var(--text)"     },
-  { num: 9,  text: "  stack: {",                                             color: "var(--text)"     },
-  { num: 10, text: '    frontend: ["React", "Next.js", "Tailwind"],',         color: "var(--orange)"   },
-  { num: 11, text: '    backend:  ["Node.js", "Express", "FastAPI"],',        color: "var(--orange)"   },
-  { num: 12, text: '    database: ["MongoDB", "Firebase"],',                  color: "var(--orange)"   },
-  { num: 13, text: "  },",                                                   color: "var(--text)"     },
-  { num: 14, text: '  focus: "Scalable real-world apps",',                   color: "var(--success)"  },
-  { num: 15, text: "};",                                                     color: "var(--text)"     },
-  { num: 16, text: "",                                                        color: ""                },
-  { num: 17, text: "export default developer;",                              color: "var(--accent)"   },
+  { num: 3,  text: '  role: "Full Stack Developer",',                       color: "var(--accent)"   },
+  { num: 4,  text: '  location: "Mumbai, India",',                          color: "var(--success)"  },
+  { num: 5,  text: "  projects: {",                                         color: "var(--text)"     },
+  { num: 6,  text: '    featured: ["RentRide", "UnitedImpact"],',            color: "var(--crimson)"  },
+  { num: 7,  text: '    product:  ["CampusDrop"],',                          color: "var(--crimson)"  },
+  { num: 8,  text: "  },",                                                  color: "var(--text)"     },
+  { num: 9,  text: "  stack: {",                                            color: "var(--text)"     },
+  { num: 10, text: '    frontend: ["React", "Next.js", "Tailwind"],',        color: "var(--orange)"   },
+  { num: 11, text: '    backend:  ["Node.js", "Express", "FastAPI"],',       color: "var(--orange)"   },
+  { num: 12, text: '    database: ["MongoDB", "Firebase"],',                 color: "var(--orange)"   },
+  { num: 13, text: "  },",                                                  color: "var(--text)"     },
+  { num: 14, text: '  focus: "Scalable real-world apps",',                  color: "var(--success)"  },
+  { num: 15, text: "};",                                                    color: "var(--text)"     },
+  { num: 16, text: "",                                                       color: ""                },
+  { num: 17, text: "export default developer;",                             color: "var(--accent)"   },
 ];
 
 // ════════════════════════════════════════════════════════════
@@ -133,17 +112,17 @@ export const codePreview: CodeLine[] = [
 // ════════════════════════════════════════════════════════════
 
 export type Project = {
-  title:       string;
-  subtitle:    string;
-  description: string;
-  tags:        string[];
-  github:      string;
-  live:        string | null;
-  badge:       string;
-  badgeColor:  string;
-  // Optional extras for richer cards
-  highlights?: string[];   // 2-3 bullet impact lines
-  year?:       string;
+  title:        string;
+  subtitle:     string;
+  description:  string;
+  tags:         string[];
+  github:       string;
+  live:         string | null;
+  badge:        string;
+  badgeColor:   string;
+  highlights?:  string[];
+  year?:        string;
+  featured?:    boolean;
 };
 
 export const projects: Project[] = [
@@ -157,12 +136,13 @@ export const projects: Project[] = [
     live:        null,
     badge:       "Featured",
     badgeColor:  "var(--accent)",
-    highlights:  [
+    highlights: [
       "Admin dashboard with full fleet management",
       "Integrated Razorpay for live payment processing",
       "AI chat assistant for booking guidance",
     ],
-    year: "2024",
+    year:     "2024",
+    featured: true,
   },
   {
     title:       "UnitedImpact",
@@ -174,12 +154,13 @@ export const projects: Project[] = [
     live:        null,
     badge:       "Featured",
     badgeColor:  "var(--accent)",
-    highlights:  [
+    highlights: [
       "Firebase Auth + Razorpay end-to-end payments",
       "Real-time donor map with campaign tracking",
       "Mobile-responsive React frontend",
     ],
-    year: "2024",
+    year:     "2024",
+    featured: true,
   },
   {
     title:       "RoastHub",
@@ -191,7 +172,7 @@ export const projects: Project[] = [
     live:        null,
     badge:       "Experiment",
     badgeColor:  "var(--crimson)",
-    year: "2024",
+    year:        "2024",
   },
   {
     title:       "Face Recognition Attendance",
@@ -203,7 +184,7 @@ export const projects: Project[] = [
     live:        null,
     badge:       "Academic",
     badgeColor:  "var(--success)",
-    year: "2024",
+    year:        "2024",
   },
   {
     title:       "Game Website",
@@ -215,7 +196,7 @@ export const projects: Project[] = [
     live:        null,
     badge:       "Design",
     badgeColor:  "var(--orange)",
-    year: "2024",
+    year:        "2024",
   },
   {
     title:       "CampusDrop",
@@ -227,22 +208,21 @@ export const projects: Project[] = [
     live:        null,
     badge:       "Mobile",
     badgeColor:  "var(--gold)",
-    year: "2025",
+    year:        "2025",
   },
 ];
 
 // ════════════════════════════════════════════════════════════
 // SKILLS
-// Removed fake percentage levels entirely.
-// Using `tier` instead: "core" | "strong" | "working"
-// This is honest, readable, and non-gimmicky.
+// No fake percentage bars. Uses tier system instead.
+// tier: "core" = daily driver | "strong" = solid | "working" = comfortable
 // ════════════════════════════════════════════════════════════
 
 export type SkillTier = "core" | "strong" | "working";
 
 export type Skill = {
   name: string;
-  tier: SkillTier; // core = daily driver, strong = solid, working = comfortable
+  tier: SkillTier;
 };
 
 export type SkillGroup = {
@@ -298,13 +278,13 @@ export const skillGroups: SkillGroup[] = [
     description: "Dev workflow and infrastructure",
     color:       "var(--orange)",
     skills: [
-      { name: "Python",     tier: "core"    },
-      { name: "Java",       tier: "strong"  },
-      { name: "Dart",       tier: "strong"  },
-      { name: "Git & GitHub", tier: "core"  },
-      { name: "Vercel",     tier: "core"    },
-      { name: "Netlify",    tier: "strong"  },
-      { name: "Docker",     tier: "working" },
+      { name: "Python",       tier: "core"    },
+      { name: "Java",         tier: "strong"  },
+      { name: "Dart",         tier: "strong"  },
+      { name: "Git & GitHub", tier: "core"    },
+      { name: "Vercel",       tier: "core"    },
+      { name: "Netlify",      tier: "strong"  },
+      { name: "Docker",       tier: "working" },
     ],
   },
 ];
@@ -316,7 +296,7 @@ export const tierLabel: Record<SkillTier, string> = {
   working: "Working",
 };
 
-// Tier color map — subtle distinction between tiers, Forge palette
+// Tier color map — Forge palette
 export const tierColor: Record<SkillTier, string> = {
   core:    "var(--accent)",
   strong:  "var(--orange)",
@@ -325,14 +305,19 @@ export const tierColor: Record<SkillTier, string> = {
 
 // ════════════════════════════════════════════════════════════
 // EXPERIENCE
-// Replaced --violet with --crimson for CSI entry
-// Added missing fields that Experience.tsx reads
 // ════════════════════════════════════════════════════════════
+
+export type ExperienceType =
+  | "Internship"
+  | "Organization"
+  | "Hackathon"
+  | "Education";
 
 export type Experience = {
   role:        string;
   org:         string;
-  type:        "Internship" | "Organization" | "Hackathon" | "Education";
+  type:        ExperienceType;
+  typeLabel:   string;   // human-readable node label shown in timeline
   period:      string;
   duration:    string;
   description: string;
@@ -343,69 +328,72 @@ export type Experience = {
 
 export const experiences: Experience[] = [
   {
-    role:        "Web Development Intern",
-    org:         "Employment Express Verband LLP",
-    type:        "Internship",
-    period:      "Aug 2025 – Oct 2025",
-    duration:    "3 months",
+    role:      "Web Development Intern",
+    org:       "Employment Express Verband LLP",
+    type:      "Internship",
+    typeLabel: "Internship",
+    period:    "Aug 2025 – Oct 2025",
+    duration:  "3 months",
     description:
-      "Completed a 3-month web development internship, building and shipping frontend and backend features within a real-world product workflow. Worked with HTML, CSS, JavaScript and collaborated on production codebase tasks.",
-    tags:        ["Web Development", "HTML", "CSS", "JavaScript", "Internship"],
-    color:       "var(--accent)",
-    icon:        "WEB",
+      "Completed a 3-month web development internship shipping frontend and backend features within a real product workflow. Worked across HTML, CSS, and JavaScript in a production codebase with direct client-facing impact.",
+    tags:  ["Web Development", "HTML", "CSS", "JavaScript"],
+    color: "var(--accent)",
+    icon:  "WEB",
   },
   {
-    role:        "Publicity Team Member",
-    org:         "Computer Society of India (CSI) — DMCE Chapter",
-    type:        "Organization",
-    period:      "Aug 2024 – Apr 2025",
-    duration:    "9 months",
+    role:      "Publicity Team Member",
+    org:       "Computer Society of India — DMCE Chapter",
+    type:      "Organization",
+    typeLabel: "Campus Organisation",
+    period:    "Aug 2024 – Apr 2025",
+    duration:  "9 months",
     description:
-      "Managed promotion and outreach for technical events, workshops, and campus seminars. Contributed to growing event visibility and student participation across the Datta Meghe College CSI chapter.",
-    tags:        ["Event Management", "Publicity", "Leadership", "CSI"],
-    color:       "var(--crimson)",
-    icon:        "CSI",
+      "Led promotional outreach for technical events, workshops, and campus seminars under the CSI DMCE chapter. Helped grow event visibility and participation — a side of engineering that's easy to overlook but matters.",
+    tags:  ["Event Management", "Publicity", "Leadership", "CSI"],
+    color: "var(--crimson)",
+    icon:  "CSI",
   },
   {
-    role:        "Quantum Hacks Participant",
-    org:         "Hackathon",
-    type:        "Hackathon",
-    period:      "2025",
-    duration:    "",
+    role:      "Quantum Hacks Participant",
+    org:       "Hackathon",
+    type:      "Hackathon",
+    typeLabel: "Hackathon",
+    period:    "2025",
+    duration:  "",
     description:
-      "Designed and shipped a functional product under time constraints at Quantum Hacks. Focused on rapid prototyping, team collaboration, and delivering a working demo from scratch within the hackathon window.",
-    tags:        ["Hackathon", "Rapid Prototyping", "Team Collaboration", "Problem Solving"],
-    color:       "var(--success)",
-    icon:        "QH",
+      "Designed and shipped a working product under time pressure at Quantum Hacks. Demonstrated rapid prototyping, team coordination, and the ability to deliver under constraints — the real test of a developer.",
+    tags:  ["Rapid Prototyping", "Team Work", "Problem Solving"],
+    color: "var(--success)",
+    icon:  "QH",
   },
   {
-    role:        "B.E. Computer Engineering",
-    org:         "Datta Meghe College of Engineering · University of Mumbai",
-    type:        "Education",
-    period:      "2023 – 2027",
-    duration:    "4 years",
+    role:      "B.E. Computer Engineering",
+    org:       "Datta Meghe College of Engineering · University of Mumbai",
+    type:      "Education",
+    typeLabel: "Education",
+    period:    "2023 – 2027",
+    duration:  "4 years",
     description:
-      "Pursuing a Bachelor of Engineering in Computer Science with coursework spanning data structures, algorithms, databases, operating systems, and software engineering. Actively building projects alongside academic study.",
-    tags:        ["Computer Science", "University of Mumbai", "B.E.", "Engineering"],
-    color:       "var(--orange)",
-    icon:        "BE",
+      "Pursuing a B.E. in Computer Engineering with coursework in data structures, algorithms, databases, OS, and software engineering. Actively shipping projects alongside academics — treating the degree as a foundation, not the ceiling.",
+    tags:  ["Computer Science", "University of Mumbai", "B.E.", "Engineering"],
+    color: "var(--orange)",
+    icon:  "BE",
   },
 ];
 
 // ════════════════════════════════════════════════════════════
 // CERTIFICATIONS
-// Replaced --violet with --crimson for Forge consistency
 // ════════════════════════════════════════════════════════════
 
 export type Certification = {
-  title:         string;
-  issuer:        string;
-  description:   string;
-  color:         string;
-  icon:          string;
-  tags:          string[];
+  title:          string;
+  issuer:         string;
+  description:    string;
+  color:          string;
+  icon:           string;
+  tags:           string[];
   credentialUrl?: string;
-  year?:         string;
+  year?:          string;
 };
 
 export const certifications: Certification[] = [
@@ -413,54 +401,54 @@ export const certifications: Certification[] = [
     title:       "Full Stack Developer",
     issuer:      "Certification Authority",
     description:
-      "Comprehensive full-stack certification covering frontend (React, HTML/CSS), backend (Node.js, Express), and database (MongoDB, Firebase) technologies.",
-    color:       "var(--accent)",
-    icon:        "FS",
-    tags:        ["Full Stack", "Web Dev", "React", "Node.js"],
-    year:        "2024",
+      "Comprehensive full-stack certification covering React, Node.js, Express, MongoDB, and Firebase across a structured frontend-to-backend curriculum.",
+    color: "var(--accent)",
+    icon:  "FS",
+    tags:  ["Full Stack", "React", "Node.js"],
+    year:  "2024",
   },
   {
     title:       "Software Engineering Job Simulation",
     issuer:      "Forage",
     description:
-      "Completed Forage's software engineering job simulation covering real engineering tasks, code reviews, and professional development workflows.",
-    color:       "var(--crimson)",
-    icon:        "SE",
-    tags:        ["Software Engineering", "Forage", "Simulation"],
-    credentialUrl: "https://forage.com",
-    year:        "2024",
+      "Completed Forage's software engineering simulation covering real engineering tasks, code reviews, and professional dev workflows.",
+    color:          "var(--crimson)",
+    icon:           "SE",
+    tags:           ["Software Engineering", "Forage"],
+    credentialUrl:  "https://forage.com",
+    year:           "2024",
   },
   {
     title:       "Data Analytics Job Simulation",
     issuer:      "Deloitte Australia",
     description:
-      "Hands-on analytics simulation covering data cleaning, visualization, and business insight generation using industry-standard tools and workflows.",
-    color:       "var(--orange)",
-    icon:        "DA",
-    tags:        ["Data Analytics", "Deloitte", "Visualisation"],
+      "Hands-on analytics simulation covering data cleaning, visualisation, and business insight generation using industry-standard tooling.",
+    color:         "var(--orange)",
+    icon:          "DA",
+    tags:          ["Data Analytics", "Deloitte"],
     credentialUrl: "https://forage.com",
-    year:        "2024",
+    year:          "2024",
   },
   {
     title:       "ReactJS for Beginners",
     issuer:      "Simplilearn",
     description:
-      "ReactJS fundamentals certification covering components, hooks, state management, lifecycle methods, and modern UI development patterns.",
-    color:       "var(--success)",
-    icon:        "RJ",
-    tags:        ["React.js", "Frontend", "Simplilearn"],
-    year:        "2024",
+      "React fundamentals: components, hooks, state management, lifecycle methods, and modern UI patterns.",
+    color: "var(--success)",
+    icon:  "RJ",
+    tags:  ["React.js", "Frontend", "Simplilearn"],
+    year:  "2024",
   },
   {
     title:       "Front-End Software Engineering Simulation",
     issuer:      "Skyscanner via Forage",
     description:
-      "Front-end engineering simulation from Skyscanner covering component design, accessibility, and production-quality UI engineering practices.",
-    color:       "var(--gold)",
-    icon:        "FE",
-    tags:        ["Frontend", "Skyscanner", "Accessibility"],
+      "Front-end engineering simulation from Skyscanner covering component design, accessibility, and production-quality UI engineering.",
+    color:         "var(--gold)",
+    icon:          "FE",
+    tags:          ["Frontend", "Skyscanner", "Accessibility"],
     credentialUrl: "https://forage.com",
-    year:        "2024",
+    year:          "2024",
   },
 ];
 

@@ -2,131 +2,105 @@
 
 import { motion } from "framer-motion";
 import { experiences } from "@/lib/data";
-import { Briefcase, ArrowRight } from "lucide-react";
+import { Briefcase, CalendarDays } from "lucide-react";
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.04 },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export default function Experience() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.14,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, x: -18 },
-    show: { opacity: 1, x: 0 },
-  };
-
   return (
     <section className="section w-full">
       <motion.div
         className="section-header"
-        initial={{ opacity: 0, x: -20 }}
+        initial={{ opacity: 0, x: -16 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        <h2 className="text-3xl font-black tracking-normal flex items-center gap-3">
-          <Briefcase className="text-accent" />
+        <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
+          <Briefcase size={26} className="text-accent shrink-0" />
           Experience
         </h2>
-        <p className="text-text-muted max-w-2xl">
-          A timeline of projects, roles, and milestones that shaped how I build products and think through systems.
+        <p className="text-muted" style={{ maxWidth: "52ch" }}>
+          A timeline of roles, builds, and milestones that shaped how I architect systems and ship at pace.
         </p>
       </motion.div>
 
-      <div className="relative pl-5 ml-2 md:pl-10 md:ml-4">
-        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-accent via-[var(--violet)] to-transparent opacity-40" />
+      <motion.div
+        className="grid grid-cols-1 gap-5 items-start"
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.12 }}
+      >
+        {experiences.map((exp, index) => (
+          <motion.article
+            key={`${exp.role}-${index}`}
+            variants={cardVariant}
+            className="glass-card accent-card accent-card-experience stack-card min-w-0 h-full group relative overflow-hidden"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div
+              className="pointer-events-none absolute -top-20 -right-20 w-48 h-48 rounded-full opacity-0 group-hover:opacity-[0.07] transition-opacity duration-700"
+              style={{ backgroundColor: exp.color }}
+            />
 
-        <motion.div
-          className="flex flex-col gap-7"
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-        >
-          {experiences.map((exp, index) => (
-            <motion.article
-              key={`${exp.role}-${index}`}
-              variants={item}
-              className="relative"
-            >
-              <div
-                className="absolute -left-[1.45rem] md:-left-[2.55rem] top-7 w-3 h-3 rounded-full border-2 border-[var(--bg)] z-10"
-                style={{
-                  backgroundColor: exp.color,
-                  boxShadow: `0 0 16px ${exp.color}`,
-                }}
-              />
-
-              <motion.div
-                className="glass-card accent-card accent-card-experience p-7 md:p-8 border-white/5 transition-all duration-300 overflow-hidden relative group min-h-[260px]"
-                whileHover={{ y: -4, scale: 1.01 }}
-              >
-                <div
-                  className="absolute -right-20 -top-20 w-40 h-40 rounded-full opacity-0 group-hover:opacity-[0.08] transition-opacity duration-700 pointer-events-none"
-                  style={{ backgroundColor: exp.color }}
-                />
-
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span
-                        className="inline-block w-2 h-2 rounded-full"
-                        style={{ backgroundColor: exp.color }}
-                      />
-                      <span
-                        className="text-[10px] uppercase tracking-[0.24em] font-bold font-mono"
-                        style={{ color: exp.color }}
-                      >
-                        Timeline Node
-                      </span>
-                    </div>
-
-                    <h3 className="text-xl font-bold text-text mb-1 group-hover:text-accent transition-colors">
-                      {exp.role}
-                    </h3>
-
-                    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: exp.color }}>
-                      <span>{exp.org}</span>
-                      <ArrowRight size={14} />
-                      <span className="text-text-muted font-medium">Impact-focused build phase</span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col md:items-end shrink-0">
-                    <span className="text-[11px] font-mono font-bold text-text-muted bg-white/5 px-2.5 py-1 rounded-md border border-white/5 whitespace-nowrap">
-                      {exp.period}
-                    </span>
-                    {exp.duration && (
-                      <span className="text-[10px] text-text-faint mt-2 uppercase tracking-[0.22em] font-bold">
-                        {exp.duration}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <p className="text-sm text-text-muted leading-relaxed mb-7 max-w-2xl">
-                  {exp.description}
+            <div className="stack-card-head">
+              <div className="stack-card-title-wrap">
+                <h3 className="stack-card-title break-words group-hover:text-accent transition-colors duration-300">
+                  {exp.role}
+                </h3>
+                <p className="stack-card-meta break-words" style={{ color: exp.color }}>
+                  {exp.org} · {exp.type ?? "Full-time"}
                 </p>
+              </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {exp.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="tag group-hover:bg-white/10 transition-colors"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            </motion.article>
-          ))}
-        </motion.div>
-      </div>
+              <span
+                className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold px-2.5 py-1 rounded-md border whitespace-nowrap shrink-0"
+                style={{
+                  color: "var(--text-muted)",
+                  borderColor: "rgba(255,248,235,0.08)",
+                  background: "rgba(255,248,235,0.04)",
+                }}
+              >
+                <CalendarDays size={11} className="shrink-0 opacity-70" />
+                {exp.period}
+              </span>
+            </div>
+
+            <p className="stack-card-body break-words">{exp.description}</p>
+
+            <div className="stack-card-tags">
+              {exp.tags.map((tag) => (
+                <span key={tag} className="tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="stack-card-footer">
+              <span className="stack-card-meta" style={{ color: "var(--text-muted)" }}>
+                {exp.duration || `Role ${String(index + 1).padStart(2, "0")}`}
+              </span>
+            </div>
+          </motion.article>
+        ))}
+      </motion.div>
     </section>
   );
 }
