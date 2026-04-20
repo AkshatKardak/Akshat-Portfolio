@@ -27,7 +27,7 @@ export default function Contact() {
   ];
 
   return (
-    <section className="section w-full">
+    <div className="w-full">
       <motion.div
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
@@ -139,6 +139,6 @@ export default function Contact() {
           </button>
         </motion.form>
       </div>
-    </section>
+    </div>
   );
 }

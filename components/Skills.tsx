@@ -111,7 +111,7 @@ function SkillIcon({ name, color }: { name: string; color: string }) {
 
 export default function Skills() {
   return (
-    <section className="section w-full">
+    <div className="w-full">
       {/* ── Header ── */}
       <motion.div
         className="section-header"
@@ -177,10 +177,6 @@ export default function Skills() {
               </span>
             </div>
 
-            {group.description && (
-              <p className="stack-card-body break-words">{group.description}</p>
-            )}
-
             {/* ── Skill pills with logos ── */}
             <motion.div className="stack-card-tags min-w-0" variants={pillContainer}>
               {group.skills.map((skill) => (
@@ -208,6 +204,6 @@ export default function Skills() {
           </motion.article>
         ))}
       </motion.div>
-    </section>
+    </div>
   );
 }

@@ -61,7 +61,7 @@ export default function Dashboard() {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 xl:grid-cols-5 gap-12 xl:gap-16 items-start min-h-[72vh]">
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-14 xl:gap-20 items-start min-h-[72vh]">
         <motion.div
           className="xl:col-span-3 flex flex-col gap-7 xl:pr-6"
           variants={container}
@@ -171,7 +171,7 @@ export default function Dashboard() {
         >
           <motion.div
             variants={slideRight}
-            className="hero-portrait-card glass-card relative w-full max-w-[520px] overflow-hidden"
+            className="hero-portrait-card glass-card relative w-full max-w-[440px] overflow-hidden"
             style={{ borderRadius: "var(--radius-2xl)" }}
           >
             <HeroEnergyPulse />
@@ -180,10 +180,10 @@ export default function Dashboard() {
             <Image
               src={personal.avatar}
               alt={`${personal.firstName} ${personal.lastName}`}
-              width={480}
-              height={560}
+              width={420}
+              height={520}
               priority
-              className="hero-portrait-image"
+              className="hero-portrait-image object-cover object-top rounded-xl"
             />
             <div className="hero-portrait-copy">
               <div className="flex items-center gap-2">

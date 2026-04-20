@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: "Akshat Kardak Portfolio",
     images: [
       {
-        url: "/images/og-image.png",
+        url: "/images/Akshat.png",
         width: 1200,
         height: 630,
         alt: "Akshat Kardak Portfolio Preview",

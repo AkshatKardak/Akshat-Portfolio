@@ -9,65 +9,70 @@ export default function Experience() {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.12 } },
   };
+
   const item = {
-    hidden: { opacity: 0, y: 16 },
-    show: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 20, scale: 0.98 },
+    show: { opacity: 1, y: 0, scale: 1 },
   };
 
   return (
-    <section className="section w-full">
+    <div className="w-full">
+      {/* Header */}
       <motion.div
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl font-black tracking-normal">Experience</h2>
+        <h2 className="text-3xl font-black">Experience</h2>
         <p className="text-text-muted max-w-2xl">
           A timeline of roles and builds that shaped how I think about products and systems.
         </p>
       </motion.div>
 
+      {/* Cards */}
       <motion.div
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-5"
         variants={container}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.1 }}
+        viewport={{ once: true }}
       >
         {experiences.map((exp, index) => (
           <motion.article
             key={`${exp.role}-${index}`}
             variants={item}
-            className="glass-card rounded-2xl border border-white/5 overflow-hidden"
+            whileHover={{ y: -4 }}
+            className="group glass-card rounded-2xl border border-white/5 overflow-hidden transition-all duration-300"
           >
-            <div className="p-6 flex flex-col gap-4">
+            <div className="p-6 flex flex-col gap-5">
 
-              {/* Row 1: Role + Date */}
-              <div className="flex items-start justify-between gap-4">
+              {/* TOP ROW */}
+              <div className="flex justify-between items-start">
                 <h3 className="text-xl font-bold text-text leading-tight">
                   {exp.role}
                 </h3>
-                <div className="flex items-center gap-1.5 shrink-0 text-text-faint text-xs font-mono whitespace-nowrap">
-                  <Calendar size={13} />
-                  <span>{exp.period}</span>
+
+                <div className="flex items-center gap-1 text-text-faint text-xs font-mono">
+                  <Calendar size={12} />
+                  {exp.period}
                 </div>
               </div>
 
-              {/* Row 2: Company name */}
+              {/* ORG */}
               <p
-                className="text-sm font-bold -mt-2"
+                className="text-sm font-semibold -mt-2"
                 style={{ color: exp.color }}
               >
                 {exp.org}
               </p>
 
-              {/* Row 3: Tech tags */}
+              {/* TAGS */}
               <div className="flex flex-wrap gap-2">
                 {exp.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs font-semibold px-3 py-1 rounded-full border"
+                    className="text-xs px-3 py-1 rounded-full border transition-all duration-200 group-hover:scale-105"
                     style={{
                       borderColor: `${exp.color}40`,
                       color: exp.color,
@@ -79,12 +84,12 @@ export default function Experience() {
                 ))}
               </div>
 
-              {/* Row 4: Bullet points */}
-              <ul className="flex flex-col gap-2.5">
+              {/* BULLETS */}
+              <ul className="flex flex-col gap-2 text-sm text-text-muted leading-relaxed">
                 {exp.bullets?.map((point, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-text-muted leading-relaxed">
+                  <li key={i} className="flex gap-3">
                     <span
-                      className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0"
+                      className="mt-1.5 w-1.5 h-1.5 rounded-full"
                       style={{ backgroundColor: exp.color }}
                     />
                     {point}
@@ -92,22 +97,22 @@ export default function Experience() {
                 ))}
               </ul>
 
-              {/* Row 5: Key Impact box */}
+              {/* IMPACT */}
               {exp.impact && (
                 <div
-                  className="rounded-xl p-4 border mt-1"
+                  className="rounded-xl p-4 border"
                   style={{
                     background: `${exp.color}08`,
                     borderColor: `${exp.color}25`,
                   }}
                 >
                   <p
-                    className="text-xs font-bold mb-1.5 uppercase tracking-wider"
+                    className="text-xs font-bold uppercase mb-1"
                     style={{ color: exp.color }}
                   >
                     Key Impact
                   </p>
-                  <p className="text-sm text-text-muted leading-relaxed">
+                  <p className="text-sm text-text-muted">
                     {exp.impact}
                   </p>
                 </div>
@@ -117,6 +122,6 @@ export default function Experience() {
           </motion.article>
         ))}
       </motion.div>
-    </section>
+    </div>
   );
 }

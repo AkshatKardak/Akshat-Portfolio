@@ -1,239 +1,143 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { certifications } from "@/lib/data";
-import { BadgeCheck, ExternalLink } from "lucide-react";
-
-const container: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-  },
-};
-
-const cardVariant: Variants = {
-  hidden: { opacity: 0, y: 22 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
-
-const tagVariant: Variants = {
-  hidden: { opacity: 0, scale: 0.88 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
-
-const tagContainer: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.04, delayChildren: 0.18 },
-  },
-};
-
-// Issuer → Simple Icons slug map
-const ISSUER_ICONS: Record<string, string> = {
-  "Simplilearn":              "simplilearn",
-  "Forage":                   "forage",
-  "Deloitte Australia":       "deloitte",
-  "Skyscanner via Forage":    "skyscanner",
-  "Coursera":                 "coursera",
-  "Udemy":                    "udemy",
-  "Google":                   "google",
-  "Meta":                     "meta",
-  "Microsoft":                "microsoft",
-  "AWS":                      "amazonaws",
-  "IBM":                      "ibm",
-};
-
-function IssuerLogo({ issuer, color }: { issuer: string; color: string }) {
-  const slug = ISSUER_ICONS[issuer];
-  if (!slug) {
-    return (
-      <div
-        className="w-8 h-8 rounded-md flex items-center justify-center text-[10px] font-black font-mono border shrink-0"
-        style={{
-          color,
-          borderColor: `${color}33`,
-          background: `${color}15`,
-        }}
-      >
-        {issuer.slice(0, 2).toUpperCase()}
-      </div>
-    );
-  }
-  return (
-    <div
-      className="w-8 h-8 rounded-md flex items-center justify-center border shrink-0 p-1.5"
-      style={{
-        borderColor: `${color}33`,
-        background: `${color}15`,
-      }}
-    >
-      <img
-        src={`https://cdn.simpleicons.org/${slug}`}
-        alt={issuer}
-        width={20}
-        height={20}
-        className="w-full h-full object-contain"
-        style={{ filter: "brightness(0) invert(1) opacity(0.8)" }}
-        onError={(e) => {
-          (e.target as HTMLImageElement).style.display = "none";
-        }}
-      />
-    </div>
-  );
-}
+import { Calendar, BadgeCheck, ExternalLink } from "lucide-react";
 
 export default function Certifications() {
+  const container = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.12 } },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20, scale: 0.98 },
+    show: { opacity: 1, y: 0, scale: 1 },
+  };
+
   return (
     <section className="section w-full">
-      {/* ── Header ── */}
+      {/* Header */}
       <motion.div
         className="section-header"
-        initial={{ opacity: 0, x: -16 }}
+        initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
       >
-        <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
-          <BadgeCheck size={26} className="text-accent shrink-0" />
-          Certifications
-        </h2>
-        <p className="text-muted" style={{ maxWidth: "52ch" }}>
-          Verified credentials from structured programs that deepened my
-          technical and engineering foundation.
+        <h2 className="text-3xl font-black">Certifications</h2>
+        <p className="text-text-muted max-w-2xl">
+          Verified credentials from structured programs that strengthened my engineering foundation.
         </p>
       </motion.div>
 
+      {/* Cards */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start"
+        className="flex flex-col gap-5"
         variants={container}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.1 }}
+        viewport={{ once: true }}
       >
-        {certifications.map((cert) => (
+        {certifications.map((cert, index) => (
           <motion.article
-            key={cert.title}
-            variants={cardVariant}
-            className="glass-card accent-card accent-card-certs group min-w-0 relative overflow-hidden flex flex-col h-full p-7 md:p-8"
-            whileHover={{
-              y: -5,
-              transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] as const },
-            }}
+            key={`${cert.title}-${index}`}
+            variants={item}
+            whileHover={{ y: -4 }}
+            className="group glass-card rounded-2xl border border-white/5 overflow-hidden transition-all duration-300"
           >
-            {/* ── Certificate Preview ── */}
-            {cert.image && (
-              <div className="w-full h-48 overflow-hidden">
-                <img
-                  src={cert.image}
-                  alt={cert.title}
-                  className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
-                />
-              </div>
-            )}
+            <div className="p-6 flex flex-col gap-5">
 
-            <div className="flex flex-col flex-1 gap-5">
-              {/* ── Header row: icon + title + external link ── */}
-              <div className="flex items-start gap-3">
-                <IssuerLogo issuer={cert.issuer} color={cert.color} />
+              {/* TOP ROW */}
+              <div className="flex justify-between items-start">
+                <h3 className="text-xl font-bold text-text leading-tight">
+                  {cert.title}
+                </h3>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="stack-card-title break-words group-hover:text-accent transition-colors duration-300 leading-snug">
-                      {cert.title}
-                    </h3>
-                    {cert.credentialUrl && (
-                      <a
-                        href={cert.credentialUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`View ${cert.title} credential`}
-                        className="p-1.5 rounded-md text-muted hover:text-text hover:bg-white/5 transition-all duration-200 shrink-0"
-                      >
-                        <ExternalLink size={14} />
-                      </a>
-                    )}
-                  </div>
-
-                  {/* ── Issuer + year ── */}
-                  <div className="flex items-center gap-2 flex-wrap mt-1">
-                    <span
-                      className="text-sm font-semibold break-words"
-                      style={{ color: cert.color }}
+                <div className="flex items-center gap-2 text-text-faint text-xs font-mono">
+                  {cert.year && (
+                    <>
+                      <Calendar size={12} />
+                      {cert.year}
+                    </>
+                  )}
+                  {cert.credentialUrl && (
+                    <a
+                      href={cert.credentialUrl}
+                      target="_blank"
+                      className="hover:text-text"
                     >
-                      {cert.issuer}
-                    </span>
-                    {cert.year && (
-                      <span className="text-[10px] font-mono text-muted bg-white/5 px-2 py-0.5 rounded border border-white/5">
-                        {cert.year}
-                      </span>
-                    )}
-                  </div>
+                      <ExternalLink size={14} />
+                    </a>
+                  )}
                 </div>
               </div>
 
-              {/* ── Verified badge ── */}
-              <div className="flex items-center gap-1.5">
-                <div
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] font-mono font-bold uppercase tracking-[0.2em]"
-                  style={{
-                    color: cert.color,
-                    borderColor: `${cert.color}33`,
-                    background: `${cert.color}12`,
-                  }}
-                >
-                  <BadgeCheck size={11} />
-                  Verified
-                </div>
-              </div>
+              {/* ISSUER */}
+              <p
+                className="text-sm font-semibold -mt-2"
+                style={{ color: cert.color }}
+              >
+                {cert.issuer}
+              </p>
 
-              {/* ── Description ── */}
-              <p className="stack-card-body break-words max-w-[64ch]">{cert.description}</p>
-
-              {/* ── Tags ── */}
-              {cert.tags.length > 0 && (
-                <motion.div
-                  className="stack-card-tags min-w-0"
-                  variants={tagContainer}
-                >
+              {/* TAGS */}
+              {cert.tags && (
+                <div className="flex flex-wrap gap-2">
                   {cert.tags.map((tag) => (
-                    <motion.span
+                    <span
                       key={tag}
-                      variants={tagVariant}
-                      className="skill-pill min-w-0 inline-flex items-center gap-1.5"
-                      whileHover={{
-                        borderColor: `${cert.color}55`,
-                        color: "var(--text)",
-                        backgroundColor: `${cert.color}10`,
+                      className="text-xs px-3 py-1 rounded-full border transition-all duration-200 group-hover:scale-105"
+                      style={{
+                        borderColor: `${cert.color}40`,
+                        color: cert.color,
+                        background: `${cert.color}0f`,
                       }}
-                      transition={{ duration: 0.18 }}
                     >
-                      <span
-                        className="inline-block w-1.5 h-1.5 rounded-full shrink-0 opacity-60"
-                        style={{ backgroundColor: cert.color }}
-                      />
                       {tag}
-                    </motion.span>
+                    </span>
                   ))}
-                </motion.div>
+                </div>
               )}
 
-              {/* ── Footer ── */}
-              <div className="stack-card-footer mt-auto">
-                <p className="stack-card-meta">Issued by {cert.issuer}</p>
+              {/* DESCRIPTION */}
+              {cert.description && (
+                <ul className="flex flex-col gap-2 text-sm text-text-muted">
+                  <li className="flex gap-3">
+                    <span
+                      className="mt-1.5 w-1.5 h-1.5 rounded-full"
+                      style={{ backgroundColor: cert.color }}
+                    />
+                    {cert.description}
+                  </li>
+                </ul>
+              )}
+
+              {/* VERIFIED BOX */}
+              <div
+                className="rounded-xl p-4 border flex items-start gap-2"
+                style={{
+                  background: `${cert.color}08`,
+                  borderColor: `${cert.color}25`,
+                }}
+              >
+                <BadgeCheck
+                  size={16}
+                  style={{ color: cert.color }}
+                  className="mt-0.5"
+                />
+                <div>
+                  <p
+                    className="text-xs font-bold uppercase"
+                    style={{ color: cert.color }}
+                  >
+                    Verified Credential
+                  </p>
+                  <p className="text-sm text-text-muted">
+                    Issued by {cert.issuer}
+                  </p>
+                </div>
               </div>
+
             </div>
           </motion.article>
         ))}

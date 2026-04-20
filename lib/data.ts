@@ -26,6 +26,7 @@ export const personal: Personal = {
   location: "Mumbai, India",
   email: "akshat@example.com",
   github: "https://github.com/AkshatKardak",
+  githubUsername: "AkshatKardak",
   linkedin: "https://linkedin.com/in/akshat-kardak",
   resumeUrl: "/Akshat_Kardak_Resume.pdf",
   avatar: "/akshat.jpg",
@@ -157,23 +158,6 @@ export const experiences: Experience[] = [
 
 export const projects: Project[] = [
   {
-    title: "WellBeing – AI Mental Health Companion",
-    date: "March 2025",
-    color: "#a78bfa",
-    featured: true,
-    github: "",
-    live: "",
-    image: "/wellbeing-screenshot.png",
-    tech: ["React Native", "Expo", "Firebase", "FastAPI", "NLP"],
-    bullets: [
-      "Developed a mobile app offering AI-driven emotional support, mood tracking, and gamified self-care routines.",
-      "Built secure NLP-powered journaling with sentiment analysis to surface patterns over time.",
-      "Followed secure coding standards with encrypted local storage and anonymous session handling.",
-    ],
-    impact:
-      "A mental health companion that combines AI empathy with structured self-care — built with privacy-first architecture.",
-  },
-  {
     title: "UnitedImpact",
     date: "2024",
     color: "#f59e0b",
@@ -258,36 +242,61 @@ export const projects: Project[] = [
 export const certifications: Certification[] = [
   {
     title: "Full Stack Web Development",
-    issuer: "Coursera / Meta",
+    issuer: "Coursera",
     date: "2024",
+    year: "2024",
     color: "#6366f1",
     link: "",
+    credentialUrl: "",
+    image: "",
+    description:
+      "Completed Meta's professional full-stack certificate covering React, Node.js, databases, and REST API design through structured, project-based modules.",
+    tags: ["React", "Node.js", "REST APIs", "MongoDB", "Full Stack"],
   },
   {
     title: "Flutter & Dart — The Complete Bootcamp",
     issuer: "Udemy",
     date: "2024",
+    year: "2024",
     color: "#10b981",
     link: "",
+    credentialUrl: "",
+    image: "",
+    description:
+      "Mastered Flutter and Dart through 28+ hours of hands-on instruction covering state management, Firebase integration, animations, and app deployment.",
+    tags: ["Flutter", "Dart", "Firebase", "Mobile Development"],
   },
   {
     title: "Python for Data Science & AI",
-    issuer: "IBM / Coursera",
+    issuer: "IBM",
     date: "2023",
+    year: "2023",
     color: "#f59e0b",
     link: "",
+    credentialUrl: "",
+    image: "",
+    description:
+      "IBM-backed Coursera program covering Python fundamentals, NumPy, Pandas, data visualization, and introductory machine learning concepts.",
+    tags: ["Python", "Pandas", "NumPy", "Machine Learning", "Data Science"],
   },
   {
     title: "MongoDB for JavaScript Developers",
     issuer: "MongoDB University",
     date: "2024",
+    year: "2024",
     color: "#ef4444",
     link: "",
+    credentialUrl: "",
+    image: "",
+    description:
+      "Official MongoDB University course on schema design, aggregation pipelines, indexing strategies, and integrating MongoDB with Node.js applications.",
+    tags: ["MongoDB", "Node.js", "Aggregation", "Schema Design", "Databases"],
   },
 ];
 
 export const navItems: NavItem[] = [
   { id: "home",           label: "Dashboard"      },
+  { id: "about",          label: "About"          },  // ← ADD THIS
   { id: "projects",       label: "Projects"       },
   { id: "skills",         label: "Skills"         },
   { id: "experience",     label: "Experience"     },

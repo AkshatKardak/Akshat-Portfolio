@@ -36,8 +36,13 @@ export interface Certification {
   title: string;
   issuer: string;
   date: string;
+  year?: string;
   color: string;
   link?: string;
+  credentialUrl?: string;
+  image?: string;
+  description?: string;
+  tags: string[];   // ← was missing, caused the crash
 }
 
 export interface AboutMe {
@@ -58,6 +63,7 @@ export interface Personal {
   location: string;
   email: string;
   github: string;
+  githubUsername: string;
   linkedin: string;
   resumeUrl: string;
   avatar: string;

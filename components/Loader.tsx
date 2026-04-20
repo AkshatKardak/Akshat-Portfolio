@@ -3,96 +3,82 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const steps = [
-  "Initializing portfolio shell",
-  "Loading projects and case studies",
-  "Warming up motion and cursor layers",
-  "Preparing the dashboard",
+const messages = [
+  "Initializing modules...",
+  "Loading components...",
+  "Compiling UI...",
+  "Starting system..."
 ];
 
 const stack = ["Next.js", "React", "TypeScript", "Node.js", "MERN"];
 
-export default function Loader() {
+export default function Loader({ loaded }: { loaded: boolean }) {
   const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState(0);
+  const [lines, setLines] = useState<string[]>([]);
 
   useEffect(() => {
-    const progressTimer = window.setInterval(() => {
-      setProgress((current) => {
-        if (current >= 100) {
-          window.clearInterval(progressTimer);
+    let i = 0;
+
+    const typing = setInterval(() => {
+      if (i < messages.length) {
+        setLines(prev => [...prev, messages[i]]);
+        i++;
+      } else {
+        clearInterval(typing);
+      }
+    }, 500);
+
+    const prog = setInterval(() => {
+      setProgress(p => {
+        if (p >= 100) {
+          clearInterval(prog);
           return 100;
         }
-
-        return Math.min(current + 4 + Math.random() * 6, 100);
+        return Math.min(p + 3, 100);
       });
-    }, 90);
-
-    const phaseTimer = window.setInterval(() => {
-      setPhase((current) => Math.min(current + 1, steps.length - 1));
-    }, 460);
+    }, 60);
 
     return () => {
-      window.clearInterval(progressTimer);
-      window.clearInterval(phaseTimer);
+      clearInterval(typing);
+      clearInterval(prog);
     };
   }, []);
 
   return (
-    <div className="loader-screen" role="status" aria-live="polite" aria-label="Loading portfolio">
+    <div className={`loader-screen ${loaded ? "opacity-0 scale-95 pointer-events-none" : ""}`}>
       <div className="loader-card">
+
         <div className="loader-top">
           <div className="loader-logo">
-            <span className="loader-logo-mark">
-              <Image
-                src="/images/AK.png"
-                alt="AK logo"
-                width={24}
-                height={24}
-                className="loader-logo-image"
-              />
-            </span>
+            <Image src="/images/AK.png" alt="logo" width={24} height={24} />
             <div>
               <p className="loader-logo-title">Akshat Kardak</p>
               <p className="loader-logo-subtitle">Full Stack Developer</p>
             </div>
           </div>
-          <span>{Math.round(progress)}% online</span>
+          <span className="font-mono text-sm">{progress}%</span>
         </div>
 
         <div className="loader-hero">
-          <div className="loader-hero-ring" />
-          <div className="loader-hero-copy">
-            <p className="loader-kicker">Booting interface</p>
-            <h1>Precision in motion.</h1>
-            <p>
-              A focused developer portfolio built to feel calm, sharp, and ready.
-            </p>
-          </div>
+          <h1>Precision in motion.</h1>
+          <p>Crafting a premium developer experience...</p>
         </div>
 
         <div className="loader-terminal">
           <div className="loader-terminal-head">
-            <div className="loader-dots">
-              <span />
-              <span />
-              <span />
-            </div>
-            <span>akshat@portfolio:~</span>
+            <span>akshat@system</span>
+            <span>~</span>
           </div>
 
           <div className="loader-lines">
-            {steps.slice(0, phase + 1).map((line) => (
-              <p key={line}>{line}</p>
+            {lines.map((line, idx) => (
+              <p key={idx}>{line}</p>
             ))}
-            <p>
-              <span className="animate-blink">_</span>
-            </p>
           </div>
         </div>
 
         <div className="loader-stack">
-          {stack.map((item) => (
+          {stack.map(item => (
             <span key={item}>{item}</span>
           ))}
         </div>
@@ -100,12 +86,18 @@ export default function Loader() {
         <div className="loader-progress">
           <div className="loader-progress-meta">
             <span>boot sequence</span>
-            <span>{Math.round(progress)}/100</span>
+            <span>{progress}/100</span>
           </div>
           <div className="loader-bar">
-            <span style={{ width: `${progress}%` }} />
+            <span 
+              style={{ 
+                width: `${progress}%`,
+                transition: "width 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
+              }} 
+            />
           </div>
         </div>
+
       </div>
     </div>
   );

@@ -1,36 +1,38 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import Loader        from "../components/Loader";
-import Navbar        from "../components/Navbar";
-import Dashboard     from "../components/Dashboard";
-import Projects      from "../components/Projects";
-import Skills        from "../components/Skills";
-import Experience    from "../components/Experience";
+import Loader         from "../components/Loader";
+import Navbar         from "../components/Navbar";
+import Dashboard      from "../components/Dashboard";
+import About          from "../components/About";       // ← ADD IMPORT
+import Projects       from "../components/Projects";
+import Skills         from "../components/Skills";
+import Experience     from "../components/Experience";
 import Certifications from "../components/Certifications";
-import Contact       from "../components/Contact";
-import CursorGlow    from "../components/CursorGlow";
-import BackgroundFX  from "../components/BackgroundFX";
+import Contact        from "../components/Contact";
+import CursorGlow     from "../components/CursorGlow";
+import BackgroundFX   from "../components/BackgroundFX";
 
 const SECTIONS = [
-  { id: "home",           label: "Home",            component: <Dashboard /> },
-  { id: "projects",       label: "Projects",        component: <Projects /> },
-  { id: "skills",         label: "Skills",          component: <Skills /> },
-  { id: "experience",     label: "Experience",      component: <Experience /> },
-  { id: "certifications", label: "Certification",   component: <Certifications /> },
-  { id: "contact",        label: "Contact",         component: <Contact /> },
+  { id: "home",           label: "Home",           component: <Dashboard /> },
+  { id: "about",          label: "About",          component: <About /> },         // ← ADD
+  { id: "projects",       label: "Projects",       component: <Projects /> },
+  { id: "skills",         label: "Skills",         component: <Skills /> },
+  { id: "experience",     label: "Experience",     component: <Experience /> },
+  { id: "certifications", label: "Certification",  component: <Certifications /> },
+  { id: "contact",        label: "Contact",        component: <Contact /> },
 ] as const;
 
 type SectionId = typeof SECTIONS[number]["id"];
 
 export default function Home() {
-  const [loaded,        setLoaded]        = useState(false);
-  const [activeSection, setActiveSection] = useState<SectionId>("home");
+  const [loaded,         setLoaded]        = useState(false);
+  const [activeSection,  setActiveSection] = useState<SectionId>("home");
   const mainRef = useRef<HTMLElement | null>(null);
 
   /* ── Loader timer ─────────────────────────────────────── */
   useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 1600);
+    const t = setTimeout(() => setLoaded(true), 2400); // Sync with progress bar
     return () => clearTimeout(t);
   }, []);
 
@@ -74,11 +76,9 @@ export default function Home() {
     target.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
-  /* ── Render loader while booting ──────────────────────── */
-  if (!loaded) return <Loader />;
-
   return (
     <div className="site-shell">
+      <Loader loaded={loaded} />
 
       {/* ── Layer 0: Canvas particles + streaks ──────────── */}
       <BackgroundFX />
@@ -99,23 +99,17 @@ export default function Home() {
         <main
           id="main-content"
           ref={mainRef}
-          className="main-scroll"
           style={{ minWidth: 0, position: "relative" }}
         >
           <div className="content-panel">
-            {SECTIONS.map(({ id, component }) => (
-              <div
-                key={id}
-                id={id}
-                className="portfolio-section-shell"
-                data-section={id}
-              >
-                <section className="portfolio-section">
-                  {component}
-                </section>
-              </div>
-            ))}
-          </div>
+  {SECTIONS.map(({ id, component }) => (
+    <section key={id} id={id} className="section">
+      <div className="content-container">
+        {component}
+      </div>
+    </section>
+  ))}
+</div>
         </main>
       </div>
     </div>

@@ -70,7 +70,7 @@ export default function Navbar({
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setActive(item.id === "about" ? "home" : item.id)}
+                onClick={() => setActive(item.id)}   
                 className={`sidebar-item top-navbar-link ${isActive ? "top-navbar-link-active" : ""}`}
                 aria-current={isActive ? "page" : undefined}
               >
@@ -93,8 +93,8 @@ export default function Navbar({
         <div className="top-navbar-socials">
           {[
             { Icon: GitHubIcon, href: personal.github, label: "GitHub" },
-            { Icon: Linkedin, href: personal.linkedin, label: "LinkedIn" },
-            { Icon: Mail, href: `mailto:${personal.email}`, label: "Email" },
+            { Icon: Linkedin,   href: personal.linkedin, label: "LinkedIn" },
+            { Icon: Mail,       href: `mailto:${personal.email}`, label: "Email" },
           ].map(({ Icon, href, label }) => (
             <a
               key={label}
