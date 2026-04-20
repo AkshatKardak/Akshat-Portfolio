@@ -1,183 +1,122 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { experiences } from "@/lib/data";
-import { Briefcase } from "lucide-react";
-
-const container: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
-  },
-};
-
-const cardVariant: Variants = {
-  hidden: { opacity: 0, x: -20 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
-
-const tagVariant: Variants = {
-  hidden: { opacity: 0, scale: 0.88 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
-
-const tagContainer: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.045, delayChildren: 0.18 },
-  },
-};
+import { Calendar } from "lucide-react";
 
 export default function Experience() {
+  const container = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.12 } },
+  };
+  const item = {
+    hidden: { opacity: 0, y: 16 },
+    show: { opacity: 1, y: 0 },
+  };
+
   return (
     <section className="section w-full">
-      {/* ── Header ── */}
       <motion.div
         className="section-header"
-        initial={{ opacity: 0, x: -16 }}
+        initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
       >
-        <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
-          <Briefcase size={26} className="text-accent shrink-0" />
-          Experience
-        </h2>
-        <p className="text-muted" style={{ maxWidth: "52ch" }}>
-          A timeline of roles, projects, and milestones that shaped how I build
-          products and think through real engineering problems.
+        <h2 className="text-3xl font-black tracking-normal">Experience</h2>
+        <p className="text-text-muted max-w-2xl">
+          A timeline of roles and builds that shaped how I think about products and systems.
         </p>
       </motion.div>
 
-      {/* ── Timeline wrapper ── */}
-      <div className="relative pl-5 ml-2 md:pl-10 md:ml-4">
-        {/* ── Vertical line ── */}
-        <div className="absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-accent via-accent/30 to-transparent" />
+      <motion.div
+        className="flex flex-col gap-4"
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        {experiences.map((exp, index) => (
+          <motion.article
+            key={`${exp.role}-${index}`}
+            variants={item}
+            className="glass-card rounded-2xl border border-white/5 overflow-hidden"
+          >
+            <div className="p-6 flex flex-col gap-4">
 
-        <motion.div
-          className="flex flex-col gap-12"
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-        >
-          {experiences.map((exp, index) => (
-              <motion.article
-                key={`${exp.role}-${index}`}
-                variants={cardVariant}
-                className="glass-card accent-card accent-card-experience group relative overflow-hidden min-w-0 h-full p-7 md:p-8"
-                whileHover={{ y: -5, transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] as const } }}
-              >
-              {/* ── Timeline dot ── */}
-              <div
-                className="absolute -left-[2.1rem] md:-left-[3.1rem] top-7 w-3 h-3 rounded-full border-2 border-[var(--bg)] z-10 shrink-0"
-                style={{
-                  backgroundColor: exp.color,
-                  boxShadow: `0 0 12px ${exp.color}88`,
-                }}
-              />
-
-              {/* ── Ambient corner glow on hover ── */}
-              <div
-                className="pointer-events-none absolute -top-16 -right-16 w-40 h-40 rounded-full opacity-0 group-hover:opacity-[0.09] transition-opacity duration-700"
-                style={{ backgroundColor: exp.color }}
-              />
-
-              {/* ── Card head ── */}
-              <div className="stack-card-head mb-6">
-                <div className="flex min-w-0 flex-col gap-1.5">
-                  {/* ── Role ── */}
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span
-                      className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
-                      style={{
-                        backgroundColor: exp.color,
-                        boxShadow: `0 0 10px ${exp.color}88`,
-                      }}
-                    />
-                    <h3 className="stack-card-title break-words group-hover:text-accent transition-colors duration-300">
-                      {exp.role}
-                    </h3>
-                  </div>
-
-                  {/* ── Org ── */}
-                  <p
-                    className="text-sm font-semibold pl-[1.125rem]"
-                    style={{ color: exp.color }}
-                  >
-                    {exp.org}
-                  </p>
-                </div>
-
-                {/* ── Period badge ── */}
-                <div className="flex flex-col items-end gap-1.5 shrink-0">
-                  <span
-                    className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] font-bold px-2.5 py-1 rounded-full border shrink-0"
-                    style={{
-                      color: exp.color,
-                      borderColor: `${exp.color}33`,
-                      background: `${exp.color}12`,
-                    }}
-                  >
-                    {exp.period}
-                  </span>
-                  {exp.duration && (
-                    <span className="text-[10px] font-mono text-muted uppercase tracking-[0.18em]">
-                      {exp.duration}
-                    </span>
-                  )}
+              {/* Row 1: Role + Date */}
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="text-xl font-bold text-text leading-tight">
+                  {exp.role}
+                </h3>
+                <div className="flex items-center gap-1.5 shrink-0 text-text-faint text-xs font-mono whitespace-nowrap">
+                  <Calendar size={13} />
+                  <span>{exp.period}</span>
                 </div>
               </div>
 
-              {/* ── Description ── */}
-              {exp.description && (
-                <p className="stack-card-body break-words max-w-[64ch]">{exp.description}</p>
-              )}
-
-              {/* ── Tags ── */}
-              <motion.div
-                className="stack-card-tags min-w-0"
-                variants={tagContainer}
+              {/* Row 2: Company name */}
+              <p
+                className="text-sm font-bold -mt-2"
+                style={{ color: exp.color }}
               >
+                {exp.org}
+              </p>
+
+              {/* Row 3: Tech tags */}
+              <div className="flex flex-wrap gap-2">
                 {exp.tags.map((tag) => (
-                  <motion.span
+                  <span
                     key={tag}
-                    variants={tagVariant}
-                    className="skill-pill min-w-0"
-                    whileHover={{
-                      borderColor: `${exp.color}55`,
-                      color: "var(--text)",
-                      backgroundColor: `${exp.color}10`,
+                    className="text-xs font-semibold px-3 py-1 rounded-full border"
+                    style={{
+                      borderColor: `${exp.color}40`,
+                      color: exp.color,
+                      background: `${exp.color}0f`,
                     }}
-                    transition={{ duration: 0.18 }}
                   >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Row 4: Bullet points */}
+              <ul className="flex flex-col gap-2.5">
+                {exp.bullets?.map((point, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-text-muted leading-relaxed">
                     <span
-                      className="inline-block w-1.5 h-1.5 rounded-full shrink-0 opacity-60"
+                      className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0"
                       style={{ backgroundColor: exp.color }}
                     />
-                    {tag}
-                  </motion.span>
+                    {point}
+                  </li>
                 ))}
-              </motion.div>
+              </ul>
 
-              {/* ── Footer ── */}
-              <div className="stack-card-footer">
-                <p className="stack-card-meta">Shipped in production builds</p>
-              </div>
-            </motion.article>
-          ))}
-        </motion.div>
-      </div>
+              {/* Row 5: Key Impact box */}
+              {exp.impact && (
+                <div
+                  className="rounded-xl p-4 border mt-1"
+                  style={{
+                    background: `${exp.color}08`,
+                    borderColor: `${exp.color}25`,
+                  }}
+                >
+                  <p
+                    className="text-xs font-bold mb-1.5 uppercase tracking-wider"
+                    style={{ color: exp.color }}
+                  >
+                    Key Impact
+                  </p>
+                  <p className="text-sm text-text-muted leading-relaxed">
+                    {exp.impact}
+                  </p>
+                </div>
+              )}
+
+            </div>
+          </motion.article>
+        ))}
+      </motion.div>
     </section>
   );
 }

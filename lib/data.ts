@@ -1,227 +1,296 @@
-// lib/data.ts
+import type {
+  SkillGroup,
+  Experience,
+  Project,
+  Certification,
+  AboutMe,
+  Personal,
+  NavItem,
+} from "@/lib/types";
 
-export interface Project {
-  id: string;
-  title: string;
-  tagline: string;
-  description: string;
-  tech: string[];
-  images: string[];
-  liveUrl?: string;
-  githubUrl?: string;
-  color: string;
-  category: "fullstack" | "frontend" | "ai" | "mobile";
-  featured: boolean;
-}
-
-export const personal = {
-  firstName: "Akshat",
-  lastName: "Kardak",
-  githubUsername: "AkshatKardak",
+export const aboutMe: AboutMe = {
   name: "Akshat Kardak",
-  email: "akshat.kardak@gmail.com",
-  github: "https://github.com/AkshatKardak",
-  linkedin: "https://linkedin.com/in/akshatkardak",
+  role: "Full Stack Developer",
   location: "Mumbai, India",
-  available: true,
-  bio: "Full-stack developer focused on building high-performance web applications and AI-driven solutions. I like clear systems, sharp interfaces, and products that feel calm to use.",
-  tagline: "Software Engineer · MERN Stack · Android Dev",
-  avatar: "/images/Akshat.png",
-  resumeUrl: "#",
-  techStack: ["React", "Next.js", "Node.js", "MongoDB", "Express", "Tailwind CSS"],
+  college: "Datta Meghe College of Engineering",
+  resumeUrl: "/Akshat_Kardak_Resume.pdf",
+  github: "https://github.com/AkshatKardak",
+  email: "akshat@example.com",
 };
 
-export const projects: Project[] = [
-  {
-    id: "unitedimpact",
-    title: "UnitedImpact",
-    tagline: "NGO donation & volunteer platform",
-    description:
-      "A full-stack platform bridging donors, volunteers, and verified NGOs. Features Razorpay payments, map-based campaign discovery via Leaflet, real-time updates, and an admin dashboard with analytics.",
-    tech: [
-      "React",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Firebase Auth",
-      "Razorpay",
-      "Socket.IO",
-      "Leaflet",
-      "Cloudinary",
-    ],
-    images: ["https://unitedimpact-app.netlify.app/fav.png"],
-    liveUrl: "https://unitedimpact-app.netlify.app",
-    githubUrl: "https://github.com/AkshatKardak/UnitedImpact",
-    color: "#f59e0b",
-    category: "fullstack",
-    featured: true,
-  },
-  {
-    id: "rentride",
-    title: "RentRide",
-    tagline: "Full-stack MERN car rental platform",
-    description:
-      "A production-grade car rental web app with smart browsing, real-time booking, AI assistant, damage reports, and an admin dashboard. Built with MERN stack and Firebase Auth.",
-    tech: [
-      "React",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Firebase Auth",
-      "Razorpay",
-      "Tailwind CSS",
-      "JWT",
-    ],
-    images: [
-      "https://raw.githubusercontent.com/AkshatKardak/car-rental-mern/ec68e95a2c3564ba1d8c5a0a630b3ae52cbb82ff/screenshots/LandingSection.png",
-      "https://raw.githubusercontent.com/AkshatKardak/car-rental-mern/ec68e95a2c3564ba1d8c5a0a630b3ae52cbb82ff/screenshots/BrowseCars.png",
-    ],
-    liveUrl: "https://rentridefrontend.vercel.app",
-    githubUrl: "https://github.com/AkshatKardak/car-rental-mern",
-    color: "#f59e0b",
-    category: "fullstack",
-    featured: true,
-  },
-  {
-    id: "roasthub",
-    title: "RoastHub",
-    tagline: "AI-powered savage tweet generator",
-    description:
-      "Generate brutal, no-filter tweets with authentic Indian flavor — Bollywood references, cricket banter, and viral desi slang using GROQ AI.",
-    tech: ["React", "Vite", "Framer Motion", "Node.js", "Express", "GROQ API"],
-    images: ["https://roasthubfront.vercel.app/favicon.ico"],
-    liveUrl: "https://roasthubfront.vercel.app",
-    githubUrl: "https://github.com/AkshatKardak/RoastHub",
-    color: "#f59e0b",
-    category: "ai",
-    featured: true,
-  },
-  {
-    id: "galacticsquad",
-    title: "Galactic Squad",
-    tagline: "Esports gaming org website",
-    description:
-      "Frontend website for a gaming organization featuring a dynamic hero section, elite teams showcase, and a functional contact form.",
-    tech: ["HTML", "CSS", "JavaScript", "EmailJS", "Framer Motion"],
-    images: [],
-    liveUrl: "https://game-website-final.vercel.app/",
-    githubUrl: "https://github.com/AkshatKardak/game-website",
-    color: "#f59e0b",
-    category: "frontend",
-    featured: false,
-  },
+export const personal: Personal = {
+  firstName: "Akshat",
+  lastName: "Kardak",
+  name: "Akshat Kardak",
+  bio: "Full-stack developer building production-grade web and mobile applications — from NGO donation platforms to AI-powered systems. I write code that ships.",
+  location: "Mumbai, India",
+  email: "akshat@example.com",
+  github: "https://github.com/AkshatKardak",
+  linkedin: "https://linkedin.com/in/akshat-kardak",
+  resumeUrl: "/Akshat_Kardak_Resume.pdf",
+  avatar: "/akshat.jpg",
+  available: true,
+};
+
+export const roles: string[] = [
+  "Full Stack Developer",
+  "React & Next.js Engineer",
+  "Flutter Mobile Developer",
+  "FastAPI Backend Engineer",
+  "Open Source Builder",
 ];
 
-export const skillGroups = [
+export const skillGroups: SkillGroup[] = [
   {
     category: "Frontend",
-    color: "#3b82f6",
-    description: "Building responsive and dynamic user interfaces.",
+    color: "#f59e0b",
     skills: [
       { name: "React" },
       { name: "Next.js" },
       { name: "TypeScript" },
       { name: "Tailwind CSS" },
       { name: "Framer Motion" },
-      { name: "Redux" },
+      { name: "Three.js" },
+      { name: "GSAP" },
     ],
   },
   {
     category: "Backend",
-    color: "#22c55e",
-    description: "Designing scalable server-side systems and APIs.",
+    color: "#6366f1",
     skills: [
       { name: "Node.js" },
-      { name: "Express" },
+      { name: "Express.js" },
+      { name: "FastAPI" },
+      { name: "Python" },
+      { name: "REST APIs" },
+      { name: "Socket.io" },
+    ],
+  },
+  {
+    category: "Mobile",
+    color: "#10b981",
+    skills: [
+      { name: "Flutter" },
+      { name: "Dart" },
+      { name: "React Native" },
+      { name: "Expo" },
+    ],
+  },
+  {
+    category: "Database & Cloud",
+    color: "#ef4444",
+    skills: [
       { name: "MongoDB" },
       { name: "PostgreSQL" },
-      { name: "Socket.IO" },
       { name: "Firebase" },
-    ],
-  },
-  {
-    category: "Cloud & DevTools",
-    color: "#f59e0b",
-    description: "Essential tools for deployment and collaboration.",
-    skills: [
-      { name: "Git" },
-      { name: "Docker" },
-      { name: "AWS" },
+      { name: "Supabase" },
       { name: "Vercel" },
+      { name: "Render" },
+      { name: "Netlify" },
       { name: "Cloudinary" },
-      { name: "VS Code" },
     ],
   },
 ];
 
-export const experiences = [
+export const experiences: Experience[] = [
   {
     role: "Full Stack Developer",
-    org: "Freelance / Projects",
-    period: "2023 — Present",
-    duration: "1+ year",
-    description: "Building production-grade MERN applications and integrating AI features for various clients and personalized tools.",
+    org: "UnitedImpact",
+    period: "2024 – Present",
+    duration: "Ongoing",
     color: "#f59e0b",
-    tags: ["React", "Node.js", "MongoDB", "AI"],
+    tags: ["React", "Node.js", "MongoDB", "Firebase", "Razorpay"],
+    bullets: [
+      "Built an NGO donation platform with real-time mapping using Leaflet.js and live donor tracking across campaigns.",
+      "Integrated Razorpay payment gateway with Firebase Auth for secure, end-to-end donation flows.",
+      "Designed an admin dashboard for NGO managers to track donations, manage campaigns, and export reports.",
+    ],
+    impact:
+      "Enabled real-money donations to verified NGOs with a scalable, secure platform built from scratch.",
   },
   {
-    role: "Core Team Member",
-    org: "Academic Clubs",
-    period: "2022 — 2024",
-    description: "Leading technical workshops and managing events focused on software development and emerging technologies.",
+    role: "Full Stack Developer",
+    org: "RentRide",
+    period: "2024",
+    duration: "3 months",
     color: "#f59e0b",
-    tags: ["Leadership", "Workshops", "Community"],
+    tags: ["React", "Express", "MongoDB", "Gemini API", "Razorpay"],
+    bullets: [
+      "Developed a full car rental platform with vehicle listing, availability calendar, and booking management.",
+      "Integrated Gemini API as an AI chat assistant to help users find the right car based on trip requirements.",
+      "Built a damage report system with image upload and admin review pipeline for post-rental disputes.",
+    ],
+    impact:
+      "Shipped a production-ready rental platform with AI assistance and end-to-end payment processing.",
+  },
+  {
+    role: "Mobile Developer",
+    org: "CampusDrop",
+    period: "2024",
+    duration: "2 months",
+    color: "#10b981",
+    tags: ["Flutter", "Dart", "Firebase", "Cloudinary"],
+    bullets: [
+      "Built a Flutter-based campus marketplace for peer-to-peer buying and selling of academic resources.",
+      "Implemented Cloudinary for optimized image hosting and Firebase for real-time listing updates.",
+      "Added secure student authentication and in-app chat for buyer-seller communication.",
+    ],
+    impact:
+      "Created a functional marketplace used by real students on campus with live listings and secure auth.",
+  },
+  {
+    role: "Security Engineer",
+    org: "Defend — Zombie API",
+    period: "2023 – 2024",
+    duration: "Hackathon + Build",
+    color: "#ef4444",
+    tags: ["Python", "FastAPI", "Machine Learning", "Anomaly Detection"],
+    bullets: [
+      "Built a cybersecurity threat detection system using Python FastAPI with ML-based network traffic analysis.",
+      "Implemented anomaly detection algorithms to flag unusual API request patterns in real time.",
+      "Designed a dashboard to visualize threat scores and blocked request logs for security review.",
+    ],
+    impact:
+      "Delivered a working threat detection engine capable of flagging anomalous API traffic patterns in real time.",
   },
 ];
 
-export const certifications = [
+export const projects: Project[] = [
   {
-    title: "Software Engineering Virtual Experience",
-    issuer: "Deloitte Australia",
-    year: "2024",
-    description: "Completed key modules on software development life cycles, cloud architecture, and data engineering.",
-    credentialUrl: "https://www.theforage.com",
-    color: "#f59e0b",
-    tags: ["Software Engineering", "Cloud", "Business Analysis"],
-    image: null,
+    title: "WellBeing – AI Mental Health Companion",
+    date: "March 2025",
+    color: "#a78bfa",
+    featured: true,
+    github: "",
+    live: "",
+    image: "/wellbeing-screenshot.png",
+    tech: ["React Native", "Expo", "Firebase", "FastAPI", "NLP"],
+    bullets: [
+      "Developed a mobile app offering AI-driven emotional support, mood tracking, and gamified self-care routines.",
+      "Built secure NLP-powered journaling with sentiment analysis to surface patterns over time.",
+      "Followed secure coding standards with encrypted local storage and anonymous session handling.",
+    ],
+    impact:
+      "A mental health companion that combines AI empathy with structured self-care — built with privacy-first architecture.",
   },
   {
-    title: "Intro to Front-End Development",
-    issuer: "Meta via Coursera",
-    year: "2023",
-    description: "Learned the fundamentals of modern frontend development, including React, HTML/CSS, and responsive design.",
-    credentialUrl: "https://www.coursera.org",
+    title: "UnitedImpact",
+    date: "2024",
     color: "#f59e0b",
-    tags: ["React", "HTML", "CSS"],
-    image: null,
+    featured: true,
+    github: "https://github.com/AkshatKardak/UnitedImpact",
+    live: "",
+    image: "",
+    tech: ["React", "Node.js", "MongoDB", "Firebase", "Razorpay"],
+    bullets: [
+      "NGO donation platform with real-time geo-mapping, live campaign tracking, and admin dashboards.",
+      "End-to-end Razorpay integration with Firebase Auth for secure donor flows.",
+    ],
+    impact:
+      "Enabled real-money donations to verified NGOs with a scalable MERN-stack platform.",
   },
   {
-    title: "Skyscanner Front-End Virtual Experience",
-    issuer: "Skyscanner via Forage",
-    year: "2024",
-    description: "Worked on building car rental and travel search components using React and Skyscanner's design system.",
-    credentialUrl: "https://www.theforage.com",
-    color: "#f59e0b",
-    tags: ["React", "UI/UX", "Travel Tech"],
-    image: null,
+    title: "RentRide",
+    date: "2024",
+    color: "#6366f1",
+    featured: true,
+    github: "https://github.com/AkshatKardak/RentRide",
+    live: "",
+    image: "",
+    tech: ["React", "Express", "MongoDB", "Gemini API", "Razorpay"],
+    bullets: [
+      "Full car rental platform with AI chat assistant, admin dashboard, and damage report system.",
+      "Gemini API integration helps users find the right car based on trip type and budget.",
+    ],
+    impact:
+      "Production-ready rental platform with AI assistance and complete payment pipeline.",
+  },
+  {
+    title: "CampusDrop",
+    date: "2024",
+    color: "#10b981",
+    featured: false,
+    github: "https://github.com/AkshatKardak/CampusDrop",
+    live: "",
+    image: "",
+    tech: ["Flutter", "Dart", "Firebase", "Cloudinary"],
+    bullets: [
+      "Campus marketplace Flutter app for peer-to-peer buying and selling among students.",
+      "Firebase real-time backend with Cloudinary image hosting and in-app buyer-seller chat.",
+    ],
+    impact:
+      "Live marketplace used by real students with secure auth and real-time listing updates.",
+  },
+  {
+    title: "Defend — Zombie API",
+    date: "2023 – 2024",
+    color: "#ef4444",
+    featured: false,
+    github: "https://github.com/AkshatKardak/Defend",
+    live: "",
+    image: "",
+    tech: ["Python", "FastAPI", "Machine Learning", "Anomaly Detection"],
+    bullets: [
+      "ML-powered network threat detection system with FastAPI backend and real-time anomaly scoring.",
+      "Dashboard for visualizing threat logs, blocked requests, and risk score trends.",
+    ],
+    impact:
+      "Real-time threat detection engine that flags anomalous API traffic patterns with ML scoring.",
+  },
+  {
+    title: "Portfolio",
+    date: "2025",
+    color: "#a78bfa",
+    featured: false,
+    github: "https://github.com/AkshatKardak/akshat-portfolio",
+    live: "",
+    image: "",
+    tech: ["Next.js", "Three.js", "GSAP", "Tailwind CSS", "Framer Motion"],
+    bullets: [
+      "Personal portfolio with Three.js background, GSAP animations, and Lenis smooth scrolling.",
+      "Midnight Gold design system with cinematic micro-interactions and full dark mode.",
+    ],
+    impact:
+      "Cinematic portfolio that reflects real engineering depth — not a template.",
   },
 ];
 
-export const roles = ["Software Engineer", "Full Stack Developer", "AI Enthusiast"];
-
-export const navItems = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "experience", label: "Experience" },
-  { id: "skills", label: "Skills" },
-  { id: "projects", label: "Projects" },
-  { id: "certifications", label: "Certification" },
-  { id: "contact", label: "Contact" },
+export const certifications: Certification[] = [
+  {
+    title: "Full Stack Web Development",
+    issuer: "Coursera / Meta",
+    date: "2024",
+    color: "#6366f1",
+    link: "",
+  },
+  {
+    title: "Flutter & Dart — The Complete Bootcamp",
+    issuer: "Udemy",
+    date: "2024",
+    color: "#10b981",
+    link: "",
+  },
+  {
+    title: "Python for Data Science & AI",
+    issuer: "IBM / Coursera",
+    date: "2023",
+    color: "#f59e0b",
+    link: "",
+  },
+  {
+    title: "MongoDB for JavaScript Developers",
+    issuer: "MongoDB University",
+    date: "2024",
+    color: "#ef4444",
+    link: "",
+  },
 ];
 
-export const stats = [
-  { label: "Active Projects", value: "10+", icon: "✨", sub: "Production builds" },
-  { label: "Hours Coding", value: "2000+", icon: "💻", sub: "Deep learning" },
-  { label: "Commits", value: "1200+", icon: "🔨", sub: "GitHub activity" },
-  { label: "Coffee", value: "Infinite", icon: "☕", sub: "Fueled by caffeine" },
+export const navItems: NavItem[] = [
+  { id: "home",           label: "Dashboard"      },
+  { id: "projects",       label: "Projects"       },
+  { id: "skills",         label: "Skills"         },
+  { id: "experience",     label: "Experience"     },
+  { id: "certifications", label: "Certifications" },
+  { id: "contact",        label: "Contact"        },
 ];
