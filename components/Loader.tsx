@@ -3,11 +3,14 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const lines = [
-  "loading akshat.kardak — full stack developer, mumbai",
-  "mounting projects: rentride · unitedimpact · campusdrop",
-  "stack ready: react · next.js · node · flutter · python",
+const steps = [
+  "Initializing portfolio shell",
+  "Loading projects and case studies",
+  "Warming up motion and cursor layers",
+  "Preparing the dashboard",
 ];
+
+const stack = ["Next.js", "React", "TypeScript", "Node.js", "MERN"];
 
 export default function Loader() {
   const [progress, setProgress] = useState(0);
@@ -21,13 +24,13 @@ export default function Loader() {
           return 100;
         }
 
-        return Math.min(current + 5 + Math.random() * 7, 100);
+        return Math.min(current + 4 + Math.random() * 6, 100);
       });
-    }, 80);
+    }, 90);
 
     const phaseTimer = window.setInterval(() => {
-      setPhase((current) => Math.min(current + 1, lines.length - 1));
-    }, 420);
+      setPhase((current) => Math.min(current + 1, steps.length - 1));
+    }, 460);
 
     return () => {
       window.clearInterval(progressTimer);
@@ -44,14 +47,28 @@ export default function Loader() {
               <Image
                 src="/images/AK.png"
                 alt="AK logo"
-                width={32}
-                height={32}
+                width={24}
+                height={24}
                 className="loader-logo-image"
               />
             </span>
-            <span>midnight gold session</span>
+            <div>
+              <p className="loader-logo-title">Akshat Kardak</p>
+              <p className="loader-logo-subtitle">Full Stack Developer</p>
+            </div>
           </div>
           <span>{Math.round(progress)}% online</span>
+        </div>
+
+        <div className="loader-hero">
+          <div className="loader-hero-ring" />
+          <div className="loader-hero-copy">
+            <p className="loader-kicker">Booting interface</p>
+            <h1>Precision in motion.</h1>
+            <p>
+              A focused developer portfolio built to feel calm, sharp, and ready.
+            </p>
+          </div>
         </div>
 
         <div className="loader-terminal">
@@ -65,13 +82,19 @@ export default function Loader() {
           </div>
 
           <div className="loader-lines">
-            {lines.slice(0, phase + 1).map((line) => (
+            {steps.slice(0, phase + 1).map((line) => (
               <p key={line}>{line}</p>
             ))}
             <p>
               <span className="animate-blink">_</span>
             </p>
           </div>
+        </div>
+
+        <div className="loader-stack">
+          {stack.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
         </div>
 
         <div className="loader-progress">

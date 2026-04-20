@@ -32,19 +32,19 @@ export default function CursorGlow() {
         dot.style.height = "12px";
         dot.style.background = "rgba(245, 158, 11, 0.95)";
         glow.style.background =
-          "radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.03) 42%, transparent 72%)";
+          "radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, rgba(225, 29, 72, 0.03) 42%, transparent 72%)";
       } else if (mode === "text") {
         dot.style.width = "5px";
         dot.style.height = "16px";
         dot.style.background = "rgba(230, 237, 243, 0.9)";
         glow.style.background =
-          "radial-gradient(circle, rgba(79, 156, 255, 0.06) 0%, rgba(79, 156, 255, 0.02) 40%, transparent 72%)";
+          "radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, rgba(225, 29, 72, 0.02) 40%, transparent 72%)";
       } else {
         dot.style.width = "8px";
         dot.style.height = "8px";
-        dot.style.background = "rgba(79, 156, 255, 1)";
+        dot.style.background = "rgba(245, 158, 11, 1)";
         glow.style.background =
-          "radial-gradient(circle, rgba(79, 156, 255, 0.08) 0%, rgba(79, 156, 255, 0.03) 40%, transparent 72%)";
+          "radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, rgba(225, 29, 72, 0.03) 40%, transparent 72%)";
       }
     };
 

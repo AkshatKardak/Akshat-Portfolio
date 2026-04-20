@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { personal } from "@/lib/data";
-import { Mail, Github, Linkedin, Send } from "lucide-react";
+import { Mail, Linkedin, Send } from "lucide-react";
+import { GitHubIcon } from "./BrandIcons";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -21,7 +22,7 @@ export default function Contact() {
 
   const contacts = [
     { icon: Mail, label: "Email", value: personal.email, href: `mailto:${personal.email}`, color: "var(--accent)" },
-    { icon: Github, label: "GitHub", value: "AkshatKardak", href: personal.github, color: "var(--text)" },
+    { icon: GitHubIcon, label: "GitHub", value: "AkshatKardak", href: personal.github, color: "var(--text)" },
     { icon: Linkedin, label: "LinkedIn", value: "akshatkardak", href: personal.linkedin, color: "#f59e0b" },
   ];
 

@@ -4,10 +4,10 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    ART DIRECTION: FORGE
-   Concept  → molten-metal dark developer portfolio
+   Concept  → dark portfolio with calm amber precision
    Palette  → near-black charcoal · amber primary · crimson tension
    Type     → Cabinet Grotesk (display) + Satoshi (body) + JetBrains Mono
-   Density  → spacious hero · balanced sections · dense skill grid
+   Density  → spacious hero · balanced sections · clean card rhythm
    Motion   → slow ember particles · diagonal streaks · hero pulse rings
 ═══════════════════════════════════════════════════════════════════ */
 
@@ -35,10 +35,12 @@
   --color-crimson-hover:   #fb7185;
   --color-crimson-dim:     rgba(225, 29, 72, 0.14);
   --color-crimson-glow:    rgba(225, 29, 72, 0.20);
-  --color-orange:          #f97316;
-  --color-orange-dim:      rgba(249, 115, 22, 0.14);
+  --color-violet:          #a78bfa;
+  --color-orange:          #f59e0b;
+  --color-orange-dim:      rgba(245, 158, 11, 0.12);
   --color-success:         #22c55e;
   --color-success-dim:     rgba(34, 197, 94, 0.14);
+  --color-gold:            #fcd34d;
 }
 
 /* ── CSS custom properties ──────────────────────────────────────── */
@@ -50,18 +52,18 @@
   --surface-hover:  rgba(255, 248, 235, 0.058);
   --surface-active: rgba(255, 248, 235, 0.080);
 
-  /* Forge borders */
+  /* Borders */
   --border:         rgba(245, 158, 11, 0.14);
   --border-hover:   rgba(245, 158, 11, 0.30);
   --border-muted:   rgba(255, 248, 235, 0.08);
   --border-crimson: rgba(225, 29, 72, 0.18);
 
-  /* Forge text */
+  /* Text */
   --text:           #fef3c7;
   --text-muted:     rgba(254, 243, 199, 0.68);
   --text-faint:     rgba(254, 243, 199, 0.34);
 
-  /* Forge accents */
+  /* Accents */
   --accent:         #f59e0b;
   --accent-hover:   #fbbf24;
   --accent-dim:     rgba(245, 158, 11, 0.14);
@@ -71,6 +73,7 @@
   --crimson-hover:  #fb7185;
   --crimson-dim:    rgba(225, 29, 72, 0.14);
   --crimson-glow:   rgba(225, 29, 72, 0.20);
+  --violet:         #a78bfa;
 
   --orange:         #f97316;
   --orange-dim:     rgba(249, 115, 22, 0.14);
@@ -171,7 +174,7 @@ body {
   cursor: none;
 }
 
-/* Forge background — three layered radial gradients over near-black */
+/* Obsidian background — layered radial gradients with minimal motion */
 body::before {
   content: "";
   position: fixed;
@@ -180,7 +183,7 @@ body::before {
   pointer-events: none;
   background:
     radial-gradient(ellipse 72% 52% at 14% 10%,  rgba(245, 158, 11, 0.11) 0%, transparent 100%),
-    radial-gradient(ellipse 56% 48% at 84% 80%,  rgba(225, 29,  72, 0.09) 0%, transparent 100%),
+    radial-gradient(ellipse 56% 48% at 84% 80%,  rgba(225, 29, 72, 0.09) 0%, transparent 100%),
     radial-gradient(ellipse 44% 40% at 60% 30%,  rgba(249, 115, 22, 0.05) 0%, transparent 100%),
     linear-gradient(158deg, #080605 0%, #050403 46%, #0a0705 100%);
 }
@@ -288,7 +291,7 @@ p, li, figcaption {
   background: radial-gradient(
     ellipse 90% 90% at 50% 50%,
     transparent 46%,
-    rgba(3, 2, 1, 0.46) 100%
+    rgba(4, 8, 18, 0.52) 100%
   );
 }
 
@@ -529,7 +532,7 @@ p, li, figcaption {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: clamp(7rem, 12vw, 11rem);
+  gap: clamp(8rem, 13vw, 12rem);
   padding:
     calc(var(--nav-height) + clamp(3rem, 6vw, 5rem))
     clamp(1.25rem, 4vw, 3rem)
@@ -539,7 +542,7 @@ p, li, figcaption {
 .portfolio-section-shell {
   position: relative;
   width: 100%;
-  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  padding-block: clamp(2.25rem, 4vw, 3.5rem);
 }
 
 .portfolio-section-shell::before {
@@ -570,7 +573,7 @@ p, li, figcaption {
 }
 
 .section-header {
-  margin-bottom: clamp(2.25rem, 4.5vw, 3.5rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
 .section-header h2 {
@@ -629,8 +632,8 @@ p, li, figcaption {
 
 .accent-card-skills::before {
   background: linear-gradient(132deg,
-    rgba(245, 158, 11, 0.07) 0%,
-    rgba(249, 115, 22, 0.04) 100%);
+    rgba(245, 158, 11, 0.08) 0%,
+    rgba(225, 29, 72, 0.05) 100%);
 }
 .accent-card-skills:hover {
   border-color: rgba(245, 158, 11, 0.26);
@@ -639,7 +642,7 @@ p, li, figcaption {
 
 .accent-card-experience::before {
   background: linear-gradient(132deg,
-    rgba(225, 29, 72, 0.07) 0%,
+    rgba(225, 29, 72, 0.08) 0%,
     rgba(245, 158, 11, 0.04) 100%);
 }
 .accent-card-experience:hover {
@@ -649,12 +652,12 @@ p, li, figcaption {
 
 .accent-card-certs::before {
   background: linear-gradient(132deg,
-    rgba(252, 211, 77, 0.07) 0%,
-    rgba(245, 158, 11, 0.04) 100%);
+    rgba(245, 158, 11, 0.08) 0%,
+    rgba(225, 29, 72, 0.04) 100%);
 }
 .accent-card-certs:hover {
-  border-color: rgba(252, 211, 77, 0.24);
-  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(252, 211, 77, 0.06);
+  border-color: rgba(245, 158, 11, 0.24);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(245, 158, 11, 0.06);
 }
 
 .accent-card-project::before {
@@ -959,7 +962,7 @@ p, li, figcaption {
   border-radius: 9999px;
   background: radial-gradient(circle,
     rgba(245, 158, 11, 0.07) 0%,
-    rgba(225, 29, 72,  0.04) 42%,
+    rgba(225, 29, 72, 0.04) 42%,
     transparent 72%
   );
   transition: opacity var(--t-fast);
@@ -996,7 +999,7 @@ p, li, figcaption {
   padding: 1.25rem;
   background:
     radial-gradient(circle at 18% 22%, rgba(245, 158, 11, 0.15), transparent 24rem),
-    radial-gradient(circle at 80% 70%, rgba(225, 29,  72, 0.10), transparent 22rem),
+    radial-gradient(circle at 80% 70%, rgba(225, 29, 72, 0.10), transparent 22rem),
     linear-gradient(152deg, #090705 0%, #050403 56%, #0b0806 100%);
 }
 
@@ -1032,6 +1035,21 @@ p, li, figcaption {
   color: var(--accent);
 }
 
+.loader-logo-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.loader-logo-subtitle {
+  margin-top: 0.12rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-faint);
+}
+
 .loader-logo-mark {
   display: grid;
   place-items: center;
@@ -1059,6 +1077,61 @@ p, li, figcaption {
   border: 1px solid rgba(245, 158, 11, 0.08);
   border-radius: var(--radius-lg);
   background: rgba(4, 3, 2, 0.82);
+}
+
+.loader-hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem 1rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(245, 158, 11, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(225, 29, 72, 0.06), transparent 44%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.loader-hero-ring {
+  position: absolute;
+  inset: -28% auto auto 55%;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(245, 158, 11, 0.18);
+  box-shadow: 0 0 36px rgba(245, 158, 11, 0.12);
+  opacity: 0.65;
+}
+
+.loader-hero-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.35rem;
+  max-width: 36ch;
+}
+
+.loader-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+
+.loader-hero-copy h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.loader-hero-copy p {
+  max-width: 32ch;
+  font-size: 0.86rem;
+  color: var(--text-muted);
 }
 
 .loader-terminal-head {
@@ -1097,6 +1170,24 @@ p, li, figcaption {
   color: var(--accent);
 }
 
+.loader-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.loader-stack span {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.38rem 0.6rem;
+}
+
 .loader-progress { display: grid; gap: 0.5rem; }
 
 .loader-progress-meta {
@@ -1112,15 +1203,15 @@ p, li, figcaption {
 .loader-bar {
   height: 6px;
   overflow: hidden;
-  border: 1px solid rgba(245, 158, 11, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 9999px;
-  background: rgba(255, 248, 235, 0.04);
+  background: rgba(255, 255, 255, 0.04);
 }
 .loader-bar span {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--crimson), var(--accent), var(--gold));
+  background: linear-gradient(90deg, var(--accent), var(--crimson), var(--gold));
   box-shadow: 0 0 18px rgba(245, 158, 11, 0.30);
   transition: width 110ms ease;
 }
@@ -1142,12 +1233,12 @@ p, li, figcaption {
   background: radial-gradient(
     ellipse at 50% 52%,
     rgba(245, 158, 11, 0.08) 0%,
-    rgba(225, 29, 72,  0.04) 46%,
+    rgba(225, 29, 72, 0.04) 46%,
     transparent 72%
   );
   filter: blur(56px);
   pointer-events: none;
-  opacity: 0.06;
+  opacity: 0.10;
   /* animation: ambientPulse — REMOVED */
 }
 
@@ -1159,7 +1250,7 @@ p, li, figcaption {
 
 .hero-portrait-card:hover {
   transform: none !important;
-  border-color: var(--border-muted) !important;
+  border-color: rgba(245, 158, 11, 0.20) !important;
   box-shadow: var(--shadow-md) !important;
 }
 

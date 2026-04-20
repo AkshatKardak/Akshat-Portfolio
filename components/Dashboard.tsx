@@ -3,85 +3,32 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FileDown, Github, Layers, Mail, MapPin, Star, Users, Zap } from "lucide-react";
-import { personal, roles, stats } from "@/lib/data";
-
-type GitHubStats = {
-  publicRepos: number;
-  followers: number;
-  totalStars: number;
-};
+import { personal, roles } from "@/lib/data";
+import { FileDown, Github, Layers, Mail, MapPin, Zap } from "lucide-react";
+import HeroEnergyPulse from "./HeroEnergyPulse";
 
 const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.09 },
+    transition: { staggerChildren: 0.08 },
   },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 22 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6 },
-  },
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45 } },
 };
 
 const slideRight = {
-  hidden: { opacity: 0, x: 28 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.7 },
-  },
+  hidden: { opacity: 0, x: 24 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.55 } },
 };
 
 export default function Dashboard() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [typing, setTyping] = useState(true);
-  const [ghStats, setGhStats] = useState<GitHubStats | null>(null);
-  const [count, setCount] = useState({ repos: 0, followers: 0, stars: 0 });
-
-  useEffect(() => {
-    fetch("/api/github")
-      .then((response) => response.json())
-      .then((data) => setGhStats(data))
-      .catch(() => null);
-  }, []);
-
-  useEffect(() => {
-    if (!ghStats) return;
-
-    const targets = {
-      repos: ghStats.publicRepos,
-      followers: ghStats.followers,
-      stars: ghStats.totalStars,
-    };
-    const duration = 1200;
-    const startedAt = performance.now();
-    let frame = 0;
-
-    const tick = (now: number) => {
-      const progress = Math.min((now - startedAt) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-
-      setCount({
-        repos: Math.round(targets.repos * eased),
-        followers: Math.round(targets.followers * eased),
-        stars: Math.round(targets.stars * eased),
-      });
-
-      if (progress < 1) {
-        frame = requestAnimationFrame(tick);
-      }
-    };
-
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [ghStats]);
 
   useEffect(() => {
     const role = roles[roleIndex];
@@ -90,20 +37,17 @@ export default function Dashboard() {
       if (displayed.length < role.length) {
         const timer = window.setTimeout(
           () => setDisplayed(role.slice(0, displayed.length + 1)),
-          62
+          58
         );
         return () => window.clearTimeout(timer);
       }
 
-      const timer = window.setTimeout(() => setTyping(false), 1900);
+      const timer = window.setTimeout(() => setTyping(false), 1600);
       return () => window.clearTimeout(timer);
     }
 
     if (displayed.length > 0) {
-      const timer = window.setTimeout(
-        () => setDisplayed(displayed.slice(0, -1)),
-        32
-      );
+      const timer = window.setTimeout(() => setDisplayed(displayed.slice(0, -1)), 28);
       return () => window.clearTimeout(timer);
     }
 
@@ -116,8 +60,8 @@ export default function Dashboard() {
   }, [displayed, typing, roleIndex]);
 
   return (
-    <div className="section w-full">
-      <div className="grid grid-cols-1 xl:grid-cols-5 gap-12 xl:gap-20 items-start mb-20">
+    <div className="w-full">
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-12 xl:gap-16 items-start min-h-[72vh]">
         <motion.div
           className="xl:col-span-3 flex flex-col gap-7 xl:pr-6"
           variants={container}
@@ -127,7 +71,7 @@ export default function Dashboard() {
           {personal.available && (
             <motion.div variants={item} className="inline-flex items-center gap-2 w-fit">
               <span
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold border"
+                className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em]"
                 style={{
                   color: "var(--success)",
                   borderColor: "rgba(34,197,94,0.22)",
@@ -135,28 +79,25 @@ export default function Dashboard() {
                 }}
               >
                 <span
-                  className="w-1.5 h-1.5 rounded-full animate-pulse"
+                  className="h-1.5 w-1.5 rounded-full"
                   style={{
                     background: "var(--success)",
                     boxShadow: "0 0 8px rgba(34,197,94,0.5)",
                   }}
                 />
-                Open to impactful builds
+                Available for work
               </span>
             </motion.div>
           )}
 
           <motion.div variants={item}>
-            <p
-              className="text-sm font-mono uppercase tracking-[0.22em] mb-3"
-              style={{ color: "var(--text-faint)" }}
-            >
-              <span style={{ color: "var(--accent)" }}>• </span>
-              hello, world
+            <p className="mb-3 text-sm font-mono uppercase tracking-[0.22em]" style={{ color: "var(--text-faint)" }}>
+              <span style={{ color: "var(--accent)" }}>&gt; </span>
+              about me
             </p>
 
             <h1
-              className="font-display font-black leading-[1.08] tracking-tight"
+              className="font-display font-black leading-[1.05] tracking-tight"
               style={{
                 fontSize: "clamp(2.6rem, 5vw + 1rem, 5rem)",
                 color: "var(--text)",
@@ -165,7 +106,7 @@ export default function Dashboard() {
               {personal.firstName}{" "}
               <span
                 style={{
-                  background: "linear-gradient(118deg, var(--accent) 0%, var(--crimson) 100%)",
+                  background: "linear-gradient(118deg, var(--accent) 0%, var(--gold) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -178,7 +119,7 @@ export default function Dashboard() {
 
           <motion.div variants={item}>
             <div
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border font-mono text-sm"
+              className="inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 font-mono text-sm"
               style={{
                 borderColor: "rgba(245,158,11,0.18)",
                 background: "rgba(245,158,11,0.06)",
@@ -187,26 +128,15 @@ export default function Dashboard() {
             >
               <Zap size={13} />
               <span>{displayed}</span>
-              <span
-                className="animate-blink w-0.5 h-4 rounded-full inline-block"
-                style={{ background: "var(--accent)" }}
-              />
+              <span className="animate-blink inline-block h-4 w-0.5 rounded-full" style={{ background: "var(--accent)" }} />
             </div>
           </motion.div>
 
-          <motion.p
-            variants={item}
-            className="text-base leading-relaxed max-w-lg"
-            style={{ color: "var(--text-muted)" }}
-          >
+          <motion.p variants={item} className="max-w-lg text-base leading-relaxed text-text-muted">
             {personal.bio}
           </motion.p>
 
-          <motion.div
-            variants={item}
-            className="flex flex-wrap items-center gap-4 text-sm"
-            style={{ color: "var(--text-faint)" }}
-          >
+          <motion.div variants={item} className="flex flex-wrap items-center gap-4 text-sm text-text-faint">
             <span className="flex items-center gap-1.5">
               <MapPin size={13} style={{ color: "var(--accent)" }} />
               {personal.location}
@@ -218,12 +148,7 @@ export default function Dashboard() {
           </motion.div>
 
           <motion.div variants={item} className="flex flex-wrap gap-3 pt-2">
-            <a
-              href={personal.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-            >
+            <a href={personal.resumeUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
               <FileDown size={15} />
               Download Resume
             </a>
@@ -231,43 +156,26 @@ export default function Dashboard() {
               <Layers size={15} />
               View Projects
             </a>
-            <a
-              href={personal.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost"
-            >
+            <a href={personal.github} target="_blank" rel="noopener noreferrer" className="btn-ghost">
               <Github size={15} />
               GitHub
             </a>
           </motion.div>
-
-          <motion.div variants={item} className="glass-card stack-card border-white/5">
-            <p className="stack-card-meta" style={{ color: "var(--text-faint)" }}>
-              <span style={{ color: "var(--accent)" }}>• </span>
-              Core Stack
-            </p>
-            <div className="stack-card-tags">
-              {(personal.techStack ?? []).map((tech) => (
-                <span key={tech} className="tag">
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </motion.div>
         </motion.div>
 
         <motion.div
-          className="xl:col-span-2 w-full min-w-0 flex flex-col gap-5 xl:max-w-[520px] xl:ml-auto"
+          className="xl:col-span-2 flex justify-end"
           variants={container}
           initial="hidden"
           animate="show"
         >
           <motion.div
             variants={slideRight}
-            className="hero-portrait-card glass-card relative overflow-hidden"
+            className="hero-portrait-card glass-card relative w-full max-w-[520px] overflow-hidden"
             style={{ borderRadius: "var(--radius-2xl)" }}
           >
+            <HeroEnergyPulse />
+            <div className="hero-ambient" />
             <div className="hero-portrait-overlay" />
             <Image
               src={personal.avatar}
@@ -280,87 +188,23 @@ export default function Dashboard() {
             <div className="hero-portrait-copy">
               <div className="flex items-center gap-2">
                 <span
-                  className="w-2 h-2 rounded-full animate-pulse"
+                  className="h-2 w-2 rounded-full"
                   style={{
                     background: "var(--success)",
                     boxShadow: "0 0 10px rgba(34,197,94,0.6)",
                   }}
                 />
-                <span
-                  className="text-[10px] uppercase tracking-[0.22em] font-bold font-mono"
-                  style={{ color: "var(--success)" }}
-                >
-                  Building · Mumbai
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em]" style={{ color: "var(--success)" }}>
+                  Mumbai, India
                 </span>
               </div>
               <p className="text-xs font-mono" style={{ color: "rgba(254,243,199,0.62)" }}>
-                {personal.tagline}
+                Full stack developer building with precision.
               </p>
             </div>
           </motion.div>
-
-          <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-            {[
-              { icon: <Github size={14} />, label: "Repos", value: count.repos, color: "var(--accent)" },
-              { icon: <Users size={14} />, label: "Followers", value: count.followers, color: "var(--crimson)" },
-              { icon: <Star size={14} />, label: "Stars", value: count.stars, color: "var(--orange)" },
-            ].map(({ icon, label, value, color }) => (
-              <div
-                key={label}
-                className="stats-card stack-card min-w-0 items-center text-center"
-                style={{
-                  borderRadius: "0.75rem",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
-              >
-                <div
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-bold"
-                  style={{
-                    color,
-                    background: `${color}12`,
-                    borderColor: `${color}25`,
-                  }}
-                >
-                  {icon}
-                </div>
-                <div className="text-xl sm:text-2xl font-black tracking-normal" style={{ color }}>
-                  {value}
-                </div>
-                <div className="text-[10px] uppercase tracking-[0.18em] leading-tight break-words font-bold text-text-faint">
-                  {label}
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
         </motion.div>
       </div>
-
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16"
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-      >
-        {stats.map((stat) => (
-          <motion.div
-            key={stat.label}
-            variants={item}
-            className="glass-card stats-card stack-card min-w-0 h-full hover:border-accent/20"
-            whileHover={{ y: -4 }}
-          >
-            <span className="text-xs font-mono inline-flex h-9 w-9 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent mb-2">
-              {stat.icon}
-            </span>
-            <div className="text-3xl font-black text-accent tracking-normal break-words">{stat.value}</div>
-            <div className="text-[10px] uppercase tracking-widest leading-tight break-words font-bold text-text-muted">
-              {stat.label}
-            </div>
-            {stat.sub && <div className="text-[11px] text-text-faint break-words">{stat.sub}</div>}
-          </motion.div>
-        ))}
-      </motion.div>
     </div>
   );
 }

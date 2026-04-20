@@ -13,11 +13,11 @@ import CursorGlow    from "../components/CursorGlow";
 import BackgroundFX  from "../components/BackgroundFX";
 
 const SECTIONS = [
-  { id: "dashboard",      label: "Dashboard",      component: <Dashboard /> },
+  { id: "home",           label: "Home",            component: <Dashboard /> },
   { id: "projects",       label: "Projects",        component: <Projects /> },
   { id: "skills",         label: "Skills",          component: <Skills /> },
   { id: "experience",     label: "Experience",      component: <Experience /> },
-  { id: "certifications", label: "Certifications",  component: <Certifications /> },
+  { id: "certifications", label: "Certification",   component: <Certifications /> },
   { id: "contact",        label: "Contact",         component: <Contact /> },
 ] as const;
 
@@ -25,7 +25,7 @@ type SectionId = typeof SECTIONS[number]["id"];
 
 export default function Home() {
   const [loaded,        setLoaded]        = useState(false);
-  const [activeSection, setActiveSection] = useState<SectionId>("dashboard");
+  const [activeSection, setActiveSection] = useState<SectionId>("home");
   const mainRef = useRef<HTMLElement | null>(null);
 
   /* ── Loader timer ─────────────────────────────────────── */

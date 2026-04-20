@@ -5,18 +5,20 @@ import { motion } from "framer-motion";
 import { personal, navItems } from "@/lib/data";
 import {
   LayoutDashboard,
+  UserRound,
   Code2,
   Zap,
   Briefcase,
   Award,
   Mail,
-  Github,
   Linkedin,
 } from "lucide-react";
+import { GitHubIcon } from "./BrandIcons";
 import type { LucideIcon } from "lucide-react";
 
 const icons: Record<string, LucideIcon> = {
-  dashboard: LayoutDashboard,
+  home: LayoutDashboard,
+  about: UserRound,
   projects: Code2,
   skills: Zap,
   experience: Briefcase,
@@ -36,9 +38,9 @@ export default function Navbar({
       <div className="top-navbar-inner">
         <button
           type="button"
-          onClick={() => setActive("dashboard")}
+          onClick={() => setActive("home")}
           className="top-navbar-brand"
-          aria-label="Go to dashboard"
+          aria-label="Go to home"
         >
           <div className="top-navbar-mark">
             <Image
@@ -68,7 +70,7 @@ export default function Navbar({
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setActive(item.id)}
+                onClick={() => setActive(item.id === "about" ? "home" : item.id)}
                 className={`sidebar-item top-navbar-link ${isActive ? "top-navbar-link-active" : ""}`}
                 aria-current={isActive ? "page" : undefined}
               >
@@ -90,7 +92,7 @@ export default function Navbar({
 
         <div className="top-navbar-socials">
           {[
-            { Icon: Github, href: personal.github, label: "GitHub" },
+            { Icon: GitHubIcon, href: personal.github, label: "GitHub" },
             { Icon: Linkedin, href: personal.linkedin, label: "LinkedIn" },
             { Icon: Mail, href: `mailto:${personal.email}`, label: "Email" },
           ].map(({ Icon, href, label }) => (

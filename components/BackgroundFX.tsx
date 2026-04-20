@@ -1,234 +1,246 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface Particle {
+interface Ember {
   x: number;
   y: number;
   vx: number;
   vy: number;
-  size: number;
-  alpha: number;
-  alphaTarget: number;
-  alphaSpeed: number;
-  hue: number; // 25–45 amber/gold band, occasional red at 5–15
+  radius: number;
+  opacity: number;
+  opacityDelta: number;
+  hue: number;
   life: number;
   maxLife: number;
 }
 
-interface MousePos {
+interface Streak {
   x: number;
   y: number;
+  length: number;
+  speed: number;
+  opacity: number;
+  width: number;
 }
 
-// ─── Constants ─────────────────────────────────────────────────────────────────
+const EMBER_COUNT = 34;
+const STREAK_COUNT = 4;
 
-const PARTICLE_COUNT = 72;        // comfortable for 60fps on mid-range devices
-const PARTICLE_SPEED  = 0.28;     // px/frame — very slow drift
-const PARALLAX_STRENGTH = 0.018;  // mouse parallax factor, subtle
+function randomBetween(a: number, b: number) {
+  return a + Math.random() * (b - a);
+}
 
-const GOLD_HUES  = [28, 32, 36, 40, 44]; // amber / gold band
-const EMBER_HUES = [8, 12, 16, 20];      // red / ember occasional
+function spawnEmber(W: number, H: number): Ember {
+  const maxLife = randomBetween(180, 400);
+  return {
+    x: randomBetween(0, W),
+    y: randomBetween(0, H),
+    vx: randomBetween(-0.18, 0.18),
+    vy: randomBetween(-0.35, -0.08),
+    radius: randomBetween(1, 2.8),
+    opacity: 0,
+    opacityDelta: randomBetween(0.002, 0.005),
+    hue: randomBetween(210, 256), // blue-violet range
+    life: 0,
+    maxLife,
+  };
+}
 
-// ─── Component ────────────────────────────────────────────────────────────────
+function spawnStreak(W: number, H: number): Streak {
+  return {
+    x: randomBetween(-W * 0.2, W * 1.1),
+    y: randomBetween(-H * 0.1, H * 0.4),
+    length: randomBetween(160, 360),
+    speed: randomBetween(0.12, 0.32),
+    opacity: randomBetween(0.014, 0.034),
+    width: randomBetween(0.5, 1.4),
+  };
+}
 
 export default function BackgroundFX() {
-  const canvasRef  = useRef<HTMLCanvasElement>(null);
-  const particles  = useRef<Particle[]>([]);
-  const mouse      = useRef<MousePos>({ x: 0, y: 0 });
-  const rafId      = useRef<number>(0);
-  const reducedRef = useRef(false);
-
-  // spawn a fresh particle at a random position
-  const spawnParticle = useCallback((w: number, h: number): Particle => {
-    const isEmber = Math.random() < 0.18; // 18% chance red ember
-    const hue = isEmber
-      ? EMBER_HUES[Math.floor(Math.random() * EMBER_HUES.length)]
-      : GOLD_HUES[Math.floor(Math.random() * GOLD_HUES.length)];
-
-    const angle = Math.random() * Math.PI * 2;
-    const speed = PARTICLE_SPEED * (0.4 + Math.random() * 0.6);
-
-    return {
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 0.06, // tiny upward bias
-      size: 1 + Math.random() * 2.2,
-      alpha: 0,
-      alphaTarget: 0.08 + Math.random() * 0.28,
-      alphaSpeed: 0.004 + Math.random() * 0.008,
-      hue,
-      life: 0,
-      maxLife: 280 + Math.random() * 420,
-    };
-  }, []);
-
-  // init particle array
-  const initParticles = useCallback((w: number, h: number) => {
-    particles.current = Array.from({ length: PARTICLE_COUNT }, () => {
-      const p = spawnParticle(w, h);
-      p.life = Math.random() * p.maxLife; // stagger entry
-      p.alpha = p.alphaTarget * (p.life / p.maxLife);
-      return p;
-    });
-  }, [spawnParticle]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseRef = useRef({ x: 0.5, y: 0.5 });
+  const frameRef = useRef<number>(0);
 
   useEffect(() => {
-    // Check reduced-motion preference
-    reducedRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReduced) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // ── Resize handler ──────────────────────────────────────────────────
-    let W = 0;
-    let H = 0;
+    let W = window.innerWidth;
+    let H = window.innerHeight;
 
     const resize = () => {
       W = window.innerWidth;
       H = window.innerHeight;
-      canvas.width  = W;
+      canvas.width = W;
       canvas.height = H;
-      initParticles(W, H);
     };
-
     resize();
+    window.addEventListener("resize", resize);
 
-    const ro = new ResizeObserver(resize);
-    ro.observe(document.body);
-
-    // ── Mouse / touch parallax ──────────────────────────────────────────
+    // Mouse parallax
     const onMouseMove = (e: MouseEvent) => {
-      mouse.current = { x: e.clientX, y: e.clientY };
+      mouseRef.current = {
+        x: e.clientX / W,
+        y: e.clientY / H,
+      };
     };
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mousemove", onMouseMove);
 
-    // ── Draw scanlines ──────────────────────────────────────────────────
-    // We draw two diagonal streaks on the canvas each frame at very low alpha.
-    // They move slowly across the viewport, wrapping around.
-    let streakOffset = 0;
+    // Init particles
+    const embers: Ember[] = Array.from({ length: EMBER_COUNT }, () =>
+      spawnEmber(W, H)
+    );
+    // stagger initial life so they don't all appear at once
+    embers.forEach((e) => {
+      e.life = Math.random() * e.maxLife;
+      e.y = randomBetween(0, H);
+    });
 
-    const drawStreaks = (t: number) => {
-      const streakAlpha = 0.028;
-      ctx.save();
-      ctx.strokeStyle = `rgba(252, 211, 77, ${streakAlpha})`;
-      ctx.lineWidth = 1;
+    const streaks: Streak[] = Array.from({ length: STREAK_COUNT }, () =>
+      spawnStreak(W, H)
+    );
 
-      // Streak 1 — upper-left to middle-right, slow rightward drift
-      const s1x = ((-W * 0.3 + streakOffset * 0.4) % (W * 1.4)) - W * 0.2;
-      ctx.beginPath();
-      ctx.moveTo(s1x, H * 0.12);
-      ctx.lineTo(s1x + W * 0.72, H * 0.38);
-      ctx.stroke();
-
-      // Streak 2 — lower-right to upper-left, opposing drift
-      const s2x = ((W * 1.1 - streakOffset * 0.28) % (W * 1.4)) - W * 0.1;
-      ctx.strokeStyle = `rgba(239, 68, 68, ${streakAlpha * 0.55})`;
-      ctx.beginPath();
-      ctx.moveTo(s2x, H * 0.64);
-      ctx.lineTo(s2x - W * 0.58, H * 0.88);
-      ctx.stroke();
-
-      // Streak 3 — faint mid diagonal
-      const s3x = ((-W * 0.5 + streakOffset * 0.22) % (W * 1.6)) - W * 0.2;
-      ctx.strokeStyle = `rgba(252, 211, 77, ${streakAlpha * 0.4})`;
-      ctx.beginPath();
-      ctx.moveTo(s3x, H * 0.45);
-      ctx.lineTo(s3x + W * 0.55, H * 0.12);
-      ctx.stroke();
-
-      ctx.restore();
-
-      streakOffset = (t * 0.012) % (W * 1.6); // drive offset by time
-    };
-
-    // ── Main loop ───────────────────────────────────────────────────────
-    const loop = (t: number) => {
+    const draw = () => {
       ctx.clearRect(0, 0, W, H);
 
-      if (!reducedRef.current) {
-        // Mouse parallax offset
-        const px = (mouse.current.x / W - 0.5) * W * PARALLAX_STRENGTH;
-        const py = (mouse.current.y / H - 0.5) * H * PARALLAX_STRENGTH;
+      // ── Base radial ambient glow (hero area, restrained) ──
+      const mx = mouseRef.current.x;
+      const my = mouseRef.current.y;
+      const gx = W * (0.45 + mx * 0.1);
+      const gy = H * (0.3 + my * 0.08);
 
-        // Draw streaks first (behind particles)
-        drawStreaks(t);
+      const radial = ctx.createRadialGradient(gx, gy, 0, gx, gy, W * 0.55);
+      radial.addColorStop(0, "rgba(245, 158, 11, 0.045)");
+      radial.addColorStop(0.45, "rgba(225, 29, 72, 0.024)");
+      radial.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = radial;
+      ctx.fillRect(0, 0, W, H);
 
-        // Update + draw particles
-        for (let i = 0; i < particles.current.length; i++) {
-          const p = particles.current[i];
-
-          p.life++;
-
-          // Fade in
-          if (p.alpha < p.alphaTarget) {
-            p.alpha = Math.min(p.alphaTarget, p.alpha + p.alphaSpeed);
-          }
-
-          // Fade out near end of life
-          if (p.life > p.maxLife * 0.72) {
-            p.alpha -= p.alphaSpeed * 1.5;
-          }
-
-          // Respawn when fully faded or too old
-          if (p.alpha <= 0 || p.life >= p.maxLife) {
-            particles.current[i] = spawnParticle(W, H);
-            continue;
-          }
-
-          // Move with parallax influence
-          p.x += p.vx + px * 0.05;
-          p.y += p.vy + py * 0.05;
-
-          // Wrap around canvas edges (soft)
-          if (p.x < -20) p.x = W + 20;
-          if (p.x > W + 20) p.x = -20;
-          if (p.y < -20) p.y = H + 20;
-          if (p.y > H + 20) p.y = -20;
-
-          // Draw particle as a soft glowing dot
-          const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3.2);
-          grd.addColorStop(0, `hsla(${p.hue}, 90%, 68%, ${p.alpha})`);
-          grd.addColorStop(0.45, `hsla(${p.hue}, 80%, 52%, ${p.alpha * 0.42})`);
-          grd.addColorStop(1, `hsla(${p.hue}, 70%, 40%, 0)`);
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size * 3.2, 0, Math.PI * 2);
-          ctx.fillStyle = grd;
-          ctx.fill();
+      // ── Scan streaks ──
+      streaks.forEach((s) => {
+        s.x += s.speed;
+        s.y += s.speed * 0.45;
+        if (s.x > W * 1.3 || s.y > H * 1.2) {
+          Object.assign(s, spawnStreak(W, H));
+          s.x = randomBetween(-W * 0.3, 0);
+          s.y = randomBetween(-H * 0.2, H * 0.3);
         }
-      }
 
-      rafId.current = requestAnimationFrame(loop);
+        ctx.save();
+        ctx.globalAlpha = s.opacity;
+        ctx.strokeStyle = `rgba(245, 158, 11, 1)`;
+        ctx.lineWidth = s.width;
+        ctx.beginPath();
+        const angle = Math.PI / 5.5; // ~32°
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(
+          s.x + Math.cos(angle) * s.length,
+          s.y + Math.sin(angle) * s.length
+        );
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      // ── Embers ──
+      embers.forEach((e) => {
+        e.life++;
+
+        // Fade in first 25% of life, hold, fade out last 20%
+        const progress = e.life / e.maxLife;
+        if (progress < 0.25) {
+          e.opacity = Math.min(e.opacity + e.opacityDelta, 0.48);
+        } else if (progress > 0.8) {
+          e.opacity = Math.max(e.opacity - e.opacityDelta * 1.6, 0);
+        }
+
+        // Drift with slight mouse influence
+        const influenceX = (mouseRef.current.x - 0.5) * 0.004;
+        e.x += e.vx + influenceX;
+        e.y += e.vy;
+
+        // Subtle horizontal sway
+        e.x += Math.sin(e.life * 0.025 + e.radius) * 0.12;
+
+        // Respawn
+        if (e.life >= e.maxLife || e.y < -10) {
+          Object.assign(e, spawnEmber(W, H));
+          e.y = H + 10;
+          e.life = 0;
+          e.opacity = 0;
+        }
+
+        if (e.opacity <= 0.01) return;
+
+        ctx.save();
+        ctx.globalAlpha = e.opacity;
+
+        const grad = ctx.createRadialGradient(
+          e.x,
+          e.y,
+          0,
+          e.x,
+          e.y,
+          e.radius * 2.2
+        );
+        grad.addColorStop(0, `hsla(${e.hue}, 95%, 72%, 1)`);
+        grad.addColorStop(0.5, `hsla(${e.hue - 12}, 88%, 58%, 0.6)`);
+        grad.addColorStop(1, `hsla(${e.hue - 20}, 80%, 35%, 0)`);
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.radius * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // ── Subtle grid overlay (very faint, only in hero zone) ──
+      ctx.save();
+      ctx.globalAlpha = 0.018;
+      ctx.strokeStyle = "rgba(79,156,255,1)";
+      ctx.lineWidth = 0.5;
+      const gridSize = 80;
+      const heroH = H * 0.75;
+      for (let x = 0; x < W; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, heroH);
+        ctx.stroke();
+      }
+      for (let y = 0; y < heroH; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      frameRef.current = requestAnimationFrame(draw);
     };
 
-    rafId.current = requestAnimationFrame(loop);
+    draw();
 
     return () => {
-      cancelAnimationFrame(rafId.current);
-      ro.disconnect();
+      cancelAnimationFrame(frameRef.current);
+      window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
     };
-  }, [initParticles, spawnParticle]);
+  }, []);
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 0,
-        pointerEvents: "none",
-        width: "100%",
-        height: "100%",
-        opacity: 1,
-      }}
+      className="fixed inset-0 w-full h-full pointer-events-none z-0"
+      style={{ opacity: 0.6 }}
     />
   );
 }
