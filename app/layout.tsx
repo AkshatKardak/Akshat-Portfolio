@@ -1,11 +1,21 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
 
+const SITE_URL = "https://akshatkardak.vercel.app"; // ← swap to your real domain
+const OG_IMAGE = `${SITE_URL}/images/og-image.png`; // must be 1200×630px
+
 export const metadata: Metadata = {
-  title: "Akshat Kardak — Full Stack Developer",
+  metadataBase: new URL(SITE_URL), // ← THIS is what Next.js needs for absolute OG URLs
+  title: {
+    default: "Akshat Kardak — Full Stack Developer",
+    template: "%s | Akshat Kardak",
+  },
   description:
-    "Full-stack developer from Mumbai building fintech platforms, NGO systems, and AI-powered products with React, Next.js, Node.js, Flutter, and Python.",
-  authors: [{ name: "Akshat Kardak" }],
+    "Full-stack developer from Mumbai building fintech platforms, NGO donation systems, and AI-powered products with React, Next.js, Node.js, Flutter, and Python.",
+  authors: [{ name: "Akshat Kardak", url: SITE_URL }],
+  creator: "Akshat Kardak",
+  publisher: "Akshat Kardak",
   keywords: [
     "Akshat Kardak",
     "Full Stack Developer",
@@ -14,8 +24,23 @@ export const metadata: Metadata = {
     "Next.js",
     "Node.js",
     "Flutter",
-    "Portfolio"
+    "Python",
+    "FastAPI",
+    "Portfolio",
+    "MERN Stack",
+    "TypeScript",
   ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/images/fav.png",
     shortcut: "/images/fav.png",
@@ -25,14 +50,15 @@ export const metadata: Metadata = {
     title: "Akshat Kardak — Full Stack Developer",
     description:
       "Full-stack developer from Mumbai building fintech platforms, NGO systems, and AI-powered products.",
-    url: "https://your-domain.com",
+    url: SITE_URL,
     siteName: "Akshat Kardak Portfolio",
     images: [
       {
-        url: "/images/Akshat.png",
+        url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Akshat Kardak Portfolio Preview",
+        alt: "Akshat Kardak — Full Stack Developer Portfolio",
+        type: "image/png",
       },
     ],
     locale: "en_US",
@@ -43,7 +69,14 @@ export const metadata: Metadata = {
     title: "Akshat Kardak — Full Stack Developer",
     description:
       "Full-stack developer from Mumbai building fintech platforms, NGO systems, and AI-powered products.",
-    images: ["/images/og-image.png"],
+    images: [OG_IMAGE],
+    creator: "@akshatkardak", // ← add your Twitter handle if you have one, else remove
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
+  verification: {
+    // google: "your-google-verification-token", // ← add after Google Search Console setup
   },
 };
 
@@ -54,10 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold"
-          style={{
-            background: "var(--accent)",
-            color: "#130d04",
-          }}
+          style={{ background: "var(--accent)", color: "#130d04" }}
         >
           Skip to content
         </a>

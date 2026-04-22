@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { certifications } from "@/lib/data";
-import { Calendar, BadgeCheck, ExternalLink } from "lucide-react";
+import { Calendar, BadgeCheck, ExternalLink, Link } from "lucide-react";
 
 export default function Certifications() {
   const container = {
@@ -16,8 +16,7 @@ export default function Certifications() {
   };
 
   return (
-    <section className="section w-full">
-      {/* Header */}
+    <div className="w-full">
       <motion.div
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
@@ -30,9 +29,8 @@ export default function Certifications() {
         </p>
       </motion.div>
 
-      {/* Cards */}
       <motion.div
-        className="flex flex-col gap-5"
+        className="grid grid-cols-1 lg:grid-cols-2 gap-5"
         variants={container}
         initial="hidden"
         whileInView="show"
@@ -43,36 +41,40 @@ export default function Certifications() {
             key={`${cert.title}-${index}`}
             variants={item}
             whileHover={{ y: -4 }}
-            className="group glass-card rounded-2xl border border-white/5 overflow-hidden transition-all duration-300"
+            className="group glass-card rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 flex flex-col"
           >
-            <div className="p-6 flex flex-col gap-5">
+            <div className="p-6 flex flex-col gap-4 flex-1">
 
               {/* TOP ROW */}
-              <div className="flex justify-between items-start">
-                <h3 className="text-xl font-bold text-text leading-tight">
-                  {cert.title}
-                </h3>
-
-                <div className="flex items-center gap-2 text-text-faint text-xs font-mono">
+              <div className="flex justify-between items-start gap-3">
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-xl font-bold text-text leading-tight">
+                    {cert.title}
+                  </h3>
                   {cert.year && (
-                    <>
-                      <Calendar size={12} />
+                    <div className="flex items-center gap-1 text-xs font-mono text-text-faint">
+                      <Calendar size={11} />
                       {cert.year}
-                    </>
-                  )}
-                  {cert.credentialUrl && (
-                    <a
-                      href={cert.credentialUrl}
-                      target="_blank"
-                      className="hover:text-text"
-                    >
-                      <ExternalLink size={14} />
-                    </a>
+                    </div>
                   )}
                 </div>
+                {cert.credentialUrl ? (
+                  <a
+                    href={cert.credentialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 mt-1 text-text-faint hover:text-text transition"
+                  >
+                    <ExternalLink size={15} />
+                  </a>
+                ) : (
+                  <span className="shrink-0 mt-1 text-text-faint opacity-30">
+                    <ExternalLink size={15} />
+                  </span>
+                )}
               </div>
 
-              {/* ISSUER */}
+              {/* ISSUER as colored subtitle */}
               <p
                 className="text-sm font-semibold -mt-2"
                 style={{ color: cert.color }}
@@ -101,16 +103,54 @@ export default function Certifications() {
 
               {/* DESCRIPTION */}
               {cert.description && (
-                <ul className="flex flex-col gap-2 text-sm text-text-muted">
-                  <li className="flex gap-3">
+                <ul className="flex flex-col gap-2 text-sm text-text-muted leading-relaxed">
+                  <li className="flex gap-3 items-start">
                     <span
-                      className="mt-1.5 w-1.5 h-1.5 rounded-full"
+                      className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0"
                       style={{ backgroundColor: cert.color }}
                     />
                     {cert.description}
                   </li>
                 </ul>
               )}
+
+              {/* CERTIFICATE IMAGE placeholder */}
+              {cert.image ? (
+                <div className="rounded-xl overflow-hidden border border-white/5 mt-1">
+                  <img
+                    src={cert.image}
+                    alt={cert.title}
+                    className="w-full h-[160px] object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                  />
+                </div>
+              ) : (
+                <div
+                  className="rounded-xl border border-white/5 mt-1 h-[120px] flex items-center justify-center"
+                  style={{ background: `${cert.color}08` }}
+                >
+                  <p className="text-xs text-text-faint font-mono">certificate image coming soon</p>
+                </div>
+              )}
+
+              {/* ACTION BUTTON */}
+              <div className="flex gap-3 pt-1">
+                {cert.credentialUrl ? (
+                  <a
+                    href={cert.credentialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/10 text-text-muted hover:text-text hover:border-white/30 transition"
+                  >
+                    <Link size={13} />
+                    View Credential
+                  </a>
+                ) : (
+                  <span className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/5 text-text-faint cursor-not-allowed">
+                    <Link size={13} />
+                    Credential pending
+                  </span>
+                )}
+              </div>
 
               {/* VERIFIED BOX */}
               <div
@@ -120,21 +160,12 @@ export default function Certifications() {
                   borderColor: `${cert.color}25`,
                 }}
               >
-                <BadgeCheck
-                  size={16}
-                  style={{ color: cert.color }}
-                  className="mt-0.5"
-                />
+                <BadgeCheck size={16} style={{ color: cert.color }} className="mt-0.5 shrink-0" />
                 <div>
-                  <p
-                    className="text-xs font-bold uppercase"
-                    style={{ color: cert.color }}
-                  >
+                  <p className="text-xs font-bold uppercase tracking-wider" style={{ color: cert.color }}>
                     Verified Credential
                   </p>
-                  <p className="text-sm text-text-muted">
-                    Issued by {cert.issuer}
-                  </p>
+                  <p className="text-sm text-text-muted">Issued by {cert.issuer}</p>
                 </div>
               </div>
 
@@ -142,6 +173,6 @@ export default function Certifications() {
           </motion.article>
         ))}
       </motion.div>
-    </section>
+    </div>
   );
 }

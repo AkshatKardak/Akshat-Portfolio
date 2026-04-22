@@ -50,15 +50,7 @@ export default function Navbar({
               height={44}
               className="top-navbar-mark-image"
             />
-          </div>
-          <div className="min-w-0 text-left">
-            <p className="truncate text-sm font-bold leading-tight text-text">
-              {personal.name}
-            </p>
-            <p className="text-[10px] font-bold uppercase tracking-[0.26em] text-text-muted">
-              Full Stack Developer
-            </p>
-          </div>
+            </div>
         </button>
 
         <nav className="top-navbar-nav" aria-label="Primary">

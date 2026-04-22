@@ -117,3 +117,12 @@ desktop.ini
 # GSAP / ANIMATION CACHE
 # ===========================
 .gsap-cache/
+
+
+# ===========================
+# PROJECT-SPECIFIC JUNK FILES
+# ===========================
+build_log.txt
+icons_list.txt
+*.log.txt
+*_list.txt

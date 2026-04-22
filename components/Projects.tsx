@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { projects } from "@/lib/data";
 import type { Project } from "@/lib/types";
-import { Calendar, Pin, Github, ExternalLink } from "lucide-react";
+import { Calendar, Pin, Github, ExternalLink, Globe } from "lucide-react";
 
 export default function Projects() {
   const container = {
@@ -18,7 +18,6 @@ export default function Projects() {
 
   return (
     <div className="w-full">
-      {/* Header */}
       <motion.div
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
@@ -31,7 +30,6 @@ export default function Projects() {
         </p>
       </motion.div>
 
-      {/* Grid */}
       <motion.div
         className="grid grid-cols-1 lg:grid-cols-2 gap-5"
         variants={container}
@@ -44,36 +42,31 @@ export default function Projects() {
             key={`${project.title}-${index}`}
             variants={item}
             whileHover={{ y: -4 }}
-            className="group glass-card rounded-2xl border border-white/5 overflow-hidden transition-all duration-300"
+            className="group glass-card rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 flex flex-col"
           >
-            <div className="p-6 flex flex-col gap-5">
+            <div className="p-6 flex flex-col gap-4 flex-1">
 
-              {/* TOP ROW */}
-              <div className="flex justify-between items-start">
-                <h3 className="text-xl font-bold text-text leading-tight">
-                  {project.title}
-                </h3>
-
-                <div className="flex items-center gap-2 text-text-faint">
+              {/* TOP ROW — title + icons */}
+              <div className="flex justify-between items-start gap-3">
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-xl font-bold text-text leading-tight">
+                    {project.title}
+                  </h3>
                   {project.date && (
-                    <div className="flex items-center gap-1 text-xs font-mono">
-                      <Calendar size={12} />
+                    <div className="flex items-center gap-1 text-xs font-mono text-text-faint">
+                      <Calendar size={11} />
                       {project.date}
                     </div>
                   )}
-                  {project.featured && <Pin size={14} />}
                 </div>
+                {project.featured && (
+                  <span className="shrink-0 mt-1">
+                    <Pin size={15} className="text-text-faint" />
+                  </span>
+                )}
               </div>
 
-              {/* TECH HIGHLIGHT (LIKE REFERENCE CARD BADGE LINE) */}
-              <p
-                className="text-sm font-semibold -mt-2"
-                style={{ color: project.color }}
-              >
-                {project.tech.join(" • ")}
-              </p>
-
-              {/* TAGS */}
+              {/* TECH TAGS */}
               <div className="flex flex-wrap gap-2">
                 {project.tech.map((tag: string) => (
                   <span
@@ -90,12 +83,12 @@ export default function Projects() {
                 ))}
               </div>
 
-              {/* DESCRIPTION / BULLETS */}
+              {/* BULLETS */}
               <ul className="flex flex-col gap-2 text-sm text-text-muted leading-relaxed">
                 {project.bullets.map((point: string, i: number) => (
-                  <li key={i} className="flex gap-3">
+                  <li key={i} className="flex gap-3 items-start">
                     <span
-                      className="mt-1.5 w-1.5 h-1.5 rounded-full"
+                      className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0"
                       style={{ backgroundColor: project.color }}
                     />
                     {point}
@@ -103,38 +96,58 @@ export default function Projects() {
                 ))}
               </ul>
 
-              {/* SCREENSHOT (CLEANER LIKE REFERENCE) */}
-              {project.image && (
-                <div className="rounded-xl overflow-hidden border border-white/5">
+              {/* SCREENSHOT */}
+              {project.image ? (
+                <div className="rounded-xl overflow-hidden border border-white/5 mt-1">
                   <img
                     src={project.image}
                     alt={project.title}
                     className="w-full h-[200px] object-cover group-hover:scale-[1.02] transition-transform duration-300"
                   />
                 </div>
+              ) : (
+                <div
+                  className="rounded-xl border border-white/5 mt-1 h-[160px] flex items-center justify-center"
+                  style={{ background: `${project.color}08` }}
+                >
+                  <p className="text-xs text-text-faint font-mono">screenshot coming soon</p>
+                </div>
               )}
 
-              {/* ACTION BUTTONS (NEW - matches reference feel) */}
-              <div className="flex gap-3 pt-2">
-                {project.github && (
+              {/* ACTION BUTTONS */}
+              <div className="flex gap-3 pt-1 flex-wrap">
+                {project.github ? (
                   <a
                     href={project.github}
                     target="_blank"
-                    className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/10 hover:border-white/30 transition"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/10 text-text-muted hover:text-text hover:border-white/30 transition"
                   >
-                    <Github size={14} />
+                    <Github size={13} />
                     Code
                   </a>
+                ) : (
+                  <span className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/5 text-text-faint cursor-not-allowed">
+                    <Github size={13} />
+                    Private
+                  </span>
                 )}
-                {project.live && (
+
+                {project.live ? (
                   <a
                     href={project.live}
                     target="_blank"
-                    className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/10 hover:border-white/30 transition"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/10 text-text-muted hover:text-text hover:border-white/30 transition"
                   >
-                    <ExternalLink size={14} />
+                    <ExternalLink size={13} />
                     Live
                   </a>
+                ) : (
+                  <span className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/5 text-text-faint cursor-not-allowed">
+                    <Globe size={13} />
+                    Deploy pending
+                  </span>
                 )}
               </div>
 
@@ -148,14 +161,12 @@ export default function Projects() {
                   }}
                 >
                   <p
-                    className="text-xs font-bold uppercase mb-1"
+                    className="text-xs font-bold uppercase mb-1 tracking-wider"
                     style={{ color: project.color }}
                   >
                     Key Impact
                   </p>
-                  <p className="text-sm text-text-muted">
-                    {project.impact}
-                  </p>
+                  <p className="text-sm text-text-muted">{project.impact}</p>
                 </div>
               )}
 

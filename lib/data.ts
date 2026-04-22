@@ -15,7 +15,7 @@ export const aboutMe: AboutMe = {
   college: "Datta Meghe College of Engineering",
   resumeUrl: "/Akshat_Kardak_Resume.pdf",
   github: "https://github.com/AkshatKardak",
-  email: "akshat@example.com",
+  email: "kardakakshat@gmail.com",  
 };
 
 export const personal: Personal = {
@@ -24,14 +24,16 @@ export const personal: Personal = {
   name: "Akshat Kardak",
   bio: "Full-stack developer building production-grade web and mobile applications — from NGO donation platforms to AI-powered systems. I write code that ships.",
   location: "Mumbai, India",
-  email: "akshat@example.com",
+  email: "kardakakshat@gmail.com",           // ✅ fixed
   github: "https://github.com/AkshatKardak",
   githubUsername: "AkshatKardak",
-  linkedin: "https://linkedin.com/in/akshat-kardak",
+  linkedin: "https://linkedin.com/in/akshatkardak",  // ✅ fixed
   resumeUrl: "/Akshat_Kardak_Resume.pdf",
-  avatar: "/akshat.jpg",
+  avatar: "/images/Akshat.png",              // ✅ fixed path
   available: true,
 };
+
+
 
 export const roles: string[] = [
   "Full Stack Developer",
@@ -95,64 +97,32 @@ export const skillGroups: SkillGroup[] = [
 
 export const experiences: Experience[] = [
   {
-    role: "Full Stack Developer",
-    org: "UnitedImpact",
-    period: "2024 – Present",
-    duration: "Ongoing",
-    color: "#f59e0b",
-    tags: ["React", "Node.js", "MongoDB", "Firebase", "Razorpay"],
-    bullets: [
-      "Built an NGO donation platform with real-time mapping using Leaflet.js and live donor tracking across campaigns.",
-      "Integrated Razorpay payment gateway with Firebase Auth for secure, end-to-end donation flows.",
-      "Designed an admin dashboard for NGO managers to track donations, manage campaigns, and export reports.",
-    ],
-    impact:
-      "Enabled real-money donations to verified NGOs with a scalable, secure platform built from scratch.",
-  },
-  {
-    role: "Full Stack Developer",
-    org: "RentRide",
-    period: "2024",
+    role: "Web Development Intern",
+    org: "Employment Express Verband LLP",
+    period: "Aug 2025 – Oct 2025",
     duration: "3 months",
     color: "#f59e0b",
-    tags: ["React", "Express", "MongoDB", "Gemini API", "Razorpay"],
+    tags: ["React.js", "Node.js", "JavaScript", "HTML", "CSS"],
     bullets: [
-      "Developed a full car rental platform with vehicle listing, availability calendar, and booking management.",
-      "Integrated Gemini API as an AI chat assistant to help users find the right car based on trip requirements.",
-      "Built a damage report system with image upload and admin review pipeline for post-rental disputes.",
+      "Completed a 3-month web development internship under the InternBoot program at Employment Express.",
+      "Built and maintained web interfaces using React.js with a focus on clean UI and solid functionality.",
+      "Worked on real client-facing projects, shipping features end-to-end within a professional team environment.",
     ],
-    impact:
-      "Shipped a production-ready rental platform with AI assistance and end-to-end payment processing.",
+    impact: "First industry exposure — shipped real features in a professional dev environment.",
   },
   {
-    role: "Mobile Developer",
-    org: "CampusDrop",
-    period: "2024",
-    duration: "2 months",
-    color: "#10b981",
-    tags: ["Flutter", "Dart", "Firebase", "Cloudinary"],
+    role: "Publicity Team Member",
+    org: "Computer Society of India — DMCE Chapter",
+    period: "Aug 2024 – Apr 2025",
+    duration: "9 months",
+    color: "#6366f1",
+    tags: ["Community", "Events", "Tech Society", "Publicity"],
     bullets: [
-      "Built a Flutter-based campus marketplace for peer-to-peer buying and selling of academic resources.",
-      "Implemented Cloudinary for optimized image hosting and Firebase for real-time listing updates.",
-      "Added secure student authentication and in-app chat for buyer-seller communication.",
+      "Active member of the CSI chapter at DMCE for 9 months, participating in technical events and workshops.",
+      "Worked as a Publicity Team Member — handled event promotion, social media coordination, and outreach.",
+      "Collaborated with peers on organizing college-level tech activities and community initiatives.",
     ],
-    impact:
-      "Created a functional marketplace used by real students on campus with live listings and secure auth.",
-  },
-  {
-    role: "Security Engineer",
-    org: "Defend — Zombie API",
-    period: "2023 – 2024",
-    duration: "Hackathon + Build",
-    color: "#ef4444",
-    tags: ["Python", "FastAPI", "Machine Learning", "Anomaly Detection"],
-    bullets: [
-      "Built a cybersecurity threat detection system using Python FastAPI with ML-based network traffic analysis.",
-      "Implemented anomaly detection algorithms to flag unusual API request patterns in real time.",
-      "Designed a dashboard to visualize threat scores and blocked request logs for security review.",
-    ],
-    impact:
-      "Delivered a working threat detection engine capable of flagging anomalous API traffic patterns in real time.",
+    impact: "Contributed to growing the college tech community through event management and publicity work.",
   },
 ];
 
@@ -190,36 +160,36 @@ export const projects: Project[] = [
       "Production-ready rental platform with AI assistance and complete payment pipeline.",
   },
   {
-    title: "CampusDrop",
-    date: "2024",
-    color: "#10b981",
-    featured: false,
-    github: "https://github.com/AkshatKardak/CampusDrop",
+    title: "CivicPulse",
+    date: "2025 – Present",
+    color: "#f59e0b",
+    featured: true,
+    github: "https://github.com/AkshatKardak/CivicPulse", // update if different
     live: "",
     image: "",
-    tech: ["Flutter", "Dart", "Firebase", "Cloudinary"],
+    tech: ["Next.js", "Node.js", "MongoDB", "Socket.io", "Maps API"],
     bullets: [
-      "Campus marketplace Flutter app for peer-to-peer buying and selling among students.",
-      "Firebase real-time backend with Cloudinary image hosting and in-app buyer-seller chat.",
+      "Civic engagement platform connecting citizens to local issues with real-time geo-tagged reporting.",
+      "Real-time updates via Socket.io with an interactive map for ward-level issue tracking.",
+      "Admin panel for municipal officers to triage, assign, and resolve reported civic complaints.",
     ],
-    impact:
-      "Live marketplace used by real students with secure auth and real-time listing updates.",
+    impact: "🚧 Currently building — full-stack civic tech platform targeting hyperlocal urban problem-solving.",
   },
   {
-    title: "Defend — Zombie API",
-    date: "2023 – 2024",
-    color: "#ef4444",
-    featured: false,
-    github: "https://github.com/AkshatKardak/Defend",
+    title: "Fintech Platform",
+    date: "2025 – Present",
+    color: "#6366f1",
+    featured: true,
+    github: "", // add when ready
     live: "",
     image: "",
-    tech: ["Python", "FastAPI", "Machine Learning", "Anomaly Detection"],
+    tech: ["Next.js", "FastAPI", "PostgreSQL", "Razorpay", "Plaid API"],
     bullets: [
-      "ML-powered network threat detection system with FastAPI backend and real-time anomaly scoring.",
-      "Dashboard for visualizing threat logs, blocked requests, and risk score trends.",
+      "Personal finance dashboard with expense categorization, budget tracking, and spending insights.",
+      "FastAPI backend with JWT auth, PostgreSQL schema, and Razorpay payment flow integration.",
+      "Data visualization layer with monthly trend charts and anomaly detection for unusual spending.",
     ],
-    impact:
-      "Real-time threat detection engine that flags anomalous API traffic patterns with ML scoring.",
+    impact: "🚧 Currently building — production-grade fintech app with real payment flows and financial analytics.",
   },
   {
     title: "Portfolio",
@@ -241,8 +211,8 @@ export const projects: Project[] = [
 
 export const certifications: Certification[] = [
   {
-    title: "Full Stack Web Development",
-    issuer: "Coursera",
+    title: "Full Stack Developer",
+    issuer: "Coursera / Meta",
     date: "2024",
     year: "2024",
     color: "#6366f1",
@@ -254,8 +224,21 @@ export const certifications: Certification[] = [
     tags: ["React", "Node.js", "REST APIs", "MongoDB", "Full Stack"],
   },
   {
-    title: "Flutter & Dart — The Complete Bootcamp",
-    issuer: "Udemy",
+    title: "Software Engineering Job Simulation",
+    issuer: "Forage",
+    date: "2024",
+    year: "2024",
+    color: "#f59e0b",
+    link: "",
+    credentialUrl: "",
+    image: "",
+    description:
+      "Simulated real-world software engineering tasks including debugging, code review, and building features in a professional engineering workflow.",
+    tags: ["Software Engineering", "Debugging", "Code Review", "Problem Solving"],
+  },
+  {
+    title: "Data Analytics Job Simulation",
+    issuer: "Deloitte Australia (Forage)",
     date: "2024",
     year: "2024",
     color: "#10b981",
@@ -263,25 +246,12 @@ export const certifications: Certification[] = [
     credentialUrl: "",
     image: "",
     description:
-      "Mastered Flutter and Dart through 28+ hours of hands-on instruction covering state management, Firebase integration, animations, and app deployment.",
-    tags: ["Flutter", "Dart", "Firebase", "Mobile Development"],
+      "Completed Deloitte Australia's data analytics simulation covering data interpretation, forensic analysis, and presenting insights from real-world datasets.",
+    tags: ["Data Analytics", "Excel", "Forensic Analysis", "Deloitte"],
   },
   {
-    title: "Python for Data Science & AI",
-    issuer: "IBM",
-    date: "2023",
-    year: "2023",
-    color: "#f59e0b",
-    link: "",
-    credentialUrl: "",
-    image: "",
-    description:
-      "IBM-backed Coursera program covering Python fundamentals, NumPy, Pandas, data visualization, and introductory machine learning concepts.",
-    tags: ["Python", "Pandas", "NumPy", "Machine Learning", "Data Science"],
-  },
-  {
-    title: "MongoDB for JavaScript Developers",
-    issuer: "MongoDB University",
+    title: "ReactJS for Beginners",
+    issuer: "Simplilearn",
     date: "2024",
     year: "2024",
     color: "#ef4444",
@@ -289,8 +259,21 @@ export const certifications: Certification[] = [
     credentialUrl: "",
     image: "",
     description:
-      "Official MongoDB University course on schema design, aggregation pipelines, indexing strategies, and integrating MongoDB with Node.js applications.",
-    tags: ["MongoDB", "Node.js", "Aggregation", "Schema Design", "Databases"],
+      "Foundational React.js course covering components, hooks, state management, and building interactive UIs from scratch.",
+    tags: ["React.js", "React Hooks", "JavaScript", "Frontend"],
+  },
+  {
+    title: "Front-End Software Engineering Job Simulation",
+    issuer: "Skyscanner (Forage)",
+    date: "2024",
+    year: "2024",
+    color: "#a78bfa",
+    link: "",
+    credentialUrl: "",
+    image: "",
+    description:
+      "Skyscanner's front-end simulation covering component-driven development, accessibility, and building production-quality UI in a real codebase context.",
+    tags: ["Frontend", "React", "Accessibility", "UI Engineering"],
   },
 ];
 
