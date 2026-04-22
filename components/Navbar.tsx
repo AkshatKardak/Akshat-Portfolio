@@ -44,7 +44,7 @@ export default function Navbar({
         >
           <div className="top-navbar-mark">
             <Image
-              src="/images/AK.png"
+              src="/images/AK27.png"
               alt="AK logo"
               width={44}
               height={44}

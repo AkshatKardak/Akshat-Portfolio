@@ -91,7 +91,10 @@ export default function Dashboard() {
           )}
 
           <motion.div variants={item}>
-            <p className="mb-3 text-sm font-mono uppercase tracking-[0.22em]" style={{ color: "var(--text-faint)" }}>
+            <p
+              className="mb-3 text-sm font-mono uppercase tracking-[0.22em]"
+              style={{ color: "var(--text-faint)" }}
+            >
               <span style={{ color: "var(--accent)" }}>&gt; </span>
               about me
             </p>
@@ -106,10 +109,11 @@ export default function Dashboard() {
               {personal.firstName}{" "}
               <span
                 style={{
-                  background: "linear-gradient(118deg, var(--accent) 0%, var(--gold) 100%)",
+                  background: "linear-gradient(118deg, #f59e0b 0%, #fde047 55%, #fbbf24 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
+                  filter: "drop-shadow(0 0 14px rgba(245,158,11,0.40))",
                 }}
               >
                 {personal.lastName}
@@ -128,15 +132,26 @@ export default function Dashboard() {
             >
               <Zap size={13} />
               <span>{displayed}</span>
-              <span className="animate-blink inline-block h-4 w-0.5 rounded-full" style={{ background: "var(--accent)" }} />
+              <span
+                className="animate-blink inline-block h-4 w-0.5 rounded-full"
+                style={{ background: "var(--accent)" }}
+              />
             </div>
           </motion.div>
 
-          <motion.p variants={item} className="max-w-lg text-base leading-relaxed text-text-muted">
+          <motion.p
+            variants={item}
+            className="max-w-lg text-base leading-relaxed"
+            style={{ color: "var(--text-muted)" }}
+          >
             {personal.bio}
           </motion.p>
 
-          <motion.div variants={item} className="flex flex-wrap items-center gap-4 text-sm text-text-faint">
+          <motion.div
+            variants={item}
+            className="flex flex-wrap items-center gap-4 text-sm"
+            style={{ color: "var(--text-faint)" }}
+          >
             <span className="flex items-center gap-1.5">
               <MapPin size={13} style={{ color: "var(--accent)" }} />
               {personal.location}
@@ -148,7 +163,12 @@ export default function Dashboard() {
           </motion.div>
 
           <motion.div variants={item} className="flex flex-wrap gap-3 pt-2">
-            <a href={personal.resumeUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
+            <a
+              href={personal.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+            >
               <FileDown size={15} />
               Download Resume
             </a>
@@ -156,7 +176,12 @@ export default function Dashboard() {
               <Layers size={15} />
               View Projects
             </a>
-            <a href={personal.github} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            <a
+              href={personal.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost"
+            >
               <Github size={15} />
               GitHub
             </a>
@@ -184,6 +209,10 @@ export default function Dashboard() {
               height={520}
               priority
               className="hero-portrait-image object-cover object-top rounded-xl"
+              style={{
+                maskImage: "linear-gradient(to bottom, black 55%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, black 55%, transparent 100%)",
+              }}
             />
             <div className="hero-portrait-copy">
               <div className="flex items-center gap-2">
@@ -194,12 +223,18 @@ export default function Dashboard() {
                     boxShadow: "0 0 10px rgba(34,197,94,0.6)",
                   }}
                 />
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em]" style={{ color: "var(--success)" }}>
-                  Mumbai, India
+                <span
+                  className="font-mono text-[10px] font-bold uppercase tracking-[0.22em]"
+                  style={{ color: "var(--success)" }}
+                >
+                  {personal.name}
                 </span>
               </div>
-              <p className="text-xs font-mono" style={{ color: "rgba(254,243,199,0.62)" }}>
-                Full stack developer building with precision.
+              <p
+                className="text-xs font-mono"
+                style={{ color: "rgba(237,224,192,0.58)" }}
+              >
+                Mumbai, India · Full Stack Developer
               </p>
             </div>
           </motion.div>

@@ -15,7 +15,7 @@ export const aboutMe: AboutMe = {
   college: "Datta Meghe College of Engineering",
   resumeUrl: "/Akshat_Kardak_Resume.pdf",
   github: "https://github.com/AkshatKardak",
-  email: "kardakakshat@gmail.com",  
+  email: "kardakakshat@gmail.com",
 };
 
 export const personal: Personal = {
@@ -24,16 +24,14 @@ export const personal: Personal = {
   name: "Akshat Kardak",
   bio: "Full-stack developer building production-grade web and mobile applications — from NGO donation platforms to AI-powered systems. I write code that ships.",
   location: "Mumbai, India",
-  email: "kardakakshat@gmail.com",           // ✅ fixed
+  email: "kardakakshat@gmail.com",
   github: "https://github.com/AkshatKardak",
   githubUsername: "AkshatKardak",
-  linkedin: "https://linkedin.com/in/akshatkardak",  // ✅ fixed
+  linkedin: "https://linkedin.com/in/akshatkardak",
   resumeUrl: "/Akshat_Kardak_Resume.pdf",
-  avatar: "/images/Akshat.png",              // ✅ fixed path
+  avatar: "/images/Akshat.png",
   available: true,
 };
-
-
 
 export const roles: string[] = [
   "Full Stack Developer",
@@ -70,16 +68,6 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    category: "Mobile",
-    color: "#10b981",
-    skills: [
-      { name: "Flutter" },
-      { name: "Dart" },
-      { name: "React Native" },
-      { name: "Expo" },
-    ],
-  },
-  {
     category: "Database & Cloud",
     color: "#ef4444",
     skills: [
@@ -90,7 +78,6 @@ export const skillGroups: SkillGroup[] = [
       { name: "Vercel" },
       { name: "Render" },
       { name: "Netlify" },
-      { name: "Cloudinary" },
     ],
   },
 ];
@@ -133,8 +120,8 @@ export const projects: Project[] = [
     color: "#f59e0b",
     featured: true,
     github: "https://github.com/AkshatKardak/UnitedImpact",
-    live: "",
-    image: "",
+    live: "https://unitedimpact-app.netlify.app/",
+    image: "/images/UnitedImpact.png",
     tech: ["React", "Node.js", "MongoDB", "Firebase", "Razorpay"],
     bullets: [
       "NGO donation platform with real-time geo-mapping, live campaign tracking, and admin dashboards.",
@@ -149,8 +136,8 @@ export const projects: Project[] = [
     color: "#6366f1",
     featured: true,
     github: "https://github.com/AkshatKardak/RentRide",
-    live: "",
-    image: "",
+    live: "https://rentridefrontend.vercel.app/",
+    image: "/images/RentRide.png",
     tech: ["React", "Express", "MongoDB", "Gemini API", "Razorpay"],
     bullets: [
       "Full car rental platform with AI chat assistant, admin dashboard, and damage report system.",
@@ -160,11 +147,26 @@ export const projects: Project[] = [
       "Production-ready rental platform with AI assistance and complete payment pipeline.",
   },
   {
+    title: "RoastHub",
+    date: "2024",
+    color: "#ef4444",
+    featured: true,
+    github: "https://github.com/AkshatKardak/RoastHub",
+    live: "https://roasthubfront.vercel.app",
+    image: "",
+    tech: ["React", "Vite", "Node.js", "Express", "MongoDB", "Groq API"],
+    bullets: [
+      "AI-powered savage tweet generator with authentic Indian flavor — Bollywood refs, cricket banter, desi slang.",
+      "Groq API backend generates 10 brutal tweets per topic with viral potential, savage level & brutality ratings.",
+    ],
+    impact: "Live full-stack AI app with real Groq API integration — shipped and deployed end-to-end.",
+  },
+  {
     title: "CivicPulse",
     date: "2025 – Present",
     color: "#f59e0b",
     featured: true,
-    github: "https://github.com/AkshatKardak/CivicPulse", // update if different
+    github: "https://github.com/AkshatKardak/CivicPulse",
     live: "",
     image: "",
     tech: ["Next.js", "Node.js", "MongoDB", "Socket.io", "Maps API"],
@@ -180,7 +182,7 @@ export const projects: Project[] = [
     date: "2025 – Present",
     color: "#6366f1",
     featured: true,
-    github: "", // add when ready
+    github: "",
     live: "",
     image: "",
     tech: ["Next.js", "FastAPI", "PostgreSQL", "Razorpay", "Plaid API"],
@@ -279,7 +281,7 @@ export const certifications: Certification[] = [
 
 export const navItems: NavItem[] = [
   { id: "home",           label: "Dashboard"      },
-  { id: "about",          label: "About"          },  // ← ADD THIS
+  { id: "about",          label: "About"          },
   { id: "projects",       label: "Projects"       },
   { id: "skills",         label: "Skills"         },
   { id: "experience",     label: "Experience"     },

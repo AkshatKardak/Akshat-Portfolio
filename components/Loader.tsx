@@ -74,7 +74,7 @@ export default function Loader({ loaded }: { loaded: boolean }) {
             <div className="loader-top">
               <div className="loader-logo">
                 <div className="loader-logo-ring">
-                  <Image src="/images/AK.png" alt="AK" width={22} height={22} />
+                  <Image src="/images/AK27.png" alt="AK" width={22} height={22} />
                 </div>
                 <div>
                   <p className="loader-logo-title">Akshat Kardak</p>
