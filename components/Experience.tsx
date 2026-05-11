@@ -17,7 +17,6 @@ export default function Experience() {
 
   return (
     <div className="w-full">
-      {/* Header */}
       <motion.div
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
@@ -30,7 +29,6 @@ export default function Experience() {
         </p>
       </motion.div>
 
-      {/* Cards */}
       <motion.div
         className="flex flex-col gap-5"
         variants={container}
@@ -49,10 +47,7 @@ export default function Experience() {
 
               {/* TOP ROW */}
               <div className="flex justify-between items-start">
-                <h3 className="text-xl font-bold text-text leading-tight">
-                  {exp.role}
-                </h3>
-
+                <h3 className="text-xl font-bold text-text leading-tight">{exp.role}</h3>
                 <div className="flex items-center gap-1 text-text-faint text-xs font-mono">
                   <Calendar size={12} />
                   {exp.period}
@@ -60,38 +55,24 @@ export default function Experience() {
               </div>
 
               {/* ORG */}
-              <p
-                className="text-sm font-semibold -mt-2"
-                style={{ color: exp.color }}
-              >
-                {exp.org}
-              </p>
+              <p className="text-sm font-semibold -mt-2" style={{ color: exp.color }}>{exp.org}</p>
 
               {/* TAGS */}
               <div className="flex flex-wrap gap-2">
                 {exp.tags.map((tag) => (
-                  <span
-                    key={tag}
+                  <span key={tag}
                     className="text-xs px-3 py-1 rounded-full border transition-all duration-200 group-hover:scale-105"
-                    style={{
-                      borderColor: `${exp.color}40`,
-                      color: exp.color,
-                      background: `${exp.color}0f`,
-                    }}
-                  >
+                    style={{ borderColor: `${exp.color}40`, color: exp.color, background: `${exp.color}0f` }}>
                     {tag}
                   </span>
                 ))}
               </div>
 
-              {/* BULLETS */}
+              {/* BULLETS — diamond to match projects */}
               <ul className="flex flex-col gap-2 text-sm text-text-muted leading-relaxed">
                 {exp.bullets?.map((point, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span
-                      className="mt-1.5 w-1.5 h-1.5 rounded-full"
-                      style={{ backgroundColor: exp.color }}
-                    />
+                  <li key={i} className="flex gap-3 items-start">
+                    <span className="shrink-0 mt-[3px] text-[10px] leading-none" style={{ color: exp.color }}>◆</span>
                     {point}
                   </li>
                 ))}
@@ -99,22 +80,10 @@ export default function Experience() {
 
               {/* IMPACT */}
               {exp.impact && (
-                <div
-                  className="rounded-xl p-4 border"
-                  style={{
-                    background: `${exp.color}08`,
-                    borderColor: `${exp.color}25`,
-                  }}
-                >
-                  <p
-                    className="text-xs font-bold uppercase mb-1"
-                    style={{ color: exp.color }}
-                  >
-                    Key Impact
-                  </p>
-                  <p className="text-sm text-text-muted">
-                    {exp.impact}
-                  </p>
+                <div className="rounded-xl p-4 border"
+                  style={{ background: `${exp.color}08`, borderColor: `${exp.color}25` }}>
+                  <p className="text-xs font-bold uppercase mb-1" style={{ color: exp.color }}>Key Impact</p>
+                  <p className="text-sm text-text-muted">{exp.impact}</p>
                 </div>
               )}
 

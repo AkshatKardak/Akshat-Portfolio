@@ -2,11 +2,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const SITE_URL = "https://akshatkardak.vercel.app"; // ← swap to your real domain
-const OG_IMAGE = `${SITE_URL}/images/og-image.png`; // must be 1200×630px
+const SITE_URL = "https://akshatkardak.vercel.app";
+const OG_IMAGE = `${SITE_URL}/images/og-image.png`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL), // ← THIS is what Next.js needs for absolute OG URLs
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Akshat Kardak — Full Stack Developer",
     template: "%s | Akshat Kardak",
@@ -66,23 +66,29 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Akshat Kardak — Full Stack Developer",
+    title: "Akshat Kardhat — Full Stack Developer",
     description:
       "Full-stack developer from Mumbai building fintech platforms, NGO systems, and AI-powered products.",
     images: [OG_IMAGE],
-    creator: "@akshatkardak", // ← add your Twitter handle if you have one, else remove
+    creator: "@akshatkardak",
   },
   alternates: {
     canonical: SITE_URL,
-  },
-  verification: {
-    // google: "your-google-verification-token", // ← add after Google Search Console setup
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Syne — Display/headings */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
         <a
           href="#main-content"
