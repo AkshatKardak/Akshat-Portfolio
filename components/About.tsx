@@ -15,14 +15,14 @@ export default function About() {
   };
 
   const focused = [
-  "Building and shipping full-stack web & mobile apps — RentRide, CivicPulse, CampusDrop",
-  "Integrating AI into real products — Gemini API, Groq, scikit-learn, not just wrappers",
-  "Competing in hackathons (Quantum Hacks, SIH) and deepening system design knowledge",
-];
+    "Building and shipping full-stack web & mobile apps — RentRide, CivicPulse, CampusDrop",
+    "Integrating AI into real products — Gemini API, Groq, scikit-learn, not just wrappers",
+    "Competing in hackathons (Quantum Hacks, SIH) and deepening system design knowledge",
+  ];
 
   return (
     <div className="w-full">
-      {/* Centered heading — matches reference */}
+      {/* Centered heading */}
       <motion.div
         className="flex flex-col items-center text-center mb-10 gap-2"
         initial={{ opacity: 0, y: -16 }}
@@ -35,8 +35,8 @@ export default function About() {
           <span className="text-text">me</span>
         </h2>
         <p className="text-text-muted text-sm">
-  CSE student who builds things that actually ship.
-</p>
+          CSE student who builds things that actually ship.
+        </p>
       </motion.div>
 
       {/* Two-column layout */}
@@ -47,24 +47,46 @@ export default function About() {
         whileInView="show"
         viewport={{ once: true, amount: 0.1 }}
       >
-        {/* LEFT — Photo card */}
+        {/* LEFT — Photo card (AKKI.png — casual/personal photo) */}
         <motion.div
           variants={item}
           className="glass-card rounded-2xl border border-white/5 overflow-hidden"
         >
           <img
-            src="/images/Akshat.png"
+            src="/images/AKKI.png"
             alt="Akshat Kardak"
             className="w-full h-full object-cover object-top"
             style={{ minHeight: "320px", maxHeight: "480px" }}
           />
         </motion.div>
 
-        {/* RIGHT — Text card */}
+        {/* RIGHT — Text card with profile photo + role */}
         <motion.div
           variants={item}
           className="glass-card rounded-2xl border border-white/5 p-7 flex flex-col gap-6"
         >
+          {/* Profile photo row */}
+          <div className="flex items-center gap-4">
+            <div
+              className="rounded-xl overflow-hidden border border-white/10 shrink-0"
+              style={{ width: 64, height: 64 }}
+            >
+              <img
+                src="/images/Akshat.png"
+                alt="Akshat Kardak profile"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-base font-bold text-text">Akshat Kardak</span>
+              <span className="text-xs font-mono" style={{ color: "#f59e0b" }}>Full Stack Developer</span>
+              <span className="text-xs text-text-faint">Mumbai, India</span>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="h-px bg-white/5" />
+
           {/* My Journey */}
           <div className="flex flex-col gap-3">
             <h3 className="text-lg font-bold text-text">My Journey</h3>
@@ -97,7 +119,6 @@ export default function About() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 + i * 0.08 }}
                 >
-                  {/* ▶ triangle icon matching reference */}
                   <svg
                     className="mt-0.5 shrink-0"
                     width="12"

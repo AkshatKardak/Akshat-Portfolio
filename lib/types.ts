@@ -17,6 +17,10 @@ export interface Experience {
   tags: string[];
   bullets: string[];
   impact?: string;
+  image?: string;
+  certificateUrl?: string;
+  liveUrl?: string;
+  codeUrl?: string;
 }
 
 export interface Project {
@@ -41,8 +45,9 @@ export interface Certification {
   link?: string;
   credentialUrl?: string;
   image?: string;
+  pdfUrl?: string;
   description?: string;
-  tags: string[];   // ← was missing, caused the crash
+  tags: string[];
 }
 
 export interface AboutMe {

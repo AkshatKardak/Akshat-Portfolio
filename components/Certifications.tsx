@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { certifications } from "@/lib/data";
-import { Calendar, BadgeCheck, ExternalLink, Link } from "lucide-react";
+import { Calendar, BadgeCheck, ExternalLink, Link, FileText } from "lucide-react";
 
 export default function Certifications() {
   const container = {
@@ -25,7 +25,7 @@ export default function Certifications() {
       >
         <h2 className="text-3xl font-black">Certifications</h2>
         <p className="text-text-muted max-w-2xl">
-          Verified credentials from structured programs that strengthened my engineering foundation.
+          Industry-recognised credentials from Meta, Forage, Deloitte, and Simplilearn — each backed by real project work and hands-on assessments.
         </p>
       </motion.div>
 
@@ -74,7 +74,7 @@ export default function Certifications() {
                 )}
               </div>
 
-              {/* ISSUER as colored subtitle */}
+              {/* ISSUER */}
               <p
                 className="text-sm font-semibold -mt-2"
                 style={{ color: cert.color }}
@@ -114,7 +114,7 @@ export default function Certifications() {
                 </ul>
               )}
 
-              {/* CERTIFICATE IMAGE placeholder */}
+              {/* CERTIFICATE IMAGE or placeholder */}
               {cert.image ? (
                 <div className="rounded-xl overflow-hidden border border-white/5 mt-1">
                   <img
@@ -132,8 +132,8 @@ export default function Certifications() {
                 </div>
               )}
 
-              {/* ACTION BUTTON */}
-              <div className="flex gap-3 pt-1">
+              {/* ACTION BUTTONS */}
+              <div className="flex flex-wrap gap-3 pt-1">
                 {cert.credentialUrl ? (
                   <a
                     href={cert.credentialUrl}
@@ -150,6 +150,23 @@ export default function Certifications() {
                     Credential pending
                   </span>
                 )}
+
+                {cert.pdfUrl ? (
+                  <a
+                    href={cert.pdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border transition-all duration-200 hover:scale-[1.03]"
+                    style={{
+                      borderColor: `${cert.color}40`,
+                      color: cert.color,
+                      background: `${cert.color}0f`,
+                    }}
+                  >
+                    <FileText size={13} />
+                    View PDF
+                  </a>
+                ) : null}
               </div>
 
               {/* VERIFIED BOX */}

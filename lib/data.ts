@@ -88,6 +88,10 @@ export const experiences: Experience[] = [
       "Built and maintained live web interfaces used by real clients, not staging environments.",
     ],
     impact: "First industry exposure — shipped real features in a professional dev environment.",
+    image: "/images/Screenshot 2026-05-22 150726.png",
+    certificateUrl: "/images/web development internship certification.pdf",
+    liveUrl: "",
+    codeUrl: "",
   },
 ];
 
@@ -167,6 +171,7 @@ export const certifications: Certification[] = [
     link: "",
     credentialUrl: "",
     image: "",
+    pdfUrl: "",
     description:
       "Completed Meta's professional full-stack certificate covering React, Node.js, databases, and REST API design through structured, project-based modules.",
     tags: ["React", "Node.js", "REST APIs", "MongoDB", "Full Stack"],
@@ -179,7 +184,8 @@ export const certifications: Certification[] = [
     color: "#f59e0b",
     link: "",
     credentialUrl: "",
-    image: "",
+    image: "/images/forage frontend .png",
+    pdfUrl: "",
     description:
       "Simulated real-world software engineering tasks including debugging, code review, and building features in a professional engineering workflow.",
     tags: ["Software Engineering", "Debugging", "Code Review", "Problem Solving"],
@@ -193,6 +199,7 @@ export const certifications: Certification[] = [
     link: "",
     credentialUrl: "",
     image: "",
+    pdfUrl: "",
     description:
       "Completed Deloitte Australia's data analytics simulation covering data interpretation, forensic analysis, and presenting insights from real-world datasets.",
     tags: ["Data Analytics", "Excel", "Forensic Analysis", "Deloitte"],
@@ -206,6 +213,7 @@ export const certifications: Certification[] = [
     link: "",
     credentialUrl: "",
     image: "",
+    pdfUrl: "/images/Intro to Front-End By Simplilearn.pdf",
     description:
       "Foundational React.js course covering components, hooks, state management, and building interactive UIs from scratch.",
     tags: ["React.js", "React Hooks", "JavaScript", "Frontend"],
@@ -218,7 +226,8 @@ export const certifications: Certification[] = [
     color: "#a78bfa",
     link: "",
     credentialUrl: "",
-    image: "",
+    image: "/images/forage frontend .png",
+    pdfUrl: "",
     description:
       "Skyscanner's front-end simulation covering component-driven development, accessibility, and building production-quality UI in a real codebase context.",
     tags: ["Frontend", "React", "Accessibility", "UI Engineering"],
