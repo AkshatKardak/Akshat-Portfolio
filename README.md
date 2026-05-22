@@ -1,6 +1,6 @@
 # Akshat Kardak — Developer Portfolio
 
-> A cinematic, dark-themed developer portfolio built with **Next.js 16**, **TypeScript**, **Tailwind CSS v4**, and **Framer Motion**. Features a multi-phase animated loading screen, section-based navigation, lightbox image previews, Resend-powered contact form, and a live GitHub stats API.
+> A cinematic, dark-themed developer portfolio built with **Next.js 16**, **TypeScript**, **Tailwind CSS v4**, and **Framer Motion**. Features a multi-phase animated loading screen, section-based navigation, lightbox image previews, and a Resend-powered contact form.
 
 ---
 
@@ -9,7 +9,6 @@
 - **Cinematic Loader** — Multi-phase entrance: logo reveal → terminal boot → "Get Started" CTA → portfolio reveal
 - **Section Navigation** — Smooth SPA-style switching between Dashboard, About, Projects, Skills, Experience, Certifications, and Contact
 - **Lightbox Image Previews** — Click any project/experience/certificate image to view full-screen with a blur backdrop
-- **Live GitHub Stats** — Real-time repo count, stars, and followers fetched from GitHub API (with 1hr cache)
 - **Resend Contact Form** — Contact form POSTs to `/api/contact` which sends a styled email via Resend
 - **CV Download** — "Download Resume" button in the About section directly serves `Akshat Kardak CV.pdf` from `public/images/`
 - **Dark-First Design** — Fully dark themed with glassmorphism cards, gradient accents, and ambient particles
@@ -28,7 +27,6 @@
 | Animation | Framer Motion 12 |
 | Icons | Lucide React |
 | Email | Resend |
-| API | GitHub REST API (via Next.js Route Handler) |
 | Deployment | Vercel |
 
 ---
@@ -39,8 +37,7 @@
 Akshat-Portfolio/
 ├── app/
 │   ├── api/
-│   │   ├── contact/route.ts     # Resend email API route
-│   │   └── github/route.ts      # GitHub stats API route (cached 1hr)
+│   │   └── contact/route.ts     # Resend email API route
 │   ├── globals.css               # Global styles, design tokens, animations
 │   ├── layout.tsx                # Root layout with metadata
 │   └── page.tsx                  # Main SPA page with section routing
@@ -90,13 +87,9 @@ Create a `.env.local` file in the root:
 ```env
 # Required — Resend API key for the contact form
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-# Optional — increases GitHub API rate limit from 60 to 5000 req/hr
-GITHUB_TOKEN=your_github_personal_access_token
 ```
 
 > **Resend:** Sign up at [resend.com](https://resend.com), create an API key, and paste it above.
-> **GitHub token:** Generate at [github.com/settings/tokens](https://github.com/settings/tokens) with `public_repo` read scope only.
 
 ### Development
 
@@ -122,7 +115,6 @@ npm start
 3. Vercel auto-detects Next.js — no build config needed
 4. Add environment variables in **Settings → Environment Variables**:
    - `RESEND_API_KEY` → your Resend API key **(required for contact form)**
-   - `GITHUB_TOKEN` → your GitHub PAT (optional but recommended)
 5. Click **Deploy**
 
 Every future push to `main` triggers an automatic redeployment.
@@ -171,16 +163,6 @@ export const skillGroups = [...]
 
 To update your CV: replace `public/images/Akshat Kardak CV.pdf` with your new file (keep the same filename).
 To add a project screenshot: place the image in `public/images/` and set `image: "/images/your-screenshot.png"` in the project object.
-
----
-
-## 📊 GitHub Stats API
-
-The route `app/api/github/route.ts` fetches live data from the GitHub API:
-- Public repos count, total stars, followers/following
-- Top 6 repos by stars
-
-Response is **cached for 1 hour** (`revalidate = 3600`) to avoid rate limits. Falls back to safe placeholder values if the API is unavailable.
 
 ---
 
