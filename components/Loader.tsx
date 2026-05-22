@@ -47,9 +47,7 @@ function Particle({ delay, x, size }: { delay: number; x: number; size: number }
 
 /* ─── Props ───────────────────────────────────────────────── */
 interface LoaderProps {
-  /** Controlled by parent — true once assets are ready */
   loaded: boolean;
-  /** Called when user clicks "Get Started" so parent can reveal the site */
   onEnter?: () => void;
 }
 
@@ -62,30 +60,30 @@ const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
 }));
 
 export default function Loader({ loaded, onEnter }: LoaderProps) {
-  /* ── Phases:
-       0 = logo reveal
-       1 = terminal boot
-       2 = enter button shown
-       3 = exit in progress (user clicked) */
   const [phase, setPhase] = useState<0 | 1 | 2 | 3>(0);
-
   const [lines, setLines] = useState<typeof bootLines>([]);
-  const linesRef = useRef<HTMLDivElement>(null);
+  const linesRef   = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const mountedRef  = useRef(true);
 
-  /* Progress bar */
   const raw     = useMotionValue(0);
   const spring  = useSpring(raw, { stiffness: 55, damping: 18 });
   const display = useTransform(spring, (v) => Math.round(v));
   const [pct, setPct] = useState(0);
 
   useEffect(() => {
-    const unsub = display.on("change", (v) => setPct(v));
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
+
+  useEffect(() => {
+    const unsub = display.on("change", (v) => { if (mountedRef.current) setPct(v); });
     return unsub;
   }, [display]);
 
   /* Logo reveal → start terminal after 1.2 s */
   useEffect(() => {
-    const t = setTimeout(() => setPhase(1), 1200);
+    const t = setTimeout(() => { if (mountedRef.current) setPhase(1); }, 1200);
     return () => clearTimeout(t);
   }, []);
 
@@ -94,22 +92,31 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
     if (phase !== 1) return;
     const timeout = setTimeout(() => raw.set(100), 200);
     let i = 0;
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
+      if (!mountedRef.current) {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        return;
+      }
       if (i < bootLines.length) {
-        setLines((prev) => [...prev, bootLines[i]]);
+        const line = bootLines[i];
+        if (line) {
+          setLines((prev) => [...prev, line]);
+        }
         i++;
         setTimeout(() => {
           linesRef.current?.scrollTo({ top: 9999, behavior: "smooth" });
         }, 50);
       } else {
-        clearInterval(interval);
-        setTimeout(() => setPhase(2), 480);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        setTimeout(() => { if (mountedRef.current) setPhase(2); }, 480);
       }
     }, 520);
-    return () => { clearTimeout(timeout); clearInterval(interval); };
+    return () => {
+      clearTimeout(timeout);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [phase, raw]);
 
-  /* Handle "Get Started" click */
   const handleEnter = () => {
     setPhase(3);
     setTimeout(() => onEnter?.(), 680);
@@ -123,24 +130,20 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
         <motion.div
           className="loader-screen"
           initial={{ opacity: 1 }}
-          exit={{
-            opacity: 0,
-            scale: 1.04,
-            filter: "blur(14px)",
-          }}
+          exit={{ opacity: 0, scale: 1.04, filter: "blur(14px)" }}
           transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* ── Ambient particles ───────────────────── */}
+          {/* Ambient particles */}
           <div className="loader-particles" aria-hidden="true">
             {PARTICLES.map((p) => (
               <Particle key={p.id} delay={p.delay} x={p.x} size={p.size} />
             ))}
           </div>
 
-          {/* ── CRT scanlines ───────────────────────── */}
+          {/* CRT scanlines */}
           <div className="loader-scanlines" aria-hidden="true" />
 
-          {/* ── Main card ───────────────────────────── */}
+          {/* Main card */}
           <motion.div
             className="loader-card"
             initial={{ opacity: 0, y: 32, scale: 0.94 }}
@@ -148,7 +151,7 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
             transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
           >
 
-            {/* ── LOGO / NAME REVEAL ─────────────────── */}
+            {/* LOGO / NAME REVEAL */}
             <div className="loader-hero">
               <motion.div
                 className="loader-initials"
@@ -174,10 +177,9 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.48, duration: 0.45 }}
               >
-                Full‑Stack Developer · AI Enthusiast · Builder
+                Full&#8209;Stack Developer &middot; AI Enthusiast &middot; Builder
               </motion.p>
 
-              {/* Decorative gold rule */}
               <motion.div
                 className="loader-rule"
                 initial={{ scaleX: 0 }}
@@ -186,7 +188,7 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
               />
             </div>
 
-            {/* ── TERMINAL (phase ≥ 1) ───────────────── */}
+            {/* TERMINAL (phase ≥ 1) */}
             <AnimatePresence>
               {phase >= 1 && (
                 <motion.div
@@ -195,7 +197,6 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.38 }}
                 >
-                  {/* macOS dots + title */}
                   <div className="loader-terminal-head">
                     <span className="flex items-center gap-2">
                       <span className="loader-dot red" />
@@ -207,7 +208,7 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
 
                   <div className="loader-lines" ref={linesRef}>
                     <AnimatePresence>
-                      {lines.map((line, idx) => (
+                      {lines.filter(Boolean).map((line, idx) => (
                         <motion.p
                           key={idx}
                           initial={{ opacity: 0, x: -10 }}
@@ -227,14 +228,14 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
                         className="loader-cursor"
                         animate={{ opacity: [1, 0, 1] }}
                         transition={{ duration: 0.85, repeat: Infinity }}
-                      >▌</motion.span>
+                      >&#9612;</motion.span>
                     )}
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* ── PROGRESS BAR ────────────────────────── */}
+            {/* PROGRESS BAR */}
             {phase >= 1 && (
               <div className="loader-progress">
                 <div className="loader-progress-meta">
@@ -249,7 +250,7 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
               </div>
             )}
 
-            {/* ── GET STARTED CTA (phase 2) ───────────── */}
+            {/* GET STARTED CTA (phase 2) */}
             <AnimatePresence>
               {phase === 2 && (
                 <motion.div
@@ -273,7 +274,7 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.96 }}
                   >
-                    <span className="loader-enter-arrow">▶</span>
+                    <span className="loader-enter-arrow">&#9654;</span>
                     <span>Get Started</span>
                   </motion.button>
                   <p className="loader-enter-hint">Click to enter the portfolio</p>
