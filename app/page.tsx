@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Loader         from "../components/Loader";
 import Navbar         from "../components/Navbar";
 import Dashboard      from "../components/Dashboard";
-import About          from "../components/About";       // ← ADD IMPORT
+import About          from "../components/About";
 import Projects       from "../components/Projects";
 import Skills         from "../components/Skills";
 import Experience     from "../components/Experience";
@@ -15,7 +15,7 @@ import BackgroundFX   from "../components/BackgroundFX";
 
 const SECTIONS = [
   { id: "home",           label: "Home",           component: <Dashboard /> },
-  { id: "about",          label: "About",          component: <About /> },         // ← ADD
+  { id: "about",          label: "About",          component: <About /> },
   { id: "projects",       label: "Projects",       component: <Projects /> },
   { id: "skills",         label: "Skills",         component: <Skills /> },
   { id: "experience",     label: "Experience",     component: <Experience /> },
@@ -26,19 +26,26 @@ const SECTIONS = [
 type SectionId = typeof SECTIONS[number]["id"];
 
 export default function Home() {
-  const [loaded,         setLoaded]        = useState(false);
-  const [activeSection,  setActiveSection] = useState<SectionId>("home");
+  /**
+   * loaded  - true once boot sequence finishes (auto timer)
+   * entered - true once user clicks "Get Started" (manual gate)
+   *
+   * The site content is revealed only after `entered` is true.
+   */
+  const [loaded,  setLoaded]  = useState(false);
+  const [entered, setEntered] = useState(false);
+  const [activeSection, setActiveSection] = useState<SectionId>("home");
   const mainRef = useRef<HTMLElement | null>(null);
 
-  /* ── Loader timer ─────────────────────────────────────── */
+  /* Auto-advance loader progress (keeps boot timer in sync with terminal lines) */
   useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 2400); // Sync with progress bar
+    const t = setTimeout(() => setLoaded(true), 2400);
     return () => clearTimeout(t);
   }, []);
 
-  /* ── Intersection observer for active nav ─────────────── */
+  /* Intersection observer — runs only after user has entered */
   useEffect(() => {
-    if (!loaded || !mainRef.current) return;
+    if (!entered || !mainRef.current) return;
     const root = mainRef.current;
 
     const els = SECTIONS
@@ -65,9 +72,8 @@ export default function Home() {
 
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [loaded]);
+  }, [entered]);
 
-  /* ── Scroll to section ────────────────────────────────── */
   const scrollToSection = useCallback((id: string) => {
     const root   = mainRef.current;
     const target = root?.querySelector<HTMLElement>(`#${id}`);
@@ -78,7 +84,8 @@ export default function Home() {
 
   return (
     <div className="site-shell">
-      <Loader loaded={loaded} />
+      {/* Loader: visible until user clicks Get Started */}
+      <Loader loaded={loaded} onEnter={() => setEntered(true)} />
 
       {/* ── Layer 0: Canvas particles + streaks ──────────── */}
       <BackgroundFX />
@@ -102,14 +109,14 @@ export default function Home() {
           style={{ minWidth: 0, position: "relative" }}
         >
           <div className="content-panel">
-  {SECTIONS.map(({ id, component }) => (
-    <section key={id} id={id} className="section">
-      <div className="content-container">
-        {component}
-      </div>
-    </section>
-  ))}
-</div>
+            {SECTIONS.map(({ id, component }) => (
+              <section key={id} id={id} className="section">
+                <div className="content-container">
+                  {component}
+                </div>
+              </section>
+            ))}
+          </div>
         </main>
       </div>
     </div>
