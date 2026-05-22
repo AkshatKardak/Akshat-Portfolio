@@ -41,31 +41,39 @@ export default function About() {
 
       {/* Two-column layout */}
       <motion.div
-        className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-5"
+        className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-5 items-stretch"
         variants={container}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.1 }}
       >
-        {/* LEFT — AKKI.png (only image in About section) */}
+        {/* LEFT — AKKI.png fills the entire card */}
         <motion.div
           variants={item}
           className="glass-card rounded-2xl border border-white/5 overflow-hidden"
+          style={{ position: "relative", minHeight: "420px" }}
         >
           <img
             src="/images/AKKI.png"
             alt="Akshat Kardak"
-            className="w-full h-full object-cover object-top"
-            style={{ minHeight: "320px", maxHeight: "480px" }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "top center",
+              display: "block",
+            }}
           />
         </motion.div>
 
-        {/* RIGHT — Text card, no photo, just name + role text */}
+        {/* RIGHT — Text card */}
         <motion.div
           variants={item}
           className="glass-card rounded-2xl border border-white/5 p-7 flex flex-col gap-6"
         >
-          {/* Name / role row — text only */}
+          {/* Name / role row */}
           <div className="flex flex-col gap-0.5">
             <span className="text-xl font-bold text-text">Akshat Kardak</span>
             <span className="text-xs font-mono" style={{ color: "#f59e0b" }}>Full Stack Developer</span>
