@@ -163,18 +163,18 @@ export const projects: Project[] = [
 
 export const certifications: Certification[] = [
   {
-    title: "Full Stack Developer",
-    issuer: "Coursera / Meta",
+    title: "Java Programming",
+    issuer: "Vidyalankar Institute of Technology",
     date: "2024",
     year: "2024",
-    color: "#6366f1",
+    color: "#f97316",
     link: "",
     credentialUrl: "",
-    image: "",
+    image: "/images/Java.png",
     pdfUrl: "",
     description:
-      "Completed Meta's professional full-stack certificate covering React, Node.js, databases, and REST API design through structured, project-based modules.",
-    tags: ["React", "Node.js", "REST APIs", "MongoDB", "Full Stack"],
+      "Completed Java programming course at Vidyalankar Institute of Technology covering OOP concepts, data structures, exception handling, and building console-based applications.",
+    tags: ["Java", "OOP", "Data Structures", "Exception Handling"],
   },
   {
     title: "Software Engineering Job Simulation",
@@ -189,20 +189,6 @@ export const certifications: Certification[] = [
     description:
       "Simulated real-world software engineering tasks including debugging, code review, and building features in a professional engineering workflow.",
     tags: ["Software Engineering", "Debugging", "Code Review", "Problem Solving"],
-  },
-  {
-    title: "Data Analytics Job Simulation",
-    issuer: "Deloitte Australia (Forage)",
-    date: "2024",
-    year: "2024",
-    color: "#10b981",
-    link: "",
-    credentialUrl: "",
-    image: "",
-    pdfUrl: "",
-    description:
-      "Completed Deloitte Australia's data analytics simulation covering data interpretation, forensic analysis, and presenting insights from real-world datasets.",
-    tags: ["Data Analytics", "Excel", "Forensic Analysis", "Deloitte"],
   },
   {
     title: "ReactJS for Beginners",
