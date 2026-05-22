@@ -1,6 +1,16 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/AkshatKardak/Akshat-Portfolio/main/public/images/AK27.png" alt="AK27 Logo" width="120" />
+</p>
+
 # Akshat Kardak — Developer Portfolio
 
 > A cinematic, dark-themed developer portfolio built with **Next.js 16**, **TypeScript**, **Tailwind CSS v4**, and **Framer Motion**. Features a multi-phase animated loading screen, section-based navigation, lightbox image previews, and a Resend-powered contact form.
+
+<p align="center">
+  <a href="https://akshat-portfolio-teal.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-akshat--portfolio--teal.vercel.app-black?style=for-the-badge&logo=vercel" alt="Live Demo" />
+  </a>
+</p>
 
 ---
 
@@ -56,6 +66,7 @@ Akshat-Portfolio/
 │   └── types.ts                  # TypeScript type definitions
 └── public/
     └── images/
+        ├── AK27.png              # ⬅ Logo used in loader & README
         ├── Akshat Kardak CV.pdf  # ⬅ CV served by the Download Resume button
         └── (project screenshots, cert images, profile photos)
 ```
@@ -109,6 +120,8 @@ npm start
 ---
 
 ## ☁️ Deployment (Vercel)
+
+**Live at:** [https://akshat-portfolio-teal.vercel.app/](https://akshat-portfolio-teal.vercel.app/)
 
 1. Push your code to GitHub
 2. Go to [vercel.com](https://vercel.com) → **Add New Project** → Import `AkshatKardak/Akshat-Portfolio`
