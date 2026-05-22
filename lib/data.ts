@@ -37,7 +37,7 @@ export const roles: string[] = [
   "Full Stack Developer",
   "React & Next.js Engineer",
   "Flutter Mobile Developer",
-  "FastAPI Backend Engineer",
+  "NodeJs and Express Js Backend Engineer",
   "Open Source Builder",
 ];
 
@@ -48,11 +48,7 @@ export const skillGroups: SkillGroup[] = [
     skills: [
       { name: "React" },
       { name: "Next.js" },
-      { name: "TypeScript" },
       { name: "Tailwind CSS" },
-      { name: "Framer Motion" },
-      { name: "Three.js" },
-      { name: "GSAP" },
     ],
   },
   {
@@ -61,8 +57,6 @@ export const skillGroups: SkillGroup[] = [
     skills: [
       { name: "Node.js" },
       { name: "Express.js" },
-      { name: "FastAPI" },
-      { name: "Python" },
       { name: "REST APIs" },
       { name: "Socket.io" },
     ],
@@ -72,9 +66,7 @@ export const skillGroups: SkillGroup[] = [
     color: "#ef4444",
     skills: [
       { name: "MongoDB" },
-      { name: "PostgreSQL" },
       { name: "Firebase" },
-      { name: "Supabase" },
       { name: "Vercel" },
       { name: "Render" },
       { name: "Netlify" },
@@ -97,26 +89,12 @@ export const experiences: Experience[] = [
     ],
     impact: "First industry exposure — shipped real features in a professional dev environment.",
   },
-  {
-    role: "Publicity Team Member",
-    org: "Computer Society of India — DMCE Chapter",
-    period: "Aug 2024 – Apr 2025",
-    duration: "9 months",
-    color: "#6366f1",
-    tags: ["Community", "Events", "Tech Society", "Publicity"],
-    bullets: [
-      "Drove event reach for CSI DMCE chapter — handled outreach, social coordination, and cross-team publicity for 9 months.",
-      "Collaborated on organising college-level tech workshops and community initiatives that grew student participation.",
-      "Built communication pipelines between technical teams and general student audience.",
-    ],
-    impact: "Contributed to growing the college tech community through event management and publicity work.",
-  },
 ];
 
 export const projects: Project[] = [
   {
     title: "UnitedImpact",
-    date: "2024",
+    date: "2026",
     color: "#f59e0b",
     featured: true,
     github: "https://github.com/AkshatKardak/UnitedImpact",
@@ -132,7 +110,7 @@ export const projects: Project[] = [
   },
   {
     title: "RentRide",
-    date: "2024",
+    date: "2026",
     color: "#6366f1",
     featured: true,
     github: "https://github.com/AkshatKardak/RentRide",
@@ -148,12 +126,12 @@ export const projects: Project[] = [
   },
   {
     title: "RoastHub",
-    date: "2024",
+    date: "2025",
     color: "#ef4444",
     featured: true,
     github: "https://github.com/AkshatKardak/RoastHub",
     live: "https://roasthubfront.vercel.app",
-    image: "",
+    image: "/images/RoastHub.png",
     tech: ["React", "Vite", "Node.js", "Express", "MongoDB", "Groq API"],
     bullets: [
       "AI-powered savage tweet generator with authentic Indian flavor — Bollywood refs, cricket banter, desi slang.",
@@ -162,40 +140,8 @@ export const projects: Project[] = [
     impact: "Live full-stack AI app with real Groq API integration — shipped and deployed end-to-end.",
   },
   {
-    title: "CivicPulse",
-    date: "2025 – Present",
-    color: "#f59e0b",
-    featured: true,
-    github: "https://github.com/AkshatKardak/CivicPulse",
-    live: "",
-    image: "",
-    tech: ["Next.js", "Node.js", "MongoDB", "Socket.io", "Maps API"],
-    bullets: [
-      "Civic engagement platform connecting citizens to local issues with real-time geo-tagged reporting.",
-      "Real-time updates via Socket.io with an interactive map for ward-level issue tracking.",
-      "Admin panel for municipal officers to triage, assign, and resolve reported civic complaints.",
-    ],
-    impact: "🚧 Currently building — full-stack civic tech platform targeting hyperlocal urban problem-solving.",
-  },
-  {
-    title: "Fintech Platform",
-    date: "2025 – Present",
-    color: "#6366f1",
-    featured: true,
-    github: "",
-    live: "",
-    image: "",
-    tech: ["Next.js", "FastAPI", "PostgreSQL", "Razorpay", "Plaid API"],
-    bullets: [
-      "Personal finance dashboard with expense categorization, budget tracking, and spending insights.",
-      "FastAPI backend with JWT auth, PostgreSQL schema, and Razorpay payment flow integration.",
-      "Data visualization layer with monthly trend charts and anomaly detection for unusual spending.",
-    ],
-    impact: "🚧 Currently building — production-grade fintech app with real payment flows and financial analytics.",
-  },
-  {
     title: "Portfolio",
-    date: "2025",
+    date: "2026",
     color: "#a78bfa",
     featured: false,
     github: "https://github.com/AkshatKardak/akshat-portfolio",
