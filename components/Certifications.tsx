@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { certifications } from "@/lib/data";
-import { Calendar, BadgeCheck, ExternalLink, Link, FileText } from "lucide-react";
+import { Calendar, BadgeCheck, ExternalLink, Link, FileText, Image as ImageIcon } from "lucide-react";
 
 export default function Certifications() {
   const container = {
@@ -15,6 +15,10 @@ export default function Certifications() {
     show: { opacity: 1, y: 0, scale: 1 },
   };
 
+  // Extract filename from path e.g. "/images/Java.png" → "Java.png"
+  const getFilename = (path: string) =>
+    path ? path.split("/").pop() ?? path : "";
+
   return (
     <div className="w-full">
       <motion.div
@@ -25,7 +29,7 @@ export default function Certifications() {
       >
         <h2 className="text-3xl font-black">Certifications</h2>
         <p className="text-text-muted max-w-2xl">
-          Industry-recognised credentials from Meta, Forage, Deloitte, and Simplilearn — each backed by real project work and hands-on assessments.
+          Industry-recognised credentials from Vidyalankar, Forage, and Simplilearn — each backed by real project work and hands-on assessments.
         </p>
       </motion.div>
 
@@ -114,14 +118,20 @@ export default function Certifications() {
                 </ul>
               )}
 
-              {/* CERTIFICATE IMAGE or placeholder */}
+              {/* CERTIFICATE IMAGE with filename label */}
               {cert.image ? (
-                <div className="rounded-xl overflow-hidden border border-white/5 mt-1">
-                  <img
-                    src={cert.image}
-                    alt={cert.title}
-                    className="w-full h-[160px] object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                  />
+                <div className="flex flex-col gap-1.5 mt-1">
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-text-faint">
+                    <ImageIcon size={11} />
+                    {getFilename(cert.image)}
+                  </div>
+                  <div className="rounded-xl overflow-hidden border border-white/5">
+                    <img
+                      src={cert.image}
+                      alt={cert.title}
+                      className="w-full h-[160px] object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                    />
+                  </div>
                 </div>
               ) : (
                 <div

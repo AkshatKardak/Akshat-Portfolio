@@ -15,9 +15,9 @@ export default function About() {
   };
 
   const focused = [
-    "Building and shipping full-stack web & mobile apps — RentRide, CivicPulse, CampusDrop",
-    "Integrating AI into real products — Gemini API, Groq, scikit-learn, not just wrappers",
-    "Competing in hackathons (Quantum Hacks, SIH) and deepening system design knowledge",
+    "Building responsive full-stack apps with React.js, Node.js, Express.js and MongoDB",
+    "Integrating AI into real products — Gemini API, Groq API — not just wrappers",
+    "Competing in hackathons and deepening system design & REST API architecture knowledge",
   ];
 
   return (
@@ -47,33 +47,33 @@ export default function About() {
         whileInView="show"
         viewport={{ once: true, amount: 0.1 }}
       >
-        {/* LEFT — Photo card (AKKI.png — casual/personal photo) */}
+        {/* LEFT — Akshat.png (formal/portfolio photo) */}
         <motion.div
           variants={item}
           className="glass-card rounded-2xl border border-white/5 overflow-hidden"
         >
           <img
-            src="/images/AKKI.png"
+            src="/images/Akshat.png"
             alt="Akshat Kardak"
             className="w-full h-full object-cover object-top"
             style={{ minHeight: "320px", maxHeight: "480px" }}
           />
         </motion.div>
 
-        {/* RIGHT — Text card with profile photo + role */}
+        {/* RIGHT — Text card with AKKI.png profile photo + role */}
         <motion.div
           variants={item}
           className="glass-card rounded-2xl border border-white/5 p-7 flex flex-col gap-6"
         >
-          {/* Profile photo row */}
+          {/* Profile photo row — AKKI.png */}
           <div className="flex items-center gap-4">
             <div
               className="rounded-xl overflow-hidden border border-white/10 shrink-0"
               style={{ width: 64, height: 64 }}
             >
               <img
-                src="/images/Akshat.png"
-                alt="Akshat Kardak profile"
+                src="/images/AKKI.png"
+                alt="Akshat Kardak casual"
                 className="w-full h-full object-cover object-top"
               />
             </div>
@@ -87,19 +87,20 @@ export default function About() {
           {/* Divider */}
           <div className="h-px bg-white/5" />
 
-          {/* My Journey */}
+          {/* My Journey — from resume */}
           <div className="flex flex-col gap-3">
             <h3 className="text-lg font-bold text-text">My Journey</h3>
             <p className="text-sm text-text-muted leading-relaxed">
-              I&apos;m a third-year CSE student at Datta Meghe College of Engineering, Mumbai —
-              but most of what I know, I learned by just building things. Started with Python and
-              Java, got obsessed with the web, and haven&apos;t stopped since.
+              I&apos;m a Computer Science Engineering student at Datta Meghe College of Engineering,
+              Navi Mumbai (Mumbai University, 2023–2027, CGPA: 7.47) — skilled in React.js, Node.js,
+              Express.js, MongoDB, and MySQL. I build responsive web applications, RESTful APIs, and
+              authentication systems end-to-end.
             </p>
             <p className="text-sm text-text-muted leading-relaxed">
-              I&apos;ve shipped a full car rental platform (RentRide — live on Vercel), an NGO
-              donation system (UnitedImpact), a campus marketplace in Flutter (CampusDrop), and
-              I&apos;m currently building CivicPulse and a Fintech dashboard. I enjoy turning
-              real-world problems into working products — not just portfolio pieces.
+              I&apos;ve shipped a full car rental platform with AI assistance (RentRide), an NGO
+              donation system with live Razorpay payments (UnitedImpact), and an AI tweet generator
+              (RoastHub) — all live and deployed. I turn real-world problems into working products,
+              not just demos.
             </p>
           </div>
 
