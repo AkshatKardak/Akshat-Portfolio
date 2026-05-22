@@ -13,7 +13,7 @@ export const aboutMe: AboutMe = {
   role: "Full Stack Developer",
   location: "Mumbai, India",
   college: "Datta Meghe College of Engineering",
-  resumeUrl: "/Akshat_Kardak_Resume.pdf",
+  resumeUrl: "/images/Akshat Kardak CV.pdf",
   github: "https://github.com/AkshatKardak",
   email: "kardakakshat@gmail.com",
 };
@@ -28,7 +28,7 @@ export const personal: Personal = {
   github: "https://github.com/AkshatKardak",
   githubUsername: "AkshatKardak",
   linkedin: "https://linkedin.com/in/akshatkardak",
-  resumeUrl: "/Akshat_Kardak_Resume.pdf",
+  resumeUrl: "/images/Akshat Kardak CV.pdf",
   avatar: "/images/Akshat.png",
   available: true,
 };
