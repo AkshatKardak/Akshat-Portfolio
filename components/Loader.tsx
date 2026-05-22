@@ -62,7 +62,7 @@ const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
 export default function Loader({ loaded, onEnter }: LoaderProps) {
   const [phase, setPhase] = useState<0 | 1 | 2 | 3>(0);
   const [lines, setLines] = useState<typeof bootLines>([]);
-  const linesRef   = useRef<HTMLDivElement>(null);
+  const linesRef    = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const mountedRef  = useRef(true);
 
@@ -99,9 +99,7 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
       }
       if (i < bootLines.length) {
         const line = bootLines[i];
-        if (line) {
-          setLines((prev) => [...prev, line]);
-        }
+        if (line) setLines((prev) => [...prev, line]);
         i++;
         setTimeout(() => {
           linesRef.current?.scrollTo({ top: 9999, behavior: "smooth" });
@@ -151,15 +149,30 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
             transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
           >
 
-            {/* LOGO / NAME REVEAL */}
+            {/* ── LOGO / NAME REVEAL ─────────────────── */}
             <div className="loader-hero">
+
+              {/* Profile photo — Akshat.png */}
               <motion.div
-                className="loader-initials"
-                initial={{ opacity: 0, scale: 0.7 }}
+                initial={{ opacity: 0, scale: 0.75 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  width: 88,
+                  height: 88,
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  border: "2.5px solid rgba(245,158,11,0.55)",
+                  boxShadow: "0 0 22px rgba(245,158,11,0.35)",
+                  margin: "0 auto 12px",
+                  flexShrink: 0,
+                }}
               >
-                <span>A</span><span>K</span>
+                <img
+                  src="/images/Akshat.png"
+                  alt="Akshat Kardak"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                />
               </motion.div>
 
               <motion.h1

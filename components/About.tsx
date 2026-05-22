@@ -47,59 +47,47 @@ export default function About() {
         whileInView="show"
         viewport={{ once: true, amount: 0.1 }}
       >
-        {/* LEFT — Akshat.png (formal/portfolio photo) */}
+        {/* LEFT — AKKI.png (only image in About section) */}
         <motion.div
           variants={item}
           className="glass-card rounded-2xl border border-white/5 overflow-hidden"
         >
           <img
-            src="/images/Akshat.png"
+            src="/images/AKKI.png"
             alt="Akshat Kardak"
             className="w-full h-full object-cover object-top"
             style={{ minHeight: "320px", maxHeight: "480px" }}
           />
         </motion.div>
 
-        {/* RIGHT — Text card with AKKI.png profile photo + role */}
+        {/* RIGHT — Text card, no photo, just name + role text */}
         <motion.div
           variants={item}
           className="glass-card rounded-2xl border border-white/5 p-7 flex flex-col gap-6"
         >
-          {/* Profile photo row — AKKI.png */}
-          <div className="flex items-center gap-4">
-            <div
-              className="rounded-xl overflow-hidden border border-white/10 shrink-0"
-              style={{ width: 64, height: 64 }}
-            >
-              <img
-                src="/images/AKKI.png"
-                alt="Akshat Kardak casual"
-                className="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-base font-bold text-text">Akshat Kardak</span>
-              <span className="text-xs font-mono" style={{ color: "#f59e0b" }}>Full Stack Developer</span>
-              <span className="text-xs text-text-faint">Mumbai, India</span>
-            </div>
+          {/* Name / role row — text only */}
+          <div className="flex flex-col gap-0.5">
+            <span className="text-xl font-bold text-text">Akshat Kardak</span>
+            <span className="text-xs font-mono" style={{ color: "#f59e0b" }}>Full Stack Developer</span>
+            <span className="text-xs text-text-faint">Mumbai, India</span>
           </div>
 
           {/* Divider */}
           <div className="h-px bg-white/5" />
 
-          {/* My Journey — from resume */}
+          {/* My Journey */}
           <div className="flex flex-col gap-3">
             <h3 className="text-lg font-bold text-text">My Journey</h3>
             <p className="text-sm text-text-muted leading-relaxed">
               I&apos;m a Computer Science Engineering student at Datta Meghe College of Engineering,
-              Navi Mumbai (Mumbai University, 2023–2027, CGPA: 7.47) — skilled in React.js, Node.js,
+              Navi Mumbai (Mumbai University, 2023&ndash;2027, CGPA: 7.47) &mdash; skilled in React.js, Node.js,
               Express.js, MongoDB, and MySQL. I build responsive web applications, RESTful APIs, and
               authentication systems end-to-end.
             </p>
             <p className="text-sm text-text-muted leading-relaxed">
               I&apos;ve shipped a full car rental platform with AI assistance (RentRide), an NGO
               donation system with live Razorpay payments (UnitedImpact), and an AI tweet generator
-              (RoastHub) — all live and deployed. I turn real-world problems into working products,
+              (RoastHub) &mdash; all live and deployed. I turn real-world problems into working products,
               not just demos.
             </p>
           </div>
