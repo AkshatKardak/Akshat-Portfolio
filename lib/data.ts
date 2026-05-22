@@ -148,7 +148,7 @@ export const projects: Project[] = [
     color: "#a78bfa",
     featured: true,
     github: "https://github.com/AkshatKardak/akshat-portfolio",
-    live: "",
+    live: "https://akshat-portfolio-teal.vercel.app/",
     image: "/images/folio.png",
     tech: ["Next.js", "Three.js", "GSAP", "Tailwind CSS", "Framer Motion"],
     bullets: [

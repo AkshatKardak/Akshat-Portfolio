@@ -1,83 +1,81 @@
-import { NextResponse } from "next/server";
-import { personal } from "@/lib/data";
+import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
 
-export const revalidate = 3600; // Cache for 1 hour
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-type GitHubRepo = {
-  stargazers_count: number;
-  fork: boolean;
-  name: string;
-  description: string | null;
-  html_url: string;
-  language: string | null;
-  updated_at: string;
-};
-
-type GitHubUser = {
-  public_repos: number;
-  followers: number;
-  following: number;
-};
-
-export async function GET() {
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-  };
-
-  // Optional: add GITHUB_TOKEN env var to avoid rate limits
-  if (process.env.GITHUB_TOKEN) {
-    headers["Authorization"] = `Bearer ${process.env.GITHUB_TOKEN}`;
-  }
-
+export async function POST(req: NextRequest) {
   try {
-    const [userRes, reposRes] = await Promise.all([
-      fetch(`https://api.github.com/users/${personal.githubUsername}`, { headers }),
-      fetch(
-        `https://api.github.com/users/${personal.githubUsername}/repos?per_page=100&sort=updated`,
-        { headers }
-      ),
-    ]);
+    const body = await req.json();
+    const { name, email, message } = body;
 
-    if (!userRes.ok || !reposRes.ok) {
-      throw new Error("GitHub API error");
+    // Basic validation
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: "Name, email and message are required." },
+        { status: 400 }
+      );
     }
 
-    const user: GitHubUser = await userRes.json();
-    const repos: GitHubRepo[] = await reposRes.json();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json(
+        { error: "Invalid email address." },
+        { status: 400 }
+      );
+    }
 
-    const ownRepos = repos.filter((r) => !r.fork);
-    const totalStars = ownRepos.reduce((sum, r) => sum + r.stargazers_count, 0);
+    const { data, error } = await resend.emails.send({
+      from: "Portfolio Contact <onboarding@resend.dev>", // change after domain verify
+      to: "kardakakshat@gmail.com",                      // your email
+      replyTo: email,
+      subject: `📬 New message from ${name} — Portfolio`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 560px; margin: 0 auto; background: #0f0e0c; color: #e5e0d8; padding: 32px; border-radius: 12px; border: 1px solid rgba(245,158,11,0.2);">
+          <h2 style="color: #f59e0b; margin: 0 0 20px;">New Contact Form Submission</h2>
 
-    return NextResponse.json({
-      publicRepos: user.public_repos,
-      followers: user.followers,
-      following: user.following,
-      totalStars,
-      topRepos: ownRepos
-        .sort((a, b) => b.stargazers_count - a.stargazers_count)
-        .slice(0, 6)
-        .map((r) => ({
-          name: r.name,
-          description: r.description,
-          url: r.html_url,
-          stars: r.stargazers_count,
-          language: r.language,
-          updatedAt: r.updated_at,
-        })),
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 0; color: #94a3b8; width: 80px;">Name</td>
+              <td style="padding: 8px 0; font-weight: 600;">${name}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; color: #94a3b8;">Email</td>
+              <td style="padding: 8px 0;">
+                <a href="mailto:${email}" style="color: #f59e0b;">${email}</a>
+              </td>
+            </tr>
+          </table>
+
+          <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 20px 0;" />
+
+          <p style="color: #94a3b8; margin: 0 0 8px; font-size: 13px;">Message</p>
+          <p style="margin: 0; line-height: 1.7; white-space: pre-wrap;">${message}</p>
+
+          <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 24px 0 16px;" />
+          <p style="margin: 0; font-size: 12px; color: #4a4845;">
+            Sent from akshat-portfolio contact form
+          </p>
+        </div>
+      `,
     });
-  } catch {
-    // Return sensible fallback so the UI never breaks
+
+    if (error) {
+      console.error("Resend error:", error);
+      return NextResponse.json(
+        { error: "Failed to send email. Try again later." },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      {
-        publicRepos: 15,
-        followers: 0,
-        following: 0,
-        totalStars: 0,
-        topRepos: [],
-        error: "Could not fetch GitHub data",
-      },
-      { status: 200 } // Still 200 so client doesn't throw
+      { success: true, id: data?.id },
+      { status: 200 }
+    );
+
+  } catch (err) {
+    console.error("Contact route error:", err);
+    return NextResponse.json(
+      { error: "Internal server error." },
+      { status: 500 }
     );
   }
 }
