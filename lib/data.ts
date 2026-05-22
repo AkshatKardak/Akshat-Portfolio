@@ -36,7 +36,6 @@ export const personal: Personal = {
 export const roles: string[] = [
   "Full Stack Developer",
   "React & Next.js Engineer",
-  "Flutter Mobile Developer",
   "NodeJs and Express Js Backend Engineer",
   "Open Source Builder",
 ];
@@ -88,10 +87,10 @@ export const experiences: Experience[] = [
       "Built and maintained live web interfaces used by real clients, not staging environments.",
     ],
     impact: "First industry exposure — shipped real features in a professional dev environment.",
-    image: "/images/Screenshot 2026-05-22 150726.png",
+    image: "/images/Anitech.png",
     certificateUrl: "/images/web development internship certification.pdf",
-    liveUrl: "",
-    codeUrl: "",
+    liveUrl: "https://akshatkardak.github.io/Employment-Express-Verband-LLP",
+    codeUrl: "https://github.com/AkshatKardak/Employment-Express-Verband-LLP",
   },
 ];
 
