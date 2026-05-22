@@ -1,8 +1,15 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 
+/* ─── Boot sequence lines ─────────────────────────────────── */
 const bootLines = [
   { prefix: "[SYS]", text: "Initialising runtime environment...", color: "#94a3b8" },
   { prefix: "[NET]", text: "Connecting to portfolio API...",      color: "#38bdf8" },
@@ -10,26 +17,84 @@ const bootLines = [
   { prefix: "[OK] ", text: "All systems nominal. Ready.",          color: "#22c55e" },
 ];
 
-export default function Loader({ loaded }: { loaded: boolean }) {
+/* ─── Floating particle (decorative) ─────────────────────── */
+function Particle({ delay, x, size }: { delay: number; x: number; size: number }) {
+  return (
+    <motion.div
+      aria-hidden="true"
+      style={{
+        position: "absolute",
+        bottom: "-10px",
+        left: `${x}%`,
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        background: "rgba(245,158,11,0.55)",
+        boxShadow: "0 0 12px 4px rgba(245,158,11,0.35)",
+        pointerEvents: "none",
+      }}
+      initial={{ opacity: 0, y: 0 }}
+      animate={{ opacity: [0, 0.9, 0], y: -420 }}
+      transition={{
+        duration: 3.5 + Math.random() * 2,
+        delay,
+        repeat: Infinity,
+        ease: "easeOut",
+      }}
+    />
+  );
+}
+
+/* ─── Props ───────────────────────────────────────────────── */
+interface LoaderProps {
+  /** Controlled by parent — true once assets are ready */
+  loaded: boolean;
+  /** Called when user clicks "Get Started" so parent can reveal the site */
+  onEnter?: () => void;
+}
+
+/* ─── Particles config (stable across renders) ────────────── */
+const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
+  id: i,
+  delay: i * 0.28,
+  x: 5 + (i * 5.5) % 92,
+  size: 3 + (i % 4),
+}));
+
+export default function Loader({ loaded, onEnter }: LoaderProps) {
+  /* ── Phases:
+       0 = logo reveal
+       1 = terminal boot
+       2 = enter button shown
+       3 = exit in progress (user clicked) */
+  const [phase, setPhase] = useState<0 | 1 | 2 | 3>(0);
+
   const [lines, setLines] = useState<typeof bootLines>([]);
-  const [bootDone, setBootDone] = useState(false);
-  const [entered, setEntered] = useState(false);
   const linesRef = useRef<HTMLDivElement>(null);
 
-  const raw = useMotionValue(0);
-  const spring = useSpring(raw, { stiffness: 55, damping: 18 });
+  /* Progress bar */
+  const raw     = useMotionValue(0);
+  const spring  = useSpring(raw, { stiffness: 55, damping: 18 });
   const display = useTransform(spring, (v) => Math.round(v));
-  const [displayVal, setDisplayVal] = useState(0);
+  const [pct, setPct] = useState(0);
 
   useEffect(() => {
-    const unsub = display.on("change", (v) => setDisplayVal(v));
+    const unsub = display.on("change", (v) => setPct(v));
     return unsub;
   }, [display]);
 
+  /* Logo reveal → start terminal after 1.2 s */
   useEffect(() => {
+    const t = setTimeout(() => setPhase(1), 1200);
+    return () => clearTimeout(t);
+  }, []);
+
+  /* Terminal typing */
+  useEffect(() => {
+    if (phase !== 1) return;
     const timeout = setTimeout(() => raw.set(100), 200);
     let i = 0;
-    const typing = setInterval(() => {
+    const interval = setInterval(() => {
       if (i < bootLines.length) {
         setLines((prev) => [...prev, bootLines[i]]);
         i++;
@@ -37,132 +102,185 @@ export default function Loader({ loaded }: { loaded: boolean }) {
           linesRef.current?.scrollTo({ top: 9999, behavior: "smooth" });
         }, 50);
       } else {
-        clearInterval(typing);
-        setTimeout(() => setBootDone(true), 500);
+        clearInterval(interval);
+        setTimeout(() => setPhase(2), 480);
       }
-    }, 560);
-    return () => { clearTimeout(timeout); clearInterval(typing); };
-  }, [raw]);
+    }, 520);
+    return () => { clearTimeout(timeout); clearInterval(interval); };
+  }, [phase, raw]);
 
-  // When user clicks ENTER, trigger exit
-  const handleEnter = () => setEntered(true);
+  /* Handle "Get Started" click */
+  const handleEnter = () => {
+    setPhase(3);
+    setTimeout(() => onEnter?.(), 680);
+  };
+
+  const isVisible = phase < 3;
 
   return (
     <AnimatePresence>
-      {!loaded && !entered && (
+      {isVisible && (
         <motion.div
           className="loader-screen"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 0.98, filter: "blur(10px)" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          exit={{
+            opacity: 0,
+            scale: 1.04,
+            filter: "blur(14px)",
+          }}
+          transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* CRT scanlines overlay */}
+          {/* ── Ambient particles ───────────────────── */}
+          <div className="loader-particles" aria-hidden="true">
+            {PARTICLES.map((p) => (
+              <Particle key={p.id} delay={p.delay} x={p.x} size={p.size} />
+            ))}
+          </div>
+
+          {/* ── CRT scanlines ───────────────────────── */}
           <div className="loader-scanlines" aria-hidden="true" />
 
+          {/* ── Main card ───────────────────────────── */}
           <motion.div
             className="loader-card"
-            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            initial={{ opacity: 0, y: 32, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* LEVEL UP heading */}
-            <div className="loader-levelup">
-              <motion.h1
-                className="loader-levelup-text"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.5 }}
+
+            {/* ── LOGO / NAME REVEAL ─────────────────── */}
+            <div className="loader-hero">
+              <motion.div
+                className="loader-initials"
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
               >
-                LEVEL UP
+                <span>A</span><span>K</span>
+              </motion.div>
+
+              <motion.h1
+                className="loader-name"
+                initial={{ opacity: 0, y: 14, letterSpacing: "0.35em" }}
+                animate={{ opacity: 1, y: 0, letterSpacing: "0.12em" }}
+                transition={{ delay: 0.22, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                AKSHAT KARDAK
               </motion.h1>
+
               <motion.p
-                className="loader-levelup-sub"
+                className="loader-role"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.28, duration: 0.45 }}
+                transition={{ delay: 0.48, duration: 0.45 }}
               >
-                Portfolio v2.0 — Loading
+                Full‑Stack Developer · AI Enthusiast · Builder
               </motion.p>
+
+              {/* Decorative gold rule */}
+              <motion.div
+                className="loader-rule"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.6, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              />
             </div>
 
-            {/* BOOT TERMINAL */}
-            <div className="loader-terminal">
-              <div className="loader-terminal-head">
-                <span className="flex items-center gap-2">
-                  <span className="loader-dot red" />
-                  <span className="loader-dot yellow" />
-                  <span className="loader-dot green" />
-                </span>
-                <span className="text-xs opacity-40 font-mono">akshat@portfolio ~ boot</span>
-              </div>
-
-              <div className="loader-lines" ref={linesRef}>
-                <AnimatePresence>
-                  {lines.map((line, idx) => (
-                    <motion.p
-                      key={idx}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.28 }}
-                      className="loader-boot-line"
-                    >
-                      <span className="loader-boot-prefix" style={{ color: line.color }}>
-                        {line.prefix}
-                      </span>
-                      <span className="loader-boot-text">{line.text}</span>
-                    </motion.p>
-                  ))}
-                </AnimatePresence>
-                {!bootDone && (
-                  <motion.span
-                    className="loader-cursor"
-                    animate={{ opacity: [1, 0, 1] }}
-                    transition={{ duration: 0.85, repeat: Infinity }}
-                  >▌</motion.span>
-                )}
-              </div>
-            </div>
-
-            {/* GOLD PROGRESS BAR */}
-            <div className="loader-progress">
-              <div className="loader-progress-meta">
-                <span className="font-mono text-xs opacity-40">boot sequence</span>
-                <span className="font-mono text-xs" style={{ color: "var(--accent)" }}>
-                  {displayVal}%
-                </span>
-              </div>
-              <div className="loader-bar">
-                <motion.span style={{ width: `${displayVal}%` }} />
-              </div>
-            </div>
-
-            {/* ENTER BUTTON — appears after boot completes */}
+            {/* ── TERMINAL (phase ≥ 1) ───────────────── */}
             <AnimatePresence>
-              {bootDone && (
+              {phase >= 1 && (
+                <motion.div
+                  className="loader-terminal"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.38 }}
+                >
+                  {/* macOS dots + title */}
+                  <div className="loader-terminal-head">
+                    <span className="flex items-center gap-2">
+                      <span className="loader-dot red" />
+                      <span className="loader-dot yellow" />
+                      <span className="loader-dot green" />
+                    </span>
+                    <span className="text-xs opacity-40 font-mono">akshat@portfolio ~ boot</span>
+                  </div>
+
+                  <div className="loader-lines" ref={linesRef}>
+                    <AnimatePresence>
+                      {lines.map((line, idx) => (
+                        <motion.p
+                          key={idx}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.26 }}
+                          className="loader-boot-line"
+                        >
+                          <span className="loader-boot-prefix" style={{ color: line.color }}>
+                            {line.prefix}
+                          </span>
+                          <span className="loader-boot-text">{line.text}</span>
+                        </motion.p>
+                      ))}
+                    </AnimatePresence>
+                    {phase === 1 && (
+                      <motion.span
+                        className="loader-cursor"
+                        animate={{ opacity: [1, 0, 1] }}
+                        transition={{ duration: 0.85, repeat: Infinity }}
+                      >▌</motion.span>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* ── PROGRESS BAR ────────────────────────── */}
+            {phase >= 1 && (
+              <div className="loader-progress">
+                <div className="loader-progress-meta">
+                  <span className="font-mono text-xs opacity-40">boot sequence</span>
+                  <span className="font-mono text-xs" style={{ color: "var(--accent)" }}>
+                    {pct}%
+                  </span>
+                </div>
+                <div className="loader-bar">
+                  <motion.span style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+            )}
+
+            {/* ── GET STARTED CTA (phase 2) ───────────── */}
+            <AnimatePresence>
+              {phase === 2 && (
                 <motion.div
                   className="loader-enter-wrap"
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  exit={{ opacity: 0, scale: 0.92 }}
+                  transition={{ duration: 0.48, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <motion.button
                     className="loader-enter-btn"
                     onClick={handleEnter}
-                    animate={{ boxShadow: [
-                      "0 0 12px rgba(245,158,11,0.25)",
-                      "0 0 28px rgba(245,158,11,0.55)",
-                      "0 0 12px rgba(245,158,11,0.25)",
-                    ]}}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.97 }}
+                    animate={{
+                      boxShadow: [
+                        "0 0 14px rgba(245,158,11,0.20), 0 0 0 0 rgba(245,158,11,0)",
+                        "0 0 34px rgba(245,158,11,0.60), 0 0 0 8px rgba(245,158,11,0.07)",
+                        "0 0 14px rgba(245,158,11,0.20), 0 0 0 0 rgba(245,158,11,0)",
+                      ],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.96 }}
                   >
-                    ▶ ENTER PORTFOLIO
+                    <span className="loader-enter-arrow">▶</span>
+                    <span>Get Started</span>
                   </motion.button>
-                  <p className="loader-enter-hint">Press to begin</p>
+                  <p className="loader-enter-hint">Click to enter the portfolio</p>
                 </motion.div>
               )}
             </AnimatePresence>
+
           </motion.div>
         </motion.div>
       )}
