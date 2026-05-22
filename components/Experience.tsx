@@ -20,7 +20,6 @@ export default function Experience() {
 
   return (
     <div className="w-full">
-      {/* Lightbox */}
       <AnimatePresence>
         {lightbox && (
           <motion.div
@@ -30,16 +29,10 @@ export default function Experience() {
             transition={{ duration: 0.22 }}
             onClick={() => setLightbox(null)}
             style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 9999,
-              background: "rgba(0,0,0,0.88)",
-              backdropFilter: "blur(10px)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "24px",
-              cursor: "zoom-out",
+              position: "fixed", inset: 0, zIndex: 9999,
+              background: "rgba(0,0,0,0.88)", backdropFilter: "blur(10px)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: "24px", cursor: "zoom-out",
             }}
           >
             <motion.div
@@ -52,32 +45,22 @@ export default function Experience() {
             >
               <img
                 src={lightbox}
-                alt="Preview"
+                alt="Experience screenshot"
                 style={{
-                  maxWidth: "90vw",
-                  maxHeight: "84vh",
-                  borderRadius: "16px",
-                  boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
-                  display: "block",
-                  objectFit: "contain",
+                  maxWidth: "90vw", maxHeight: "84vh", borderRadius: "16px",
+                  boxShadow: "0 24px 80px rgba(0,0,0,0.7)", display: "block", objectFit: "contain",
                 }}
               />
               <button
+                aria-label="Close image preview"
                 onClick={() => setLightbox(null)}
                 style={{
-                  position: "absolute",
-                  top: "-14px",
-                  right: "-14px",
-                  width: 36,
-                  height: 36,
-                  borderRadius: "50%",
+                  position: "absolute", top: "-14px", right: "-14px",
+                  width: 36, height: 36, borderRadius: "50%",
                   background: "rgba(30,28,24,0.95)",
                   border: "1px solid rgba(255,255,255,0.12)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  color: "#e2e8f0",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  cursor: "pointer", color: "#e2e8f0",
                 }}
               >
                 <X size={16} />
@@ -114,20 +97,13 @@ export default function Experience() {
             className="group glass-card rounded-2xl border border-white/5 overflow-hidden transition-all duration-300"
           >
             <div className="p-6 flex flex-col gap-5">
-
-              {/* TOP ROW */}
               <div className="flex justify-between items-start">
                 <h3 className="text-xl font-bold text-text leading-tight">{exp.role}</h3>
                 <div className="flex items-center gap-1 text-text-faint text-xs font-mono">
-                  <Calendar size={12} />
-                  {exp.period}
+                  <Calendar size={12} />{exp.period}
                 </div>
               </div>
-
-              {/* ORG */}
               <p className="text-sm font-semibold -mt-2" style={{ color: exp.color }}>{exp.org}</p>
-
-              {/* TAGS */}
               <div className="flex flex-wrap gap-2">
                 {exp.tags.map((tag) => (
                   <span key={tag}
@@ -137,8 +113,6 @@ export default function Experience() {
                   </span>
                 ))}
               </div>
-
-              {/* WEBSITE SCREENSHOT — click to open lightbox */}
               {exp.image ? (
                 <div
                   className="rounded-xl overflow-hidden border border-white/8 mt-1 relative cursor-zoom-in"
@@ -151,33 +125,21 @@ export default function Experience() {
                     className="w-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                     style={{ height: "300px", objectPosition: "top" }}
                   />
-                  {/* Gradient overlay */}
                   <div
                     className="absolute inset-0 pointer-events-none rounded-xl"
                     style={{ background: `linear-gradient(to bottom, transparent 60%, ${exp.color}18 100%)` }}
                   />
-                  {/* Zoom hint badge */}
                   <div
                     style={{
-                      position: "absolute",
-                      top: 10,
-                      right: 10,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 5,
-                      background: "rgba(10,9,7,0.75)",
-                      backdropFilter: "blur(6px)",
-                      border: "1px solid rgba(255,255,255,0.12)",
-                      borderRadius: 999,
-                      padding: "3px 10px 3px 7px",
-                      fontSize: "0.68rem",
-                      color: "#94a3b8",
-                      fontFamily: "monospace",
-                      pointerEvents: "none",
+                      position: "absolute", top: 10, right: 10,
+                      display: "flex", alignItems: "center", gap: 5,
+                      background: "rgba(10,9,7,0.75)", backdropFilter: "blur(6px)",
+                      border: "1px solid rgba(255,255,255,0.12)", borderRadius: 999,
+                      padding: "3px 10px 3px 7px", fontSize: "0.68rem",
+                      color: "#94a3b8", fontFamily: "monospace", pointerEvents: "none",
                     }}
                   >
-                    <ZoomIn size={11} />
-                    click to expand
+                    <ZoomIn size={11} />click to expand
                   </div>
                 </div>
               ) : (
@@ -189,8 +151,6 @@ export default function Experience() {
                   <p className="text-xs text-text-faint font-mono">screenshot coming soon</p>
                 </div>
               )}
-
-              {/* BULLETS */}
               <ul className="flex flex-col gap-2 text-sm text-text-muted leading-relaxed">
                 {exp.bullets?.map((point, i) => (
                   <li key={i} className="flex gap-3 items-start">
@@ -199,8 +159,6 @@ export default function Experience() {
                   </li>
                 ))}
               </ul>
-
-              {/* IMPACT */}
               {exp.impact && (
                 <div className="rounded-xl p-4 border"
                   style={{ background: `${exp.color}08`, borderColor: `${exp.color}25` }}>
@@ -208,53 +166,32 @@ export default function Experience() {
                   <p className="text-sm text-text-muted">{exp.impact}</p>
                 </div>
               )}
-
-              {/* ACTION BUTTONS */}
               <div className="flex flex-wrap gap-3 pt-1">
                 {exp.liveUrl ? (
-                  <a
-                    href={exp.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <a href={exp.liveUrl} target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border transition-all duration-200 hover:scale-[1.03]"
-                    style={{ borderColor: `${exp.color}40`, color: exp.color, background: `${exp.color}0f` }}
-                  >
-                    <ExternalLink size={13} />
-                    Live
+                    style={{ borderColor: `${exp.color}40`, color: exp.color, background: `${exp.color}0f` }}>
+                    <ExternalLink size={13} />Live
                   </a>
                 ) : null}
-
                 {exp.codeUrl ? (
-                  <a
-                    href={exp.codeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/10 text-text-muted hover:text-text hover:border-white/30 transition-all duration-200 hover:scale-[1.03]"
-                  >
-                    <Github size={13} />
-                    Code
+                  <a href={exp.codeUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/10 text-text-muted hover:text-text hover:border-white/30 transition-all duration-200 hover:scale-[1.03]">
+                    <Github size={13} />Code
                   </a>
                 ) : null}
-
                 {exp.certificateUrl ? (
-                  <a
-                    href={exp.certificateUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <a href={exp.certificateUrl} target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border transition-all duration-200 hover:scale-[1.03]"
-                    style={{ borderColor: "rgba(255,255,255,0.15)", color: "#e2e8f0", background: "rgba(255,255,255,0.04)" }}
-                  >
-                    <FileText size={13} />
-                    Certificate PDF
+                    style={{ borderColor: "rgba(255,255,255,0.15)", color: "#e2e8f0", background: "rgba(255,255,255,0.04)" }}>
+                    <FileText size={13} />Certificate PDF
                   </a>
                 ) : (
                   <span className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/5 text-text-faint cursor-not-allowed">
-                    <FileText size={13} />
-                    Certificate pending
+                    <FileText size={13} />Certificate pending
                   </span>
                 )}
               </div>
-
             </div>
           </motion.article>
         ))}

@@ -21,7 +21,7 @@ export default function Projects() {
 
   return (
     <div className="w-full">
-      {/* ── Lightbox ── */}
+      {/* Lightbox */}
       <AnimatePresence>
         {lightbox && (
           <motion.div
@@ -64,6 +64,7 @@ export default function Projects() {
                 }}
               />
               <button
+                aria-label="Close image preview"
                 onClick={() => setLightbox(null)}
                 style={{
                   position: "absolute",
@@ -151,16 +152,13 @@ export default function Projects() {
               <ul className="flex flex-col gap-2 text-sm text-text-muted leading-relaxed">
                 {project.bullets.map((point: string, i: number) => (
                   <li key={i} className="flex gap-3 items-start">
-                    <span
-                      className="shrink-0 mt-[3px] text-[10px] leading-none"
-                      style={{ color: project.color }}
-                    >◆</span>
+                    <span className="shrink-0 mt-[3px] text-[10px] leading-none" style={{ color: project.color }}>◆</span>
                     {point}
                   </li>
                 ))}
               </ul>
 
-              {/* SCREENSHOT — click to open lightbox */}
+              {/* SCREENSHOT */}
               {project.image ? (
                 <div
                   className="rounded-xl overflow-hidden border border-white/5 mt-1 relative cursor-zoom-in"
@@ -173,33 +171,21 @@ export default function Projects() {
                     className="w-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
                     style={{ height: "280px", objectPosition: "top" }}
                   />
-                  {/* colour tint overlay */}
                   <div
                     className="absolute inset-0 pointer-events-none rounded-xl"
                     style={{ background: `linear-gradient(to bottom, transparent 60%, ${project.color}18 100%)` }}
                   />
-                  {/* zoom hint badge */}
                   <div
                     style={{
-                      position: "absolute",
-                      top: 10,
-                      right: 10,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 5,
-                      background: "rgba(10,9,7,0.75)",
-                      backdropFilter: "blur(6px)",
-                      border: "1px solid rgba(255,255,255,0.12)",
-                      borderRadius: 999,
-                      padding: "3px 10px 3px 7px",
-                      fontSize: "0.68rem",
-                      color: "#94a3b8",
-                      fontFamily: "monospace",
-                      pointerEvents: "none",
+                      position: "absolute", top: 10, right: 10,
+                      display: "flex", alignItems: "center", gap: 5,
+                      background: "rgba(10,9,7,0.75)", backdropFilter: "blur(6px)",
+                      border: "1px solid rgba(255,255,255,0.12)", borderRadius: 999,
+                      padding: "3px 10px 3px 7px", fontSize: "0.68rem",
+                      color: "#94a3b8", fontFamily: "monospace", pointerEvents: "none",
                     }}
                   >
-                    <ZoomIn size={11} />
-                    &nbsp;click to expand
+                    <ZoomIn size={11} />&nbsp;click to expand
                   </div>
                 </div>
               ) : (
@@ -208,9 +194,7 @@ export default function Projects() {
                   style={{ borderColor: `${project.color}35`, background: `${project.color}06` }}
                 >
                   <span className="text-2xl" aria-hidden="true">🖼️</span>
-                  <p className="text-xs font-mono" style={{ color: `${project.color}70` }}>
-                    project screenshot · coming soon
-                  </p>
+                  <p className="text-xs font-mono" style={{ color: `${project.color}70` }}>project screenshot · coming soon</p>
                 </div>
               )}
 
@@ -226,7 +210,6 @@ export default function Projects() {
                     <Github size={13} />Private
                   </span>
                 )}
-
                 {project.live ? (
                   <a href={project.live} target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/10 text-text-muted hover:text-text hover:border-white/30 transition">
