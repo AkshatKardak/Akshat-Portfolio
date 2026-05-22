@@ -9,7 +9,6 @@ import {
   AnimatePresence,
 } from "framer-motion";
 
-/* ─── Boot sequence lines ─────────────────────────────────── */
 const bootLines = [
   { prefix: "[SYS]", text: "Initialising runtime environment...", color: "#94a3b8" },
   { prefix: "[NET]", text: "Connecting to portfolio API...",      color: "#38bdf8" },
@@ -17,7 +16,6 @@ const bootLines = [
   { prefix: "[OK] ", text: "All systems nominal. Ready.",          color: "#22c55e" },
 ];
 
-/* ─── Floating particle (decorative) ─────────────────────── */
 function Particle({ delay, x, size }: { delay: number; x: number; size: number }) {
   return (
     <motion.div
@@ -45,13 +43,11 @@ function Particle({ delay, x, size }: { delay: number; x: number; size: number }
   );
 }
 
-/* ─── Props ───────────────────────────────────────────────── */
 interface LoaderProps {
   loaded: boolean;
   onEnter?: () => void;
 }
 
-/* ─── Particles config (stable across renders) ────────────── */
 const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
   id: i,
   delay: i * 0.28,
@@ -81,13 +77,11 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
     return unsub;
   }, [display]);
 
-  /* Logo reveal → start terminal after 1.2 s */
   useEffect(() => {
     const t = setTimeout(() => { if (mountedRef.current) setPhase(1); }, 1200);
     return () => clearTimeout(t);
   }, []);
 
-  /* Terminal typing */
   useEffect(() => {
     if (phase !== 1) return;
     const timeout = setTimeout(() => raw.set(100), 200);
@@ -149,10 +143,10 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
             transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
           >
 
-            {/* ── LOGO / NAME REVEAL ─────────────────── */}
+            {/* LOGO / NAME REVEAL */}
             <div className="loader-hero">
 
-              {/* Profile photo — Akshat.png */}
+              {/* Profile photo — AK27.png */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.75 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -169,7 +163,7 @@ export default function Loader({ loaded, onEnter }: LoaderProps) {
                 }}
               >
                 <img
-                  src="/images/Akshat.png"
+                  src="/images/AK27.png"
                   alt="Akshat Kardak"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                 />

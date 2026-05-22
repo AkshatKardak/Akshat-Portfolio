@@ -20,21 +20,10 @@ const slideRight = {
   show: { opacity: 1, x: 0, transition: { duration: 0.6 } },
 };
 
-// Lines for the VS Code card — typed in one-by-one
-const codeLines = [
-  { text: "const akshat = {",                       indent: 0, color: "#ede0c0" },
-  { text: '  role: "Full Stack Developer",',        indent: 0, color: "#94a3b8" },
-  { text: '  location: "Mumbai, India",',           indent: 0, color: "#94a3b8" },
-  { text: "  stack: [Next.js, FastAPI, Flutter],",  indent: 0, color: "#94a3b8" },
-  { text: "  available: true, // hire me",          indent: 0, color: "#22c55e" },
-  { text: "}",                                      indent: 0, color: "#ede0c0" },
-];
-
 export default function Dashboard() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [typing, setTyping] = useState(true);
-  const [visibleLines, setVisibleLines] = useState(0);
 
   // Typewriter for roles
   useEffect(() => {
@@ -57,13 +46,6 @@ export default function Dashboard() {
     }, 0);
     return () => window.clearTimeout(t);
   }, [displayed, typing, roleIndex]);
-
-  // Stagger code lines appearing
-  useEffect(() => {
-    if (visibleLines >= codeLines.length) return;
-    const t = setTimeout(() => setVisibleLines((v) => v + 1), 280);
-    return () => clearTimeout(t);
-  }, [visibleLines]);
 
   return (
     <div className="w-full">
@@ -135,11 +117,7 @@ export default function Dashboard() {
           </motion.div>
 
           <motion.div variants={item} className="flex flex-wrap gap-3 pt-2">
-            <a
-              href={personal.resumeUrl}
-              download
-              className="btn-primary"
-            >
+            <a href={personal.resumeUrl} download className="btn-primary">
               <FileDown size={15} />
               Download CV
             </a>
@@ -154,7 +132,7 @@ export default function Dashboard() {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT COLUMN — VS Code Editor Card */}
+        {/* RIGHT COLUMN — Profile Photo Card (Akshat.png) */}
         <motion.div
           className="xl:col-span-2 flex justify-end"
           variants={container}
@@ -163,56 +141,120 @@ export default function Dashboard() {
         >
           <motion.div
             variants={slideRight}
-            className="vscode-card glass-card w-full max-w-[440px]"
+            className="relative w-full max-w-[400px]"
           >
-            {/* Window chrome */}
-            <div className="vscode-chrome">
-              <div className="vscode-dots">
-                <span className="vscode-dot red" />
-                <span className="vscode-dot yellow" />
-                <span className="vscode-dot green" />
-              </div>
-              <span className="vscode-filename">akshat.ts</span>
-              <span className="vscode-live">
-                <span className="vscode-live-dot" />
-                live
-              </span>
-            </div>
+            {/* Glow backdrop */}
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                borderRadius: "1.5rem",
+                background: "radial-gradient(ellipse at 60% 40%, rgba(245,158,11,0.22) 0%, transparent 70%)",
+                filter: "blur(18px)",
+                zIndex: 0,
+                transform: "scale(1.08)",
+              }}
+            />
 
-            {/* Code area */}
-            <div className="vscode-body">
-              <div className="vscode-lines">
-                {codeLines.slice(0, visibleLines).map((line, i) => (
-                  <motion.div
-                    key={i}
-                    className="vscode-line"
-                    initial={{ opacity: 0, x: -6 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <span className="vscode-ln">{i + 1}</span>
-                    <span className="vscode-code" style={{ color: line.color }}>{line.text}</span>
-                  </motion.div>
-                ))}
-                {/* Blinking cursor on last line */}
-                {visibleLines < codeLines.length && (
-                  <div className="vscode-line">
-                    <span className="vscode-ln">{visibleLines + 1}</span>
-                    <motion.span
-                      className="vscode-cursor"
-                      animate={{ opacity: [1, 0, 1] }}
-                      transition={{ duration: 0.85, repeat: Infinity }}
-                    >▌</motion.span>
-                  </div>
-                )}
-              </div>
-            </div>
+            {/* Photo card */}
+            <div
+              className="relative overflow-hidden rounded-3xl border"
+              style={{
+                borderColor: "rgba(245,158,11,0.22)",
+                boxShadow: "0 0 0 1px rgba(245,158,11,0.10), 0 8px 40px rgba(0,0,0,0.55), 0 0 60px rgba(245,158,11,0.12)",
+                background: "rgba(20,18,14,0.85)",
+                backdropFilter: "blur(12px)",
+                zIndex: 1,
+              }}
+            >
+              <img
+                src="/images/Akshat.png"
+                alt="Akshat Kardak"
+                width={400}
+                height={500}
+                loading="lazy"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  display: "block",
+                  objectFit: "cover",
+                  objectPosition: "top center",
+                }}
+              />
 
-            {/* Status bar */}
-            <div className="vscode-statusbar">
-              <span>TypeScript</span>
-              <span>UTF-8</span>
-              <span style={{ color: "var(--success)" }}>● Akshat Kardak</span>
+              {/* Bottom name bar */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: "1.5rem 1.25rem 1.1rem",
+                  background: "linear-gradient(to top, rgba(10,9,7,0.92) 60%, transparent)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "2px",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-display, sans-serif)",
+                    fontSize: "1.1rem",
+                    fontWeight: 800,
+                    color: "#f5f0e8",
+                    letterSpacing: "0.04em",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Akshat Kardak
+                </span>
+                <span
+                  style={{
+                    fontSize: "0.72rem",
+                    fontFamily: "var(--font-mono, monospace)",
+                    color: "#f59e0b",
+                    letterSpacing: "0.08em",
+                    opacity: 0.9,
+                  }}
+                >
+                  Full Stack Developer &nbsp;·&nbsp; Mumbai, India
+                </span>
+              </div>
+
+              {/* Live badge */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "0.9rem",
+                  right: "0.9rem",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  background: "rgba(10,9,7,0.75)",
+                  backdropFilter: "blur(6px)",
+                  border: "1px solid rgba(34,197,94,0.28)",
+                  borderRadius: "999px",
+                  padding: "3px 10px 3px 7px",
+                  fontSize: "0.7rem",
+                  fontFamily: "var(--font-mono, monospace)",
+                  color: "#22c55e",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                }}
+              >
+                <span
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: "50%",
+                    background: "#22c55e",
+                    boxShadow: "0 0 8px rgba(34,197,94,0.7)",
+                    display: "inline-block",
+                  }}
+                />
+                available
+              </div>
             </div>
           </motion.div>
         </motion.div>
