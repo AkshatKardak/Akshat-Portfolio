@@ -1,10 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { certifications } from "@/lib/data";
-import { Calendar, BadgeCheck, ExternalLink, Link, FileText, Image as ImageIcon } from "lucide-react";
+import { Calendar, BadgeCheck, FileText, Image as ImageIcon, X, ZoomIn } from "lucide-react";
 
 export default function Certifications() {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
   const container = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.12 } },
@@ -15,12 +18,75 @@ export default function Certifications() {
     show: { opacity: 1, y: 0, scale: 1 },
   };
 
-  // Extract filename from path e.g. "/images/Java.png" → "Java.png"
-  const getFilename = (path: string) =>
-    path ? path.split("/").pop() ?? path : "";
-
   return (
     <div className="w-full">
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightbox && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            onClick={() => setLightbox(null)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 9999,
+              background: "rgba(0,0,0,0.88)",
+              backdropFilter: "blur(10px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "24px",
+              cursor: "zoom-out",
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.88, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.88, opacity: 0 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ position: "relative", maxWidth: "90vw", maxHeight: "88vh" }}
+            >
+              <img
+                src={lightbox}
+                alt="Certificate"
+                style={{
+                  maxWidth: "90vw",
+                  maxHeight: "84vh",
+                  borderRadius: "16px",
+                  boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
+                  display: "block",
+                  objectFit: "contain",
+                }}
+              />
+              <button
+                onClick={() => setLightbox(null)}
+                style={{
+                  position: "absolute",
+                  top: "-14px",
+                  right: "-14px",
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  background: "rgba(30,28,24,0.95)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  color: "#e2e8f0",
+                }}
+              >
+                <X size={16} />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
@@ -49,40 +115,21 @@ export default function Certifications() {
           >
             <div className="p-6 flex flex-col gap-4 flex-1">
 
-              {/* TOP ROW */}
-              <div className="flex justify-between items-start gap-3">
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-xl font-bold text-text leading-tight">
-                    {cert.title}
-                  </h3>
-                  {cert.year && (
-                    <div className="flex items-center gap-1 text-xs font-mono text-text-faint">
-                      <Calendar size={11} />
-                      {cert.year}
-                    </div>
-                  )}
-                </div>
-                {cert.credentialUrl ? (
-                  <a
-                    href={cert.credentialUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shrink-0 mt-1 text-text-faint hover:text-text transition"
-                  >
-                    <ExternalLink size={15} />
-                  </a>
-                ) : (
-                  <span className="shrink-0 mt-1 text-text-faint opacity-30">
-                    <ExternalLink size={15} />
-                  </span>
+              {/* TOP ROW — no credential URL link */}
+              <div className="flex flex-col gap-1">
+                <h3 className="text-xl font-bold text-text leading-tight">
+                  {cert.title}
+                </h3>
+                {cert.year && (
+                  <div className="flex items-center gap-1 text-xs font-mono text-text-faint">
+                    <Calendar size={11} />
+                    {cert.year}
+                  </div>
                 )}
               </div>
 
               {/* ISSUER */}
-              <p
-                className="text-sm font-semibold -mt-2"
-                style={{ color: cert.color }}
-              >
+              <p className="text-sm font-semibold -mt-2" style={{ color: cert.color }}>
                 {cert.issuer}
               </p>
 
@@ -118,50 +165,55 @@ export default function Certifications() {
                 </ul>
               )}
 
-              {/* CERTIFICATE IMAGE with filename label */}
+              {/* CERTIFICATE IMAGE — click to open lightbox */}
               {cert.image ? (
-                <div className="flex flex-col gap-1.5 mt-1">
-                  <div className="flex items-center gap-1.5 text-xs font-mono text-text-faint">
-                    <ImageIcon size={11} />
-                    {getFilename(cert.image)}
-                  </div>
-                  <div className="rounded-xl overflow-hidden border border-white/5">
-                    <img
-                      src={cert.image}
-                      alt={cert.title}
-                      className="w-full h-[160px] object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                    />
+                <div
+                  className="rounded-xl overflow-hidden border border-white/5 mt-1 relative cursor-zoom-in"
+                  onClick={() => setLightbox(cert.image!)}
+                  title="Click to view full certificate"
+                >
+                  <img
+                    src={cert.image}
+                    alt={cert.title}
+                    className="w-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                    style={{ height: "220px", objectPosition: "top" }}
+                  />
+                  {/* Zoom hint badge */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 10,
+                      right: 10,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 5,
+                      background: "rgba(10,9,7,0.75)",
+                      backdropFilter: "blur(6px)",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      borderRadius: 999,
+                      padding: "3px 10px 3px 7px",
+                      fontSize: "0.68rem",
+                      color: "#94a3b8",
+                      fontFamily: "monospace",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <ZoomIn size={11} />
+                    click to expand
                   </div>
                 </div>
               ) : (
                 <div
-                  className="rounded-xl border border-white/5 mt-1 h-[120px] flex items-center justify-center"
+                  className="rounded-xl border border-white/5 mt-1 h-[140px] flex items-center justify-center"
                   style={{ background: `${cert.color}08` }}
                 >
                   <p className="text-xs text-text-faint font-mono">certificate image coming soon</p>
                 </div>
               )}
 
-              {/* ACTION BUTTONS */}
-              <div className="flex flex-wrap gap-3 pt-1">
-                {cert.credentialUrl ? (
-                  <a
-                    href={cert.credentialUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/10 text-text-muted hover:text-text hover:border-white/30 transition"
-                  >
-                    <Link size={13} />
-                    View Credential
-                  </a>
-                ) : (
-                  <span className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg border border-white/5 text-text-faint cursor-not-allowed">
-                    <Link size={13} />
-                    Credential pending
-                  </span>
-                )}
-
-                {cert.pdfUrl ? (
+              {/* ACTION BUTTON — only PDF, no credential URL */}
+              {cert.pdfUrl && (
+                <div className="flex flex-wrap gap-3 pt-1">
                   <a
                     href={cert.pdfUrl}
                     target="_blank"
@@ -176,8 +228,8 @@ export default function Certifications() {
                     <FileText size={13} />
                     View PDF
                   </a>
-                ) : null}
-              </div>
+                </div>
+              )}
 
               {/* VERIFIED BOX */}
               <div

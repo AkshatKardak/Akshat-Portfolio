@@ -1,10 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { experiences } from "@/lib/data";
-import { Calendar, ExternalLink, Github, FileText, Image as ImageIcon } from "lucide-react";
+import { Calendar, ExternalLink, Github, FileText, Image as ImageIcon, X, ZoomIn } from "lucide-react";
 
 export default function Experience() {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
   const container = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.12 } },
@@ -17,6 +20,73 @@ export default function Experience() {
 
   return (
     <div className="w-full">
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightbox && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            onClick={() => setLightbox(null)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 9999,
+              background: "rgba(0,0,0,0.88)",
+              backdropFilter: "blur(10px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "24px",
+              cursor: "zoom-out",
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.88, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.88, opacity: 0 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ position: "relative", maxWidth: "90vw", maxHeight: "88vh" }}
+            >
+              <img
+                src={lightbox}
+                alt="Preview"
+                style={{
+                  maxWidth: "90vw",
+                  maxHeight: "84vh",
+                  borderRadius: "16px",
+                  boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
+                  display: "block",
+                  objectFit: "contain",
+                }}
+              />
+              <button
+                onClick={() => setLightbox(null)}
+                style={{
+                  position: "absolute",
+                  top: "-14px",
+                  right: "-14px",
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  background: "rgba(30,28,24,0.95)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  color: "#e2e8f0",
+                }}
+              >
+                <X size={16} />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div
         className="section-header"
         initial={{ opacity: 0, x: -20 }}
@@ -68,27 +138,55 @@ export default function Experience() {
                 ))}
               </div>
 
-              {/* WEBSITE SCREENSHOT BOX */}
+              {/* WEBSITE SCREENSHOT — click to open lightbox */}
               {exp.image ? (
-                <div className="rounded-xl overflow-hidden border border-white/8 mt-1 relative">
+                <div
+                  className="rounded-xl overflow-hidden border border-white/8 mt-1 relative cursor-zoom-in"
+                  onClick={() => setLightbox(exp.image!)}
+                  title="Click to view full image"
+                >
                   <img
                     src={exp.image}
-                    alt={`${exp.org} website screenshot`}
+                    alt={`${exp.org} screenshot`}
                     className="w-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                    style={{ maxHeight: "220px", objectPosition: "top" }}
+                    style={{ height: "300px", objectPosition: "top" }}
                   />
+                  {/* Gradient overlay */}
                   <div
                     className="absolute inset-0 pointer-events-none rounded-xl"
                     style={{ background: `linear-gradient(to bottom, transparent 60%, ${exp.color}18 100%)` }}
                   />
+                  {/* Zoom hint badge */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 10,
+                      right: 10,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 5,
+                      background: "rgba(10,9,7,0.75)",
+                      backdropFilter: "blur(6px)",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      borderRadius: 999,
+                      padding: "3px 10px 3px 7px",
+                      fontSize: "0.68rem",
+                      color: "#94a3b8",
+                      fontFamily: "monospace",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <ZoomIn size={11} />
+                    click to expand
+                  </div>
                 </div>
               ) : (
                 <div
-                  className="rounded-xl border border-white/5 h-[120px] flex flex-col items-center justify-center gap-2 mt-1"
+                  className="rounded-xl border border-white/5 h-[140px] flex flex-col items-center justify-center gap-2 mt-1"
                   style={{ background: `${exp.color}08` }}
                 >
                   <ImageIcon size={22} style={{ color: `${exp.color}60` }} />
-                  <p className="text-xs text-text-faint font-mono">website screenshot coming soon</p>
+                  <p className="text-xs text-text-faint font-mono">screenshot coming soon</p>
                 </div>
               )}
 
@@ -111,7 +209,7 @@ export default function Experience() {
                 </div>
               )}
 
-              {/* ACTION BUTTONS: Live | Code | Certificate PDF */}
+              {/* ACTION BUTTONS */}
               <div className="flex flex-wrap gap-3 pt-1">
                 {exp.liveUrl ? (
                   <a
