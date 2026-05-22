@@ -3,21 +3,42 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { personal } from "@/lib/data";
-import { Mail, Linkedin, Send, CheckCircle } from "lucide-react";
+import { Mail, Linkedin, Send, CheckCircle, Loader2, AlertCircle } from "lucide-react";
 import { GitHubIcon } from "./BrandIcons";
+
+type Status = "idle" | "loading" | "sent" | "error";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState<"idle" | "sent">("idle");
+  const [status, setStatus] = useState<Status>("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
-    const body = encodeURIComponent(`${form.message}\n\nFrom: ${form.name} <${form.email}>`);
-    window.open(`mailto:${personal.email}?subject=${subject}&body=${body}`, "_blank");
-    setStatus("sent");
-    setTimeout(() => setStatus("idle"), 3000);
-    setForm({ name: "", email: "", message: "" });
+    setStatus("loading");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+        }),
+      });
+
+      if (res.ok) {
+        setStatus("sent");
+        setForm({ name: "", email: "", message: "" });
+        setTimeout(() => setStatus("idle"), 4000);
+      } else {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 4000);
+      }
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   };
 
   const contacts = [
@@ -43,6 +64,29 @@ export default function Contact() {
       color: "#0a66c2",
     },
   ];
+
+  const buttonStyles = {
+    idle: {
+      background: "var(--accent)",
+      color: "#130d04",
+      boxShadow: "0 12px 28px rgba(245,158,11,0.22)",
+    },
+    loading: {
+      background: "rgba(245,158,11,0.6)",
+      color: "#130d04",
+      boxShadow: "none",
+    },
+    sent: {
+      background: "var(--success)",
+      color: "#0a1f0a",
+      boxShadow: "0 12px 28px rgba(34,197,94,0.18)",
+    },
+    error: {
+      background: "rgba(239,68,68,0.15)",
+      color: "#ef4444",
+      boxShadow: "none",
+    },
+  };
 
   return (
     <div className="w-full">
@@ -124,6 +168,7 @@ export default function Contact() {
                 placeholder=" "
                 value={form.name}
                 onChange={(e) => setForm((c) => ({ ...c, name: e.target.value }))}
+                disabled={status === "loading" || status === "sent"}
               />
               <label htmlFor="name">Your Name</label>
             </div>
@@ -136,6 +181,7 @@ export default function Contact() {
                 placeholder=" "
                 value={form.email}
                 onChange={(e) => setForm((c) => ({ ...c, email: e.target.value }))}
+                disabled={status === "loading" || status === "sent"}
               />
               <label htmlFor="email">Your Email</label>
             </div>
@@ -148,29 +194,72 @@ export default function Contact() {
               placeholder=" "
               value={form.message}
               onChange={(e) => setForm((c) => ({ ...c, message: e.target.value }))}
+              disabled={status === "loading" || status === "sent"}
             />
             <label htmlFor="message">Message</label>
           </div>
 
+          {/* Status message */}
+          {status === "sent" && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 text-sm rounded-xl px-4 py-3"
+              style={{
+                background: "rgba(34,197,94,0.08)",
+                border: "1px solid rgba(34,197,94,0.2)",
+                color: "#22c55e",
+              }}
+            >
+              <CheckCircle size={15} />
+              Message sent! I&apos;ll get back to you soon.
+            </motion.div>
+          )}
+
+          {status === "error" && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 text-sm rounded-xl px-4 py-3"
+              style={{
+                background: "rgba(239,68,68,0.08)",
+                border: "1px solid rgba(239,68,68,0.2)",
+                color: "#ef4444",
+              }}
+            >
+              <AlertCircle size={15} />
+              Something went wrong. Please try again or email me directly.
+            </motion.div>
+          )}
+
           <button
             type="submit"
-            disabled={status === "sent"}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 text-sm font-bold transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
-            style={{
-              background: status === "sent" ? "var(--success)" : "var(--accent)",
-              color: "#130d04",
-              boxShadow:
-                status === "sent"
-                  ? "0 12px 28px rgba(34, 197, 94, 0.18)"
-                  : "0 12px 28px rgba(245, 158, 11, 0.22)",
-            }}
+            disabled={status === "loading" || status === "sent"}
+            className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 text-sm font-bold transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+            style={buttonStyles[status]}
           >
-            {status === "sent" ? (
-              <>Message Ready ✓</>
-            ) : (
+            {status === "idle" && (
               <>
-                <Send size={18} />
+                <Send size={16} />
                 Send Message
+              </>
+            )}
+            {status === "loading" && (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                Sending...
+              </>
+            )}
+            {status === "sent" && (
+              <>
+                <CheckCircle size={16} />
+                Message Sent ✓
+              </>
+            )}
+            {status === "error" && (
+              <>
+                <AlertCircle size={16} />
+                Failed — Try Again
               </>
             )}
           </button>
