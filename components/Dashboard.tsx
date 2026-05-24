@@ -49,7 +49,8 @@ export default function Dashboard() {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 xl:grid-cols-5 gap-14 xl:gap-20 items-start min-h-[72vh]">
+      {/* min-h-0 on mobile so hero shrinks to content height; 72vh only on xl+ */}
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-8 md:gap-14 xl:gap-20 items-start min-h-0 xl:min-h-[72vh]">
 
         {/* LEFT COLUMN */}
         <motion.div
@@ -134,14 +135,14 @@ export default function Dashboard() {
 
         {/* RIGHT COLUMN — Profile Photo Card (Akshat.png) */}
         <motion.div
-          className="xl:col-span-2 flex justify-end"
+          className="xl:col-span-2 flex justify-center xl:justify-end"
           variants={container}
           initial="hidden"
           animate="show"
         >
           <motion.div
             variants={slideRight}
-            className="relative w-full max-w-[400px]"
+            className="relative w-full max-w-[340px] sm:max-w-[400px]"
           >
             {/* Glow backdrop */}
             <div
