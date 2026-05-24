@@ -92,15 +92,16 @@
 
 @layer components {
 
+  /* ── Fluid section padding — shrinks on mobile/zoom ── */
   .section {
-    padding: 120px 0;
+    padding: clamp(48px, 8vw, 120px) 0;
     width: 100%;
   }
 
   .content-container {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 clamp(16px, 4vw, 24px);
   }
 
   .section + .section {
@@ -108,7 +109,7 @@
   }
 
   .section-header {
-    margin-bottom: 52px;
+    margin-bottom: clamp(28px, 5vw, 52px);
   }
 
   /* ================= GLASS CARD ================= */
@@ -215,7 +216,7 @@
   .top-navbar-inner {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 clamp(12px, 3vw, 24px);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -226,14 +227,15 @@
   .top-navbar-nav {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: clamp(4px, 1.5vw, 18px);
+    flex-wrap: wrap;
   }
 
   .top-navbar-link {
     display: flex;
     align-items: center;
-    padding: 6px 10px;
-    font-size: 13px;
+    padding: 6px clamp(4px, 1vw, 10px);
+    font-size: clamp(11px, 1.2vw, 13px);
     white-space: nowrap;
     color: var(--text-muted);
     font-family: var(--font-body);
@@ -867,3 +869,23 @@
   }
 
 } /* end @layer components */
+
+/* ================= RESPONSIVE OVERRIDES ================= */
+
+/* Tablet: moderate padding reduction */
+@media (max-width: 1023px) {
+  .section {
+    padding: clamp(40px, 6vw, 80px) 0;
+  }
+}
+
+/* Mobile: tight padding, everything single-column */
+@media (max-width: 639px) {
+  .section {
+    padding: clamp(32px, 8vw, 56px) 0;
+  }
+
+  .section-header {
+    margin-bottom: 24px;
+  }
+}
