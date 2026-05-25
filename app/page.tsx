@@ -12,6 +12,7 @@ import Certifications from "../components/Certifications";
 import Contact        from "../components/Contact";
 import CursorGlow     from "../components/CursorGlow";
 import BackgroundFX   from "../components/BackgroundFX";
+import Footer         from "../components/Footer";
 
 const SECTIONS = [
   { id: "home",           label: "Home",           component: <Dashboard /> },
@@ -117,6 +118,9 @@ export default function Home() {
               </section>
             ))}
           </div>
+
+          {/* ── Footer ───────────────────────────────────── */}
+          <Footer />
         </main>
       </div>
     </div>
