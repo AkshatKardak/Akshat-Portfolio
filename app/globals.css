@@ -201,55 +201,107 @@
     top: 0;
     z-index: 100;
     width: 100%;
-    height: 68px;
+    height: 56px;
     display: flex;
     align-items: center;
     background: linear-gradient(
       to bottom,
-      rgba(8, 6, 4, 0.92),
-      rgba(8, 6, 4, 0.78)
+      rgba(8, 6, 4, 0.95),
+      rgba(8, 6, 4, 0.85)
     );
     border-bottom: 1px solid rgba(255, 248, 235, 0.06);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .top-navbar-inner {
+    width: 100%;
     max-width: 1080px;
     margin: 0 auto;
-    padding: 0 clamp(12px, 3vw, 24px);
+    padding: 0 12px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    width: 100%;
+    gap: 0;
+    /* No justify-content: space-between so nav fills space properly on mobile */
   }
 
-  .top-navbar-nav {
+  /* Brand / logo — fixed width, never shrinks */
+  .top-navbar-brand {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: clamp(4px, 1.5vw, 18px);
-    flex-wrap: wrap;
+    margin-right: 8px;
+  }
+
+  /* Nav links — scrollable row on all screen sizes */
+  .top-navbar-nav {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;            /* single line always */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Hide scrollbar visually */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .top-navbar-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .top-navbar-link {
+    flex-shrink: 0;               /* never shrink / wrap */
     display: flex;
     align-items: center;
-    padding: 6px clamp(4px, 1vw, 10px);
-    font-size: clamp(11px, 1.2vw, 13px);
+    padding: 5px 8px;
+    font-size: 12px;
     white-space: nowrap;
     color: var(--text-muted);
     font-family: var(--font-body);
     transition: color 0.2s ease;
+    border-radius: 6px;
   }
 
   .top-navbar-link:hover {
     color: var(--text);
   }
 
+  /* Socials — fixed width, never shrinks, hidden on very small screens */
   .top-navbar-socials {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
+    margin-left: 8px;
+  }
+
+  .top-navbar-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    color: var(--text-muted);
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .top-navbar-social:hover {
+    color: var(--accent);
+    background: rgba(245, 158, 11, 0.08);
+  }
+
+  /* Hide socials on very small phones so nav gets max space */
+  @media (max-width: 400px) {
+    .top-navbar-socials {
+      display: none;
+    }
   }
 
   /* ================= VSCODE CARD ================= */
@@ -872,14 +924,18 @@
 
 /* ================= RESPONSIVE OVERRIDES ================= */
 
-/* Tablet: moderate padding reduction */
+/* Tablet */
 @media (max-width: 1023px) {
   .section {
     padding: clamp(40px, 6vw, 80px) 0;
   }
+
+  .top-navbar {
+    height: 52px;
+  }
 }
 
-/* Mobile: tight padding, everything single-column */
+/* Mobile */
 @media (max-width: 639px) {
   .section {
     padding: clamp(32px, 8vw, 56px) 0;
@@ -887,5 +943,43 @@
 
   .section-header {
     margin-bottom: 24px;
+  }
+
+  .top-navbar {
+    height: 48px;
+  }
+
+  .top-navbar-inner {
+    padding: 0 8px;
+    gap: 0;
+  }
+
+  .top-navbar-brand {
+    margin-right: 4px;
+  }
+
+  .top-navbar-mark-image {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  /* Nav scrolls horizontally, tight padding per item */
+  .top-navbar-nav {
+    gap: 0;
+  }
+
+  .top-navbar-link {
+    padding: 4px 7px;
+    font-size: 11px;
+  }
+
+  .top-navbar-socials {
+    gap: 4px;
+    margin-left: 4px;
+  }
+
+  .top-navbar-social {
+    width: 26px;
+    height: 26px;
   }
 }
